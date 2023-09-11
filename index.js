@@ -7,7 +7,7 @@ app.use(cors({ origin: '*' }))
 
 app.use(bodyParser())
 
-// routes
+// routes test 2
 
 const routes = require('./routes/routes')
 app.use(routes)
