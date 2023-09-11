@@ -7,6 +7,8 @@ app.use(cors({ origin: '*' }))
 
 app.use(bodyParser())
 
+// routes
+
 const routes = require('./routes/routes')
 app.use(routes)
 
