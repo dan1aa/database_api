@@ -7,13 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Intern {
-  id Int @id @default(autoincrement())
-  firstName String @db.VarChar(50)
-  lastName String @db.VarChar(50)
+model intern {
+  intern_id Int @id @default(autoincrement())
+  explorer_id String @db.VarChar(50) @unique
+  discord_id String @db.VarChar(40) @unique
+  first_name String @db.VarChar(50)
+  last_name String @db.VarChar(50)
   email String @db.VarChar(50) @unique
-  discordId String @db.VarChar(40) @unique
-  explorerId String @db.VarChar(30) @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
