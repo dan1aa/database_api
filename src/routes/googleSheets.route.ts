@@ -7,7 +7,7 @@ const router = Router();
 router.put(
     '/googleSheets/:tableName', 
     googleSheetsDataValidator,
-    GoogleSheetsController.updateData
+    GoogleSheetsController.updateData,
 );
 
 export default router;

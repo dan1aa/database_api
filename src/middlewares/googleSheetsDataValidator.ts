@@ -9,8 +9,8 @@ enum tableNames {
     InternCourse = 'intern_course',
     EventFeedback = 'event_feedback',
     OversightFeedback = 'oversight_feedback',
-    CourseInternBadge = 'course_intern_badge',
     FacilitatorFeedback = 'facilitator_feedback', 
+    EventInternBadge = 'event_intern_badge'
 }
 
 export const isValidTableName = (tableName: string) => {
@@ -21,7 +21,7 @@ const googleSheetsDataValidator = (
     req: Request, 
     res: Response, 
     next: NextFunction) => {
-    const tableName = String(req.params.tableName);
+    const tableName: string = req.params.tableName;
 
     if (!isValidTableName(tableName)) {
         return res.status(404).send('This table doesn`t exist');
