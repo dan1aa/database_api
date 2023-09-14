@@ -12,7 +12,7 @@ export const getInternById = async (req: Request, res: Response) => {
     }
 };
 
-export const filterInternts = async (req: Request, res: Response) => {
+export const filterInterns = async (req: Request, res: Response) => {
     try {
         const filteringParams = req.query;
         const result = await InternService.filterInterns(filteringParams);

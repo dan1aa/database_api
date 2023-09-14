@@ -3,7 +3,7 @@ import * as InternController from '../controllers/intern.controller';
 
 const router = Router();
 
-router.get('/interns', InternController.filterInternts);
+router.get('/interns', InternController.filterInterns);
 router.get('/interns/:id', InternController.getInternById);
 
 

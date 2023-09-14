@@ -14,6 +14,7 @@ model intern {
   first_name  String @db.VarChar(50)
   last_name   String @db.VarChar(50)
   email       String @unique @db.VarChar(50)
+  cohort      String? @db.VarChar(50)
 
   sended_facilitator_feedbacks   facilitator_feedback[] @relation(name: "sender")
   received_facilitator_feedbacks facilitator_feedback[] @relation(name: "receiver")
@@ -22,14 +23,10 @@ model intern {
 
   course_intern      intern_course[]
   event_intern_badge event_intern_badge[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model course {
   id         Int           @id @default(autoincrement())
-  cohort     String?       @db.VarChar(100)
   start_date DateTime?
   end_date   DateTime?
   course_id  String        @unique @db.VarChar(50)
@@ -47,6 +44,8 @@ model nobel_event {
   oversight_feedbacks   oversight_feedback[]
   facilitator_feedbacks facilitator_feedback[]
   event_intern_badge    event_intern_badge[]
+
+  @@unique([course_id, meet_num])
 }
 
 model oversight_feedback {
@@ -55,6 +54,8 @@ model oversight_feedback {
   feedback    String      @db.VarChar(1000)
   attendance  Boolean
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
+
+  @@unique([event_id, feedback])
 }
 
 model facilitator_feedback {
@@ -68,6 +69,8 @@ model facilitator_feedback {
 
   sender   intern @relation(fields: [sender_id], references: [id], name: "sender")
   receiver intern @relation(fields: [receiver_id], references: [id], name: "receiver")
+
+  @@unique([event_id, feedback, sender_id, receiver_id])
 }
 
 model event_feedback {
@@ -77,6 +80,8 @@ model event_feedback {
   comment   String @db.VarChar(1000)
 
   sender intern? @relation("sender_event_feedback", fields: [sender_id], references: [id])
+
+   @@unique([event_id, comment])
 }
 
 model badge {
