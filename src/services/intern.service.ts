@@ -1,4 +1,5 @@
 import { db } from '../utils/db.server';
+import { NotFoundError } from '../exeptions/ApiErrors';
 
 interface FilteringParams {
     cohort?: string,
@@ -6,11 +7,15 @@ interface FilteringParams {
 };
 
 export const getInternById = async (id: number) => {
-    return await db.intern.findUnique({
+    const result = await db.intern.findUnique({
         where: {
             id,
         },
     });
+
+    if (!result) throw new NotFoundError();
+
+    return result;
 };
 
 export const filterInterns = async (filteringParams: FilteringParams) => {
@@ -26,6 +31,8 @@ export const filterInterns = async (filteringParams: FilteringParams) => {
             },
         },
     });
+
+    if (!result) throw new NotFoundError();
 
     return result;
 };
