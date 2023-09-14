@@ -51,7 +51,7 @@ model nobel_event {
 model oversight_feedback {
   id          Int         @id @default(autoincrement())
   event_id    Int
-  feedback    String      @db.VarChar(1000)
+  feedback    String      @db.VarChar(500)
   attendance  Boolean
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
 
@@ -63,21 +63,21 @@ model facilitator_feedback {
   event_id    Int
   sender_id   Int
   receiver_id Int
-  feedback    String      @db.VarChar(1000)
+  feedback    String      @db.VarChar(500)
   attendance  Boolean
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
 
   sender   intern @relation(fields: [sender_id], references: [id], name: "sender")
   receiver intern @relation(fields: [receiver_id], references: [id], name: "receiver")
 
-  @@unique([event_id, feedback, sender_id, receiver_id])
+  @@unique([event_id, feedback])
 }
 
 model event_feedback {
   id        Int    @id @default(autoincrement())
   event_id  Int
   sender_id Int
-  comment   String @db.VarChar(1000)
+  comment   String @db.VarChar(500)
 
   sender intern? @relation("sender_event_feedback", fields: [sender_id], references: [id])
 
