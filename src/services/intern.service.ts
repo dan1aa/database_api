@@ -29,3 +29,4 @@ export const filterInterns = async (filteringParams: FilteringParams) => {
 
     return result;
 };
+
