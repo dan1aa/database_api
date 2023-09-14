@@ -14,6 +14,7 @@ model intern {
   first_name  String @db.VarChar(50)
   last_name   String @db.VarChar(50)
   email       String @unique @db.VarChar(50)
+  cohort      String? @db.VarChar(50)
 
   sended_facilitator_feedbacks   facilitator_feedback[] @relation(name: "sender")
   received_facilitator_feedbacks facilitator_feedback[] @relation(name: "receiver")
@@ -22,9 +23,6 @@ model intern {
 
   course_intern      intern_course[]
   event_intern_badge event_intern_badge[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model course {
@@ -47,6 +45,8 @@ model nobel_event {
   oversight_feedbacks   oversight_feedback[]
   facilitator_feedbacks facilitator_feedback[]
   event_intern_badge    event_intern_badge[]
+
+  @@unique([course_id, meet_num])
 }
 
 model oversight_feedback {

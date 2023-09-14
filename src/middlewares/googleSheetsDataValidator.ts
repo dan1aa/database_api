@@ -28,13 +28,11 @@ const googleSheetsDataValidator = (
     }
 
     const requestData = req.body;
-    const { error, value } = googleSheetsDataSchema.validate(requestData);
+    const { error } = googleSheetsDataSchema.validate(requestData);
 
     if (error) {
         return res.status(404).send(`Bad request data: ${error}`); 
     } 
-
-    //TODO: Parse data to convenient use in google sheet service
 
     next();
 };
