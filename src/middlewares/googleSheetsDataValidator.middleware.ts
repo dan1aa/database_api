@@ -1,5 +1,8 @@
+import { StatusCodes } from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
-import googleSheetsDataSchema from '../models/googleSheetsData';
+
+import googleSheetsDataSchema from '@models/googleSheetsData';
+
 
 enum tableNames {
     Badge = 'badge',
@@ -20,18 +23,19 @@ export const isValidTableName = (tableName: string) => {
 const googleSheetsDataValidator = (
     req: Request, 
     res: Response, 
-    next: NextFunction) => {
+    next: NextFunction
+) => {
     const tableName: string = req.params.tableName;
 
     if (!isValidTableName(tableName)) {
-        return res.status(404).send('This table doesn`t exist');
+        return res.status(StatusCodes.BAD_REQUEST).send('This table doesn`t exist');
     }
 
     const requestData = req.body;
     const { error } = googleSheetsDataSchema.validate(requestData);
 
     if (error) {
-        return res.status(404).send(`Bad request data: ${error}`); 
+        return res.status(StatusCodes.BAD_REQUEST).send(`Bad request data: ${error}`); 
     } 
 
     next();

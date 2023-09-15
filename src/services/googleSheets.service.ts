@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { db } from '../utils/db.server';
+import { db } from '@utils/db.server';
 
 export const updateData = async () => { };
 
