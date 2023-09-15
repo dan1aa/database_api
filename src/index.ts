@@ -1,12 +1,13 @@
+import 'module-alias/register';
+
 import cors from 'cors'; 
 import express from 'express'; 
-import bodyParser from 'body-parser'
+import bodyParser from 'body-parser';
 
-import InternRouter from './routes/intern.route';
-import GoogleSheetsRouter from './routes/googleSheets.route';
-import errorHandler from './middlewares/errorHandler.middleware';
-import asyncErrorHandler from './middlewares/tryCatchMiddleware.middleware';
-import tryCatchMiddleware from './middlewares/tryCatchMiddleware.middleware';
+import InternRouter from '@routes/intern.route';
+import GoogleSheetsRouter from '@routes/googleSheets.route';
+import errorHandler from '@middlewares/errorHandler.middleware';
+
 
 const app = express();
 

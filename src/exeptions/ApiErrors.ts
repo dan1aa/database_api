@@ -1,9 +1,11 @@
+import { StatusCodes } from 'http-status-codes';
+
 export class BaseApiError extends Error {
     public readonly name: string;
-    public readonly httpCode: HttpStatusCode;
+    public readonly httpCode: number;
     public readonly isOperational: boolean;
     
-    constructor(name: string, httpCode: HttpStatusCode, description: string, isOperational: boolean) {
+    constructor(name: string, httpCode: number, description: string, isOperational: boolean) {
       super(description);
       Object.setPrototypeOf(this, new.target.prototype);
     
@@ -17,6 +19,6 @@ export class BaseApiError extends Error {
 
 export class NotFoundError extends BaseApiError {
     constructor(description = 'bad request') {
-        super('NOT FOUND', 400, description, true);
+        super('NOT FOUND', StatusCodes.NOT_FOUND, description, true);
     }
 };

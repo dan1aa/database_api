@@ -1,5 +1,8 @@
+import { StatusCodes } from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
-import { BaseApiError } from '../exeptions/ApiErrors';
+
+import { BaseApiError } from '@exeptions/ApiErrors';
+
 
 const errorHandler = (
     error: BaseApiError,
@@ -9,7 +12,7 @@ const errorHandler = (
 ) => {
     const statusCode = error.httpCode 
         ? error.httpCode 
-        : 500;
+        : StatusCodes.INTERNAL_SERVER_ERROR;
     
     res.status(statusCode).json({
         msg: error.message,

@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import * as InternController from '../controllers/intern.controller';
-import tryCatchMiddleware from '../middlewares/tryCatchMiddleware.middleware';
+
+import * as InternController from '@controllers/intern.controller';
+import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
+
 
 const router = Router();
 

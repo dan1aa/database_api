@@ -1,5 +1,5 @@
-import { db } from '../utils/db.server';
-import { NotFoundError } from '../exeptions/ApiErrors';
+import { db } from '@utils/db.server';
+import { NotFoundError } from '@exeptions/ApiErrors';
 
 interface FilteringParams {
     cohort?: string,
