@@ -1,15 +1,14 @@
 import { Router } from 'express';
 
 import * as GoogleSheetsController from '@controllers/googleSheets.controller';
-import googleSheetsDataValidator from '@middlewares/googleSheetsDataValidator.middleware';
+import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 
 
 const router = Router();
 
 router.put(
     '/googleSheets/:tableName', 
-    googleSheetsDataValidator,
-    GoogleSheetsController.updateData,
+    tryCatchMiddleware(GoogleSheetsController.updateData)
 );
 
 export default router;
