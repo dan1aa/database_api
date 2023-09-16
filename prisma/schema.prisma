@@ -27,8 +27,8 @@ model intern {
 
 model course {
   id         Int           @id @default(autoincrement())
-  start_date DateTime?
-  end_date   DateTime?
+  start_date DateTime
+  end_date   DateTime
   course_id  String        @unique @db.VarChar(50)
   events     nobel_event[]
 
@@ -38,8 +38,8 @@ model course {
 model nobel_event {
   id                    Int                    @id @default(autoincrement())
   course_id             Int
-  meet_num              Int?
-  event_date            DateTime?
+  meet_num              Int
+  event_date            DateTime
   course                course                 @relation(fields: [course_id], references: [id])
   oversight_feedbacks   oversight_feedback[]
   facilitator_feedbacks facilitator_feedback[]
