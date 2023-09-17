@@ -10,7 +10,7 @@ export const insertQueries: Record<string, { insert: string; onUpdate: string; }
         cohort = new_intern.cohort`
     },
     course: {
-        insert: 'INSERT IGNORE INTO course (start_date, end_date, course_id) VALUES',
+        insert: 'INSERT IGNORE INTO course (course_name, start_date, end_date) VALUES',
         onUpdate: `as new_course
                    ON DUPLICATE KEY UPDATE
                    start_date = new_course.start_date,
