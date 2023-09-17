@@ -25,7 +25,7 @@ export const filterInterns = async (filteringParams: FilteringParams) => {
             course_intern: {
                 some: {
                     course: {
-                        course_id: filteringParams.course_id,
+                        course_name: filteringParams.course_id,
                     },
                 },
             },
