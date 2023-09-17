@@ -50,6 +50,7 @@ model nobel_event {
   oversight_feedbacks   oversight_feedback[]
   facilitator_feedbacks facilitator_feedback[]
   event_intern_badge    event_intern_badge[]
+  event_feedback        event_feedback[]       @relation(name: "event_feedback: event")
 
   @@unique([course_id, meet_num])
 }
@@ -78,10 +79,10 @@ model facilitator_feedback {
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
 
   facilitator_id Int
-  receiver       intern @relation(fields: [facilitator_id], references: [id], name: "facilitator_feedback: facilitator")
+  facilitator    intern @relation(fields: [facilitator_id], references: [id], name: "facilitator_feedback: facilitator")
 
   intern_id Int
-  sender    intern @relation(fields: [intern_id], references: [id], name: "facilitator_feedback: intern")
+  intern    intern @relation(fields: [intern_id], references: [id], name: "facilitator_feedback: intern")
 
   feedback String @db.VarChar(500)
 
@@ -89,12 +90,14 @@ model facilitator_feedback {
 }
 
 model event_feedback {
-  id        Int    @id @default(autoincrement())
-  event_id  Int
-  sender_id Int
-  comment   String @db.VarChar(500)
+  id      Int    @id @default(autoincrement())
+  comment String @db.VarChar(500)
 
-  sender intern? @relation(fields: [sender_id], references: [id], name: "event_feedback: sender")
+  sender_id Int
+  sender    intern? @relation(fields: [sender_id], references: [id], name: "event_feedback: sender")
+
+  event_id Int
+  event    nobel_event? @relation(fields: [event_id], references: [id], name: "event_feedback: event")
 
   @@unique([event_id, comment])
 }
