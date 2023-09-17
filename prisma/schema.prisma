@@ -81,6 +81,7 @@ model facilitator_feedback {
   facilitator_id Int
   facilitator    intern @relation(fields: [facilitator_id], references: [id], name: "facilitator_feedback: facilitator")
 
+
   intern_id Int
   intern    intern @relation(fields: [intern_id], references: [id], name: "facilitator_feedback: intern")
 
