@@ -78,10 +78,10 @@ model facilitator_feedback {
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
 
   facilitator_id Int
-  receiver       intern @relation(fields: [facilitator_id], references: [id], name: "facilitator_feedback: facilitator")
+  facilitator       intern @relation(fields: [facilitator_id], references: [id], name: "facilitator_feedback: facilitator")
 
   intern_id Int
-  sender    intern @relation(fields: [intern_id], references: [id], name: "facilitator_feedback: intern")
+  intern    intern @relation(fields: [intern_id], references: [id], name: "facilitator_feedback: intern")
 
   feedback String @db.VarChar(500)
 
