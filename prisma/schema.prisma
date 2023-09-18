@@ -78,12 +78,12 @@ model facilitator_feedback {
   event_id    Int
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
 
-  facilitator_id Int
-  facilitator    intern @relation(fields: [facilitator_id], references: [id], name: "facilitator_feedback: facilitator")
+  facilitator_id String
+  facilitator    intern @relation(fields: [facilitator_id], references: [explorer_id], name: "facilitator_feedback: facilitator")
 
 
-  intern_id Int
-  intern    intern @relation(fields: [intern_id], references: [id], name: "facilitator_feedback: intern")
+  intern_id String
+  intern    intern @relation(fields: [intern_id], references: [explorer_id], name: "facilitator_feedback: intern")
 
   feedback String @db.VarChar(500)
 

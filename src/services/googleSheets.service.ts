@@ -1,14 +1,14 @@
 import { Response } from 'express';
 import { db } from '@utils/db.server';
 import { insertQueries } from '@queries/insert.query'
-import { formatRequestData } from '@utils/formatRequestData';
+import { formatRequestDataForCourseAndIntern } from '@utils/formatRequestData';
 
 export const insertData = async (tableName: string, dataToInsert: any[], res: Response) => {
 
-    const values = formatRequestData(dataToInsert)
-
-    const result = await db.$queryRawUnsafe(`${insertQueries[tableName].insert} ${values} ${insertQueries[tableName].onUpdate}`);
-
+    if (tableName == 'intern' || tableName == 'course') {
+        const values = formatRequestDataForCourseAndIntern(dataToInsert)
+        const result = await db.$queryRawUnsafe(`${insertQueries[tableName].insert} ${values} ${insertQueries[tableName].onUpdate}`);
+    }
 }
 
 export const insertRowsIntoOversightFeedbackTable = () => {
@@ -26,17 +26,16 @@ export const insertRowsIntoOversightFeedbackTable = () => {
             feedback: "some feedback text ..."
         }
     ]
-    
-} 
 
-
+    // Ваша логика вставки данных
+}
 
 export const deleteData = async (tableName: string, dataToDelete: Array<Object>) => {
     switch (tableName) {
-        case 'intern': 
+        case 'intern':
             await deleteRowsFromInternTable(dataToDelete);
             break;
-        case 'course': 
+        case 'course':
             await deleteRowsFromCourseTable(dataToDelete);
             break;
         case 'nobel_event':
@@ -90,4 +89,3 @@ const deleteRowsFromNobelEventTable = async (dataToDelete: any[]) => {
 
     await db.$executeRawUnsafe(deleteQuery);
 };
-    

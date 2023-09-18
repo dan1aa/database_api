@@ -1,4 +1,4 @@
-export function formatRequestData(requestData: any[]) {
+export function formatRequestDataForCourseAndIntern(requestData: any[]) {
     const values = requestData.map(data => {
         const rowValues = Object.keys(data).map(key => {
             const value = data[key];

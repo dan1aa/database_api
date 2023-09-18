@@ -5,7 +5,7 @@ export const updateData = async (req: Request, res: Response) => {
 
     const { tableName } = req.params;
     const dataToInsert: any[] = req.body.insert;
-    const dataToDelete: any[] = req.body.delete
+    const dataToDelete: any[] = req.body.delete;
 
     await GoogleSheetsService.deleteData(tableName, dataToDelete, res)
     await GoogleSheetsService.insertData(tableName, dataToInsert, res)
