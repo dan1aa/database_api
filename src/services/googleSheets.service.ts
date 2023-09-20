@@ -1,36 +1,89 @@
 import { Response } from 'express';
 import { db } from '@utils/db.server';
-import { insertQueries } from '@queries/insert.query'
-import { formatRequestDataForCourseAndIntern } from '@utils/formatRequestData';
+import { course, intern } from '@prisma/client';
+
+type tableTypes = intern[] | course[];
+
+type UpsertFunctions = {
+    [key: string]: (dataToInsert: any[]) => Promise<tableTypes>;
+};
+
+function removeDuplicates(data: any[]) {
+    const uniqueObjects: any[] = [];
+    const uniqueIds = new Set();
+
+    for (const obj of data) {
+        if (!uniqueIds.has(obj.id)) {
+            uniqueIds.add(obj.id);
+            uniqueObjects.push(obj);
+        }
+    }
+
+    return uniqueObjects
+}
+
+
+async function updateInterns(dataToInsert: intern[]): Promise<intern[]> {
+
+    const insertedInterns: intern[] = []
+
+    for (const intern of dataToInsert) {
+        await db.intern.upsert({
+            where: {
+                explorer_id: intern.explorer_id
+            },
+            update: intern,
+            create: intern,
+        }).then((currIntern: intern) => {
+            insertedInterns.push(currIntern)
+        })
+
+    }
+
+
+    let uniqueInters = removeDuplicates(insertedInterns)
+
+    return uniqueInters
+}
+
+
+async function updateCourses(dataToInsert: course[]): Promise<course[]> {
+
+    const insertedCourses: course[] = []
+
+    for (const course of dataToInsert) {
+        course.start_date = new Date(course.start_date)
+        course.end_date = new Date(course.end_date)
+
+        await db.course.upsert({
+            where: {
+                course_name: course.course_name
+            },
+            update: course,
+            create: course,
+        }).then((currCourse: course) => {
+            insertedCourses.push(currCourse)
+        })
+    }
+
+    let unqiueCourses = removeDuplicates(insertedCourses)
+
+    return unqiueCourses
+
+}
 
 export const insertData = async (tableName: string, dataToInsert: any[], res: Response) => {
-
-    if (tableName == 'intern' || tableName == 'course') {
-        const values = formatRequestDataForCourseAndIntern(dataToInsert)
-        const result = await db.$queryRawUnsafe(`${insertQueries[tableName].insert} ${values} ${insertQueries[tableName].onUpdate}`);
+    const upsertFunctions: UpsertFunctions = {
+        'intern': updateInterns,
+        'course': updateCourses
     }
-}
 
-export const insertRowsIntoOversightFeedbackTable = () => {
-    const data = [
-        {
-            eventId: 1,
-            oversight_id: "Explorer1ID",
-            facilitator_id: "Explorer2ID",
-            feedback: "some feedback text"
-        },
-        {
-            eventId: 1,
-            oversight_id: "Explorer2ID",
-            facilitator_id: "Explorer1ID",
-            feedback: "some feedback text ..."
-        }
-    ]
+    const result: tableTypes = await upsertFunctions[tableName](dataToInsert)
 
-    // Ваша логика вставки данных
-}
+    res.end(JSON.stringify(result));
+};
 
-export const deleteData = async (tableName: string, dataToDelete: Array<Object>) => {
+export const deleteData = async (tableName: string, dataToDelete: Array<Object>, res: Response) => {
     switch (tableName) {
         case 'intern':
             await deleteRowsFromInternTable(dataToDelete);
