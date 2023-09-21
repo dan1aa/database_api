@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { NextFunction, Request, Response } from 'express';
 
 import * as InternService from '@services/intern.service';
+import { intern } from '@prisma/client';
 
 
 export const getInternById = async (req: Request, res: Response) => {

@@ -107,7 +107,8 @@ const deleteRowsFromInternTable = async (dataToDelete: any[]) => {
 };
 
 const deleteRowsFromCourseTable = async (dataToDelete: any[]) => {
-    const targetCoursesIds = dataToDelete.map(data => data.course_id);
+    const targetCoursesIds = dataToDelete.map(data => data.course_name);
+  
     const deleteResult = await db.course.deleteMany({
         where: {
             course_name: {

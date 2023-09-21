@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 
 import InternRouter from '@routes/intern.route';
 import GoogleSheetsRouter from '@routes/googleSheets.route';
+import CourseRouter from '@routes/course.route'
 import errorHandler from '@middlewares/errorHandler.middleware';
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
@@ -20,6 +21,7 @@ app.use(cors({ origin: '*' }));
 
 app.use('/api', InternRouter);
 app.use('/api', GoogleSheetsRouter);
+app.use('/api', CourseRouter);
 
 
 const specs = swaggerJsdoc(options)
