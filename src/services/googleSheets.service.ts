@@ -94,7 +94,7 @@ export const deleteData = async (tableName: string, dataToDelete: Array<Object>,
 }
 
 const deleteRowsFromInternTable = async (dataToDelete: any[]) => {
-    const targetExplorerIds = dataToDelete.map(data => data.explorerId);
+    const targetExplorerIds = dataToDelete.map(data => data.explorer_id);
     const deleteResult = await db.intern.deleteMany({
         where: {
             explorer_id: {
@@ -107,7 +107,7 @@ const deleteRowsFromInternTable = async (dataToDelete: any[]) => {
 };
 
 const deleteRowsFromCourseTable = async (dataToDelete: any[]) => {
-    const targetCoursesIds = dataToDelete.map(data => data.courseId);
+    const targetCoursesIds = dataToDelete.map(data => data.course_name);
     const deleteResult = await db.course.deleteMany({
         where: {
             course_name: {
