@@ -3,20 +3,21 @@ import { Request, Response, NextFunction } from 'express';
 
 import { BaseApiError } from '@exeptions/ApiErrors';
 
-
 const errorHandler = (
     error: BaseApiError,
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const statusCode = error.httpCode 
+    const statusCode = error instanceof BaseApiError 
         ? error.httpCode 
         : StatusCodes.INTERNAL_SERVER_ERROR;
     
+    //TODO: Handle Internal server error (make loging)
     res.status(statusCode).json({
-        msg: error.message,
-        stack: error.stack
+        msg: error instanceof BaseApiError 
+            ? error.message 
+            : 'Internal Server Error',
     });
 };
 

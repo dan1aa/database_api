@@ -18,7 +18,13 @@ export class BaseApiError extends Error {
 };
 
 export class NotFoundError extends BaseApiError {
-    constructor(description = 'bad request') {
+    constructor(description = 'Not found error') {
         super('NOT FOUND', StatusCodes.NOT_FOUND, description, true);
+    }
+};
+
+export class BadRequestError extends BaseApiError {
+    constructor(description = 'Bad request error') {
+        super('BAD REQUEST', StatusCodes.BAD_REQUEST, description, true);
     }
 };

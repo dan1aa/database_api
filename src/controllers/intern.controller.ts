@@ -1,20 +1,45 @@
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { NextFunction, Request, Response } from 'express';
 
 import * as InternService from '@services/intern.service';
 import { intern } from '@prisma/client';
 
 
-export const getInternById = async (req: Request, res: Response) => {
-    const internId = Number(req.params.id);
-    const result = await InternService.getInternById(internId);
-        
-    res.status(StatusCodes.OK).json(result);
+export const createIntern = async (req: Request, res: Response) => {
+    const internData = req.body;
+
+    await InternService.createIntern(internData);
+
+    res.status(StatusCodes.CREATED).end();
 };
 
-export const filterInterns = async (req: Request, res: Response) => {
-    const filteringParams = req.query;
-    const result = await InternService.filterInterns(filteringParams);
+export const updateInternById = async (req: Request, res: Response) => {
+    const internId = Number(req.params.id);
+    const internData = req.body;
 
-    res.status(StatusCodes.OK).json(result);
+    await InternService.updateInternById(internId, internData);
+
+    res.status(StatusCodes.OK).end();
+};
+
+export const getInternById = async (req: Request, res: Response) => {
+    const internId = Number(req.params.id);
+    const internData = await InternService.getInternById(internId);
+        
+    res.status(StatusCodes.OK).json(internData).end();
+};
+
+export const getFilteredInternsList = async (req: Request, res: Response) => {
+    const filteringParams = req.query;
+    const result = await InternService.getFilteredInternsList(filteringParams);
+
+    res.status(StatusCodes.OK).json(result).end();
+};
+
+export const deleteInternById = async (req: Request, res: Response) => {
+    const internId = Number(req.params.id);
+
+    await InternService.deleteInternById(internId);
+
+    res.status(StatusCodes.OK).send('Intern deleted successfully!').end();
 };
