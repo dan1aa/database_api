@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { db } from '@utils/db.server';
-import { course, intern } from '@prisma/client';
+import { course, intern, intern_course } from '@prisma/client';
 import axios from 'axios'
 
-type tableTypes = intern[] | course[];
+type tableTypes = intern[] | course[] | intern_course[];
 type parametrizedDbData = (string | number | Date | null)[];
 type UpsertFunctions = {
     [key: string]: (dataToInsert: tableTypes) => Promise<parametrizedDbData[]>;
@@ -61,10 +61,32 @@ async function updateCourses(dataToInsert: course[] | any[]): Promise<parametriz
 
 }
 
+async function updateInternCourse(dataToInsert: intern_course[] | any[]): Promise<parametrizedDbData[]> {
+    for (const intern_course of dataToInsert) {
+
+        await db.intern_course.upsert({
+            where: {
+                intern_id_course_id: {
+                    intern_id: intern_course.intern_id,
+                    course_id: intern_course.course_id,
+                },
+            },
+            update: intern_course,
+            create: intern_course
+        })
+    }
+
+    let intern_courses: intern_course[] = await db.intern_course.findMany()
+
+    let parameterInternCourses: parametrizedDbData[] = convertReceivedDataToQueryParameters(intern_courses)
+    return parameterInternCourses
+}
+
 export const insertData = async (tableName: string, dataToInsert: tableTypes | any[], res: Response) => {
     const upsertFunctions: UpsertFunctions = {
         'intern': updateInterns,
-        'course': updateCourses
+        'course': updateCourses,
+        'intern_course': updateInternCourse
     }
 
     const result: parametrizedDbData[] = await upsertFunctions[tableName](dataToInsert)
@@ -87,6 +109,9 @@ export const deleteData = async (tableName: string, dataToDelete: Array<Object>,
             break;
         case 'nobel_event':
             await deleteRowsFromNobelEventTable(dataToDelete);
+            break;
+        case 'intern_course':
+            console.log('Delete for interns here, I had to add something because switch causes error')
             break;
         default:
             throw new Error(`Unknown table name: ${tableName}`);
