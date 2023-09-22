@@ -8,7 +8,7 @@ const router = Router();
 
 router.put(
     '/googleSheets/:tableName', 
-    GoogleSheetsController.updateData
+    tryCatchMiddleware(GoogleSheetsController.updateData)
 );
 
 export default router;
