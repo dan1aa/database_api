@@ -57,6 +57,7 @@ const createInternScheme = {
 
 const createIntern = {
     tags: ['Interns'],
+    summary: 'Create a new intern in the system',
     description: 'Create a new intern in the system',
     operationId: 'createIntern',
     requestBody: {
@@ -131,6 +132,7 @@ const createIntern = {
 
 const deleteIntern = {
     tags: ['Interns'],
+    summary: 'Delete intern by ID',
     description: 'Delete intern by ID',
     operationId: 'deleteInternById',
     parameters: [
@@ -180,6 +182,7 @@ const deleteIntern = {
 
 const getInternById = {
     tags: ['Interns'],
+    summary: 'Get intern by ID',
     description: 'Get intern by ID',
     operationId: 'getInternById',
     parameters: [
@@ -229,6 +232,7 @@ const getInternById = {
 
 const getInternsList = {
     tags: ['Interns'],
+    summary: 'Get interns list',
     description: 'Get interns list',
     operationId: 'getInternsList',
     parameters: [
@@ -306,8 +310,8 @@ const getInternsList = {
 };
 
 const updateInternById = {
-    summary: 'Update intern data by ID',
     tags: ['Interns'],
+    summary: 'Update intern data by ID',
     description: 'Update intern by ID',
     operationId: 'updateInternById',
     parameters: [

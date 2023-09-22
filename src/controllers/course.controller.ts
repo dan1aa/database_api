@@ -11,9 +11,35 @@ export const getCourses = async (req: Request, res: Response): Promise<string | 
     res.status(StatusCodes.OK).json(result);
 };
 
-export const getCourseByName = async (req: Request, res: Response): Promise<string | void> => {
-    const courseName: string = req.params.courseName;
-    const result: course[] = await CourseService.getCourseByName(courseName)
+export const getCourseById = async (req: Request, res: Response): Promise<string | void> => {
+    const { id } = req.params;
+    const result: course[] = await CourseService.getCourseById(+id)
 
     res.status(StatusCodes.OK).json(result)
+}
+
+export const createCourse = async (req: Request, res: Response): Promise<string | void> => {
+    const courseData = req.body;
+
+    const result = await CourseService.createCourse(courseData);
+
+    res.status(StatusCodes.CREATED).json(result);
+}
+
+export const updateCourseById = async (req: Request, res: Response): Promise<string | void> => {
+    const { id } = req.params;
+    const data = req.body;
+
+    const result = await CourseService.updateCourseById(+id, data);
+
+    res.status(StatusCodes.OK).json(result);
+}
+
+
+export const deleteCourseById = async (req: Request, res: Response): Promise<string | void> => {
+    const { id } = req.params;
+
+    const result = await CourseService.deleteCourseById(+id);
+
+    res.status(StatusCodes.OK).json(result);
 }
