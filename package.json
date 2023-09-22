@@ -42,6 +42,7 @@
     "@models": "dist/models",
     "@routes": "dist/routes",
     "@utils": "dist/utils",
-    "@queries": "dist/queries"
+    "@queries": "dist/queries",
+    "@docs": "dist/docs"
   }
 }

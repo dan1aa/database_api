@@ -3,13 +3,15 @@ import 'module-alias/register';
 import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import InternRouter from '@routes/intern.route';
 import GoogleSheetsRouter from '@routes/googleSheets.route';
+
 import errorHandler from '@middlewares/errorHandler.middleware';
-import swaggerJsdoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
-import { options } from './utils/swagger'
+
+import { swaggerOptions } from '@utils/swagger';
 
 
 const app = express();
@@ -22,7 +24,7 @@ app.use('/api', InternRouter);
 app.use('/api', GoogleSheetsRouter);
 
 
-const specs = swaggerJsdoc(options)
+const specs = swaggerJsdoc(swaggerOptions);
 
 app.use(
   "/docs",
