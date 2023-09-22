@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as InternService from '@services/intern.service';
+import { intern } from '@prisma/client';
 
 
 export const createIntern = async (req: Request, res: Response) => {
