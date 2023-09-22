@@ -1,4 +1,5 @@
 import { createIntern, createInternBody, deleteIntern, updateInternById, getInternsList } from "./interns.documentation";
+import { getCoursesList, getCourseById, createCourseBody, createCourse, updateCourseById, deleteCourseById } from "./courses.documentation";
 
 const apiDocumentation = {
     openapi: '3.0.1',
@@ -11,20 +12,33 @@ const apiDocumentation = {
         {
             name: 'Interns',
         },
+        {
+            name: 'Courses'
+        }
     ],
     paths: {
-        'api/interns': {
+        '/api/interns': {
             get: getInternsList,
             post: createIntern,
         },
-        'api/interns/{id}': {
+        '/api/interns/{id}': {
             get: getInternsList,
             put: updateInternById,
             delete: deleteIntern
+        },
+        '/api/courses': {
+            get: getCoursesList,
+            post: createCourse
+        },
+        '/api/courses/{id}': {
+            get: getCourseById,
+            put: updateCourseById,
+            delete: deleteCourseById
         }
     },
     schemas: {
         createInternBody,
+        createCourseBody
     },
 
 };
