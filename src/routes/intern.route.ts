@@ -1,32 +1,44 @@
 import { Router } from 'express';
 
+import * as InternModels from '@models/intern.model';
+
 import * as InternController from '@controllers/intern.controller';
+
+import validateRequestId from '@middlewares/validateRequestId.middleware';
 import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
+import validateRequestBody from '@middlewares/validateRequestBody.middleware';
+
 
 const router = Router();
 
-/**
- * @swagger
- * /interns/{id}:
- *   get:
- *     summary: Get an intern by ID
- *     tags: [Interns]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: The ID of the intern
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Successful response
- *       404:
- *         description: Intern not found
- */
+router.post(
+    '/interns',
+    validateRequestBody(InternModels.createInternScheme),
+    tryCatchMiddleware(InternController.createIntern)
+);
 
-router.get('/interns', tryCatchMiddleware(InternController.filterInterns));
-router.get('/interns/:id', tryCatchMiddleware(InternController.getInternById));
+router.put(
+    '/interns/:id',
+    validateRequestId,
+    validateRequestBody(InternModels.updateInternSheme),
+    tryCatchMiddleware(InternController.updateInternById)
+);
 
+router.get(
+    '/interns', 
+    tryCatchMiddleware(InternController.getFilteredInternsList)
+);
+
+router.get(
+    '/interns/:id',
+    validateRequestId, 
+    tryCatchMiddleware(InternController.getInternById)
+);
+
+router.delete(
+    '/interns/:id',
+    validateRequestId,
+    tryCatchMiddleware(InternController.deleteInternById)
+);
 
 export default router;
