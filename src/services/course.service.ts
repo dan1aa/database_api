@@ -7,8 +7,8 @@ export const getCourses = async (): Promise<course[]> => {
     return courses
 }
 
-export const getCourseById = async (id: number): Promise<course[]> => {
-    const course: course[] = await db.course.findMany({
+export const getCourseById = async (id: number): Promise<course | null> => {
+    const course: course | null = await db.course.findUnique({
         where: {
             id
         }

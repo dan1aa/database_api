@@ -13,7 +13,7 @@ export const getCourses = async (req: Request, res: Response): Promise<string | 
 
 export const getCourseById = async (req: Request, res: Response): Promise<string | void> => {
     const { id } = req.params;
-    const result: course[] = await CourseService.getCourseById(+id)
+    const result: course | null = await CourseService.getCourseById(+id)
 
     res.status(StatusCodes.OK).json(result)
 }

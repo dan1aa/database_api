@@ -19,7 +19,6 @@ function convertReceivedDataToQueryParameters (dataFromDb: tableTypes) {
     return dataFromDb.map(row => [...Object.values(row)])
 }
 
-
 async function updateInterns(dataToInsert: (intern[] | any[])): Promise<parametrizedDbData[]> {
 
     for (const intern of dataToInsert) {

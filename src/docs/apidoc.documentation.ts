@@ -1,5 +1,9 @@
-import { createIntern, createInternBody, deleteIntern, updateInternById, getInternsList } from "./interns.documentation";
-import { getCoursesList, getCourseById, createCourseBody, createCourse, updateCourseById, deleteCourseById } from "./courses.documentation";
+import { createIntern, deleteIntern, updateInternById, getInternsList, getInternById } from "./interns.documentation";
+import { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById } from "./courses.documentation";
+import { modifyCourses, modifyInternCourses, modifyInterns } from "./googleSheets.documentation";
+import { createInternSchema } from "./schemas/intern.schema";
+import { createCourseSchema } from "./schemas/course.schema";
+import { modifyCoursesBody, modifyInternsBody, modifyInternCoursesBody } from "./schemas/googleSheets.schema";
 
 const apiDocumentation = {
     openapi: '3.0.1',
@@ -22,7 +26,7 @@ const apiDocumentation = {
             post: createIntern,
         },
         '/api/interns/{id}': {
-            get: getInternsList,
+            get: getInternById,
             put: updateInternById,
             delete: deleteIntern
         },
@@ -34,11 +38,23 @@ const apiDocumentation = {
             get: getCourseById,
             put: updateCourseById,
             delete: deleteCourseById
+        },
+        '/api/googleSheets/course': {
+            put: modifyCourses
+        },
+        '/api/googleSheets/intern': {
+            put: modifyInterns
+        },
+        '/api/googleSheets/intern_course': {
+            put: modifyInternCourses
         }
     },
     schemas: {
-        createInternBody,
-        createCourseBody
+        createInternSchema,
+        createCourseSchema,
+        modifyCoursesBody,
+        modifyInternsBody,
+        modifyInternCoursesBody
     },
 
 };
