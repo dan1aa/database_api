@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@exeptions/ApiErrors';
+import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 
 interface FilteringParams {

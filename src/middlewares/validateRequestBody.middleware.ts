@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
 
-import { BadRequestError } from '@exeptions/ApiErrors';
+import { BadRequestError } from '@utils/exeptions/ApiErrors';
 
 
 const validateRequestBody = (sheme: Joi.Schema) => {

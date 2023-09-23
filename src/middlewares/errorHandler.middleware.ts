@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
 
-import { BaseApiError } from '@exeptions/ApiErrors';
+import { BaseApiError } from '@utils/exeptions/ApiErrors';
 
 const errorHandler = (
     error: BaseApiError,
@@ -12,6 +12,8 @@ const errorHandler = (
     const statusCode = error instanceof BaseApiError 
         ? error.httpCode 
         : StatusCodes.INTERNAL_SERVER_ERROR;
+
+    console.log(error);
     
     //TODO: Handle Internal server error (make loging)
     res.status(statusCode).json({

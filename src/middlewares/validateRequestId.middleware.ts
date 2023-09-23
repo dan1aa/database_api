@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { BadRequestError } from '@exeptions/ApiErrors';
+import { BadRequestError } from '@utils/exeptions/ApiErrors';
 
 
 const validateRequestId = (req: Request, res: Response, next: NextFunction) => {

@@ -14,7 +14,7 @@ model intern {
   email       String  @unique @db.VarChar(50)
   cohort      String? @db.VarChar(50)
   explorer_id String  @unique @db.VarChar(50)
-  discord_id  String  @unique @db.VarChar(40)
+  discord_id  String?  @unique @db.VarChar(40)
 
   course_intern intern_course[] @relation(name: "intern_course: intern")
 
@@ -45,7 +45,7 @@ model nobel_event {
   event_date DateTime
 
   course_id Int?
-  course    course? @relation(fields: [course_id], references: [id])
+  course    course? @relation(fields: [course_id], references: [id], onDelete: Cascade)
 
   oversight_feedbacks   oversight_feedback[]
   facilitator_feedbacks facilitator_feedback[]
@@ -62,10 +62,10 @@ model oversight_feedback {
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
 
   oversight_id Int
-  oversight    intern @relation(fields: [oversight_id], references: [id], name: "oversight_feedback: oversight")
+  oversight    intern @relation(fields: [oversight_id], references: [id], name: "oversight_feedback: oversight", onDelete: Cascade)
 
   facilitator_id Int
-  facilitator    intern @relation(fields: [facilitator_id], references: [id], name: "oversight_feedback: facilitator")
+  facilitator    intern @relation(fields: [facilitator_id], references: [id], name: "oversight_feedback: facilitator", onDelete: Cascade)
 
   feedback String @db.VarChar(500)
 
@@ -79,11 +79,11 @@ model facilitator_feedback {
   nobel_event nobel_event @relation(fields: [event_id], references: [id])
 
   facilitator_id String
-  facilitator    intern @relation(fields: [facilitator_id], references: [explorer_id], name: "facilitator_feedback: facilitator")
+  facilitator    intern @relation(fields: [facilitator_id], references: [explorer_id], name: "facilitator_feedback: facilitator", onDelete: Cascade)
 
 
   intern_id String
-  intern    intern @relation(fields: [intern_id], references: [explorer_id], name: "facilitator_feedback: intern")
+  intern    intern @relation(fields: [intern_id], references: [explorer_id], name: "facilitator_feedback: intern", onDelete: Cascade)
 
   feedback String @db.VarChar(500)
 
@@ -95,10 +95,10 @@ model event_feedback {
   comment String @db.VarChar(500)
 
   sender_id Int
-  sender    intern? @relation(fields: [sender_id], references: [id], name: "event_feedback: sender")
+  sender    intern? @relation(fields: [sender_id], references: [id], name: "event_feedback: sender", onDelete: Cascade)
 
   event_id Int
-  event    nobel_event? @relation(fields: [event_id], references: [id], name: "event_feedback: event")
+  event    nobel_event? @relation(fields: [event_id], references: [id], name: "event_feedback: event", onDelete: Cascade)
 
   @@unique([event_id, comment])
 }
@@ -117,17 +117,17 @@ model event_intern_badge {
   badge    badge @relation(fields: [badge_id], references: [id])
 
   intern_id Int
-  intern    intern @relation(fields: [intern_id], references: [id], name: "event_intern_badge: intern")
+  intern    intern @relation(fields: [intern_id], references: [id], name: "event_intern_badge: intern", onDelete: Cascade)
 
   @@id([event_id, badge_id, intern_id])
 }
 
 model intern_course {
   intern_id Int
-  intern    intern @relation(fields: [intern_id], references: [id], name: "intern_course: intern")
+  intern    intern @relation(fields: [intern_id], references: [id], name: "intern_course: intern", onDelete: Cascade)
 
   course_id Int
-  course    course @relation(fields: [course_id], references: [id])
+  course    course @relation(fields: [course_id], references: [id], onDelete: Cascade)
 
   role_id Int
   role    course_role @relation(fields: [role_id], references: [id])
