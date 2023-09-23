@@ -1,35 +1,5 @@
-const createCourseBody = {
-    type: 'object',
-    properties: {
-        course_name: {
-            type: 'string',
-            example: 'iIWD326aa-1-b'
-        },
-        start_date: {
-            type: 'string',
-            example: '2023-11-12'
-        },
-        end_date: {
-            type: 'string',
-            example: '2023-10-12'
-        }
-    }
-}
-
-const createCourseSchema = {
-    properties: {
-        course_name: {
-            type: "string"
-        },
-        start_date: {
-            type: "string"
-        },
-        end_date: {
-            type: "string"
-        }
-    },
-    required: ["course_name", "start_date", "end_date"]
-}
+import { createCourseSchema } from "./schemas/course.schema";
+import { InternalServerError } from "./errors.documentation";
 
 const getCoursesList = {
     tags: ['Courses'],
@@ -47,40 +17,18 @@ const getCoursesList = {
                         items: {
                             type: 'object',
                             properties: {
-                                course_name: {
-                                    type: 'string',
-                                    example: 'iIWD326aa-1-b'
+                                id: {
+                                    type: 'number',
+                                    example: 2
                                 },
-                                start_date: {
-                                    type: 'string',
-                                    example: '2023-11-12'
-                                },
-                                end_date: {
-                                    type: 'string',
-                                    example: '2023-10-12'
-                                }
-                            },
-                        },
+                                ...createCourseSchema.properties
+                            }
+                        }
                     },
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
@@ -103,44 +51,19 @@ const getCourseById = {
             content: {
                 'application/json': {
                     schema: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                course_name: {
-                                    type: 'string',
-                                    example: 'iIWD326aa-1-b'
-                                },
-                                start_date: {
-                                    type: 'string',
-                                    example: '2023-11-12'
-                                },
-                                end_date: {
-                                    type: 'string',
-                                    example: '2023-10-12'
-                                }
-                            },
-                        },
-                    },
-                },
-            },
-        },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
                         type: 'object',
                         properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
+                            id: {
+                                type: 'number',
+                                example: 2
                             },
-                        },
-                    },
+                            ...createCourseSchema.properties
+                        }
+                    }
                 },
             },
         },
+        ...InternalServerError
     },
 };
 
@@ -152,9 +75,7 @@ const createCourse = {
     requestBody: {
         content: {
             'application/json': {
-                schema: {
-                    ...createCourseSchema
-                },
+                schema: createCourseSchema,
             },
         },
         required: true,
@@ -168,42 +89,16 @@ const createCourse = {
                         type: 'object',
                         properties: {
                             id: {
-                                type: 'string',
-                                example: '256',
+                                type: 'number',
+                                example: 2,
                             },
-                            course_name: {
-                                type: 'string',
-                                example: 'iIWD326aa-1-b'
-                            },
-                            start_date: {
-                                type: 'string',
-                                example: '2023-11-12'
-                            },
-                            end_date: {
-                                type: 'string',
-                                example: '2023-10-12'
-                            }
+                            ...createCourseSchema.properties
                         },
                     },
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
@@ -223,7 +118,7 @@ const updateCourseById = {
     ],
     responses: {
         '200': {
-            description: 'Course updates successfully',
+            description: 'Course with id 2 updated successfully',
             content: {
                 'application/json': {
                     schema: {
@@ -231,29 +126,14 @@ const updateCourseById = {
                         properties: {
                             message: {
                                 type: 'string',
-                                example: 'Course updated successfully!',
+                                example: 'Course with id 2 updated successfully!',
                             },
                         },
                     },
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
@@ -273,7 +153,7 @@ const deleteCourseById = {
     ],
     responses: {
         '200': {
-            description: 'Course deleted successfully!',
+            description: 'Course with id 2 deleted successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -281,30 +161,15 @@ const deleteCourseById = {
                         properties: {
                             message: {
                                 type: 'string',
-                                example: 'Course deleted successfully!',
+                                example: 'Course with id 2 deleted successfully!',
                             },
                         },
                     },
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
-export { getCoursesList, getCourseById, createCourseBody, createCourse, updateCourseById, deleteCourseById };
+export { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById };
