@@ -1,59 +1,5 @@
-const createInternBody = {
-    type: 'object',
-    properties: {
-        first_name: {
-            type: 'string',
-            example: 'John',
-        },
-        last_name: {
-            type: 'string',
-            example: 'Snow',
-        },
-        email: {
-            type: 'string',
-            example: 'john.snow@email.com',
-        },
-        cohort: {
-            type: 'string',
-            example: 'SEP 16 WE 23',
-        },
-        explorer_id: {
-            type: 'string',
-            example: 'explorerE8Jr5',
-        },
-        discord_id: {
-            type: 'string',
-            example: '605636683f6e29c81c8b2db0',
-        },
-    },
-};
-
-const createInternScheme = {
-    properties: {
-        first_name: {
-            type: 'string',
-        },
-        last_name: {
-            type: 'string',
-        },
-        email: {
-            type: 'string',
-            format: 'email',
-        },
-        cohort: {
-            type: 'string',
-            description: 'Short date annotation when intern was selected',
-        },
-        explorer_id: {
-            type: 'string',
-            description: 'Credetials of intern in teacheble platform',
-        },
-        discord_id: {
-            type: 'string',
-        },
-    },
-    required: ['first_name', 'last_name', 'email', 'cohort', 'explorer_id'],
-}
+import { createInternSchema } from "./schemas/intern.schema";
+import { InternalServerError } from './errors.documentation'
 
 const createIntern = {
     tags: ['Interns'],
@@ -63,9 +9,7 @@ const createIntern = {
     requestBody: {
         content: {
             'application/json': {
-                schema: {
-                    ...createInternScheme
-                },
+                schema: createInternSchema,
             },
         },
         required: true,
@@ -79,54 +23,16 @@ const createIntern = {
                         type: 'object',
                         properties: {
                             id: {
-                                type: 'string',
-                                example: '256',
+                                type: 'number',
+                                example: 2
                             },
-                            first_name: {
-                                type: 'string',
-                                example: 'John',
-                            },
-                            last_name: {
-                                type: 'string',
-                                example: 'Snow',
-                            },
-                            email: {
-                                type: 'string',
-                                example: 'john.snow@email.com',
-                            },
-                            cohort: {
-                                type: 'string',
-                                example: 'SEP 16 WE 23',
-                            },
-                            explorer_id: {
-                                type: 'string',
-                                example: 'explorerE8Jr5',
-                            },
-                            discord_id: {
-                                type: 'string',
-                                example: '605636683f6e29c81c8b2db0',
-                            },
-                        },
-                    },
+                            ...createInternSchema.properties
+                        }
+                    }
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
@@ -161,22 +67,7 @@ const deleteIntern = {
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
@@ -196,37 +87,23 @@ const getInternById = {
     ],
     responses: {
         '200': {
-            description: 'Intern deleted successfully!',
+            description: 'Get intern by ID from db',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Intern deleted successfully!',
+                            id: {
+                                type: 'number',
+                                example: 2
                             },
-                        },
-                    },
+                            ...createInternSchema.properties
+                        }
+                    }
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
@@ -252,7 +129,7 @@ const getInternsList = {
     ],
     responses: {
         '200': {
-            description: 'Intern deleted successfully!',
+            description: 'Get list of interns from db',
             content: {
                 'application/json': {
                     schema: {
@@ -260,52 +137,18 @@ const getInternsList = {
                         items: {
                             type: 'object',
                             properties: {
-                                first_name: {
-                                    type: 'string',
-                                    example: 'John',
+                                id: {
+                                    type: 'number',
+                                    example: 2
                                 },
-                                last_name: {
-                                    type: 'string',
-                                    example: 'Snow',
-                                },
-                                email: {
-                                    type: 'string',
-                                    example: 'john.snow@email.com',
-                                },
-                                cohort: {
-                                    type: 'string',
-                                    example: 'SEP 16 WE 23',
-                                },
-                                explorer_id: {
-                                    type: 'string',
-                                    example: 'explorerE8Jr5',
-                                },
-                                discord_id: {
-                                    type: 'string',
-                                    example: '605636683f6e29c81c8b2db0',
-                                },
-                            },
-                        },
+                                ...createInternSchema.properties
+                            }
+                        }
                     },
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
@@ -325,7 +168,7 @@ const updateInternById = {
     ],
     responses: {
         '200': {
-            description: 'Intern deleted successfully!',
+            description: 'Intern updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -340,25 +183,10 @@ const updateInternById = {
                 },
             },
         },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal Server Error',
-                            },
-                        },
-                    },
-                },
-            },
-        },
+        ...InternalServerError
     },
 };
 
 
 
-export { createIntern, deleteIntern, updateInternById, getInternById, getInternsList, createInternBody };
+export { createIntern, deleteIntern, updateInternById, getInternById, getInternsList };
