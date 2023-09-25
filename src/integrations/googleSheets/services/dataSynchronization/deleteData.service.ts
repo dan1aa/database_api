@@ -1,7 +1,7 @@
 import { db } from '@utils/db.server';
 import { BadRequestError } from '@utils/exeptions/ApiErrors';
 
-const deleteRequstetData = async (tableName: string, data: any[]) => {
+const deleteRequestedData = async (tableName: string, data: any[]) => {
     switch (tableName) {
         case 'intern':
             await deleteRowsFromInternTable(data);
@@ -15,10 +15,10 @@ const deleteRequstetData = async (tableName: string, data: any[]) => {
 };
 
 const deleteRowsFromInternTable = async (data: any[]) => {
-    const targetIds = data.map(internData => internData.id);
+    const targetIds = data.map(internData => internData.explorer_id);
     const result = await db.intern.deleteMany({
         where: {
-            id: {
+            explorer_id: {
                 in: targetIds,
             },
         },
@@ -28,10 +28,10 @@ const deleteRowsFromInternTable = async (data: any[]) => {
 };
 
 const deleteRowsFromCourseTable = async (data: any[]) => {
-    const targetIds = data.map(courseData => courseData.id);
+    const targetIds = data.map(courseData => courseData.course_name);
     const deleteResult = await db.course.deleteMany({
         where: {
-            id: {
+            course_name: {
                 in: targetIds,
             },
         },
@@ -40,4 +40,4 @@ const deleteRowsFromCourseTable = async (data: any[]) => {
     return deleteResult;
 };
 
-export default deleteRequstetData;
+export default deleteRequestedData;

@@ -9,12 +9,15 @@ datasource db {
 
 model intern {
   id          Int     @id @default(autoincrement())
+  explorer_id String  @unique @db.VarChar(50)
+  discord_id  String?  @unique @db.VarChar(40)
   first_name  String  @db.VarChar(50)
   last_name   String  @db.VarChar(50)
   email       String  @unique @db.VarChar(50)
   cohort      String? @db.VarChar(50)
-  explorer_id String  @unique @db.VarChar(50)
-  discord_id  String?  @unique @db.VarChar(40)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime @updatedAt
 
   course_intern intern_course[] @relation(name: "intern_course: intern")
 
@@ -31,9 +34,9 @@ model intern {
 
 model course {
   id          Int      @id @default(autoincrement())
-  course_name String   @unique @db.VarChar(50)
   start_date  DateTime
   end_date    DateTime
+  course_name String   @unique @db.VarChar(50)
 
   events        nobel_event[]
   course_intern intern_course[]
@@ -123,19 +126,19 @@ model event_intern_badge {
 }
 
 model intern_course {
-  intern_id Int
-  intern    intern @relation(fields: [intern_id], references: [id], name: "intern_course: intern", onDelete: Cascade)
-
   course_id Int
   course    course @relation(fields: [course_id], references: [id], onDelete: Cascade)
 
+  intern_id Int
+  intern    intern @relation(fields: [intern_id], references: [id], name: "intern_course: intern", onDelete: Cascade)
+
   role_id Int
-  role    course_role @relation(fields: [role_id], references: [id])
+  role    role @relation(fields: [role_id], references: [id])
 
   @@id([intern_id, course_id])
 }
 
-model course_role {
+model role {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(30)
 

@@ -9,7 +9,8 @@ type UpsertFunctions = {
     [key: string]: (dataToInsert: tableTypes) => Promise<intern[] | course[] | intern_course[]>;
 };
 
-const insertRequstedData = async (tableName: string, dataToInsert: tableTypes | any[]) => {
+
+const insertRequestedData = async (tableName: string, dataToInsert: tableTypes | any[]) => {
     const upsertFunctions: UpsertFunctions = {
         'intern': updateInterns,
         'course': updateCourses,
@@ -33,7 +34,17 @@ async function updateInterns(dataToInsert: (intern[] | any[])): Promise<intern[]
         })
     }
 
-    const allInterns: intern[] = await db.intern.findMany();
+    const allInterns: any[] = await db.intern.findMany({
+        select: {
+            id: true,   
+            explorer_id: true,  
+            discord_id: true,  
+            first_name: true,
+            last_name: true,
+            email: true,
+            cohort: true
+          },
+    });
 
     return allInterns;
 }
@@ -79,5 +90,19 @@ async function updateInternCourse(dataToInsert: intern_course[] | any[]): Promis
     return intern_courses;
 }
 
-export default insertRequstedData;
+export default insertRequestedData;
 
+
+const intern_course = {
+    "id": 2,
+    "first_name": "John",
+    "last_name": "Snow",
+    "email": "john.snow@email.com",
+    "cohort": "SEP 16 WE 23",
+    "explorer_id": "explorerE8Jr5",
+    "discord_id": "605636683f6e29c81c8b2db0",
+    "course_name": "adf",
+    "start_date": "adf",
+    "end_date": "dasd",
+    "role": "facilitator"
+}
