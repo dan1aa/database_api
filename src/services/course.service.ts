@@ -1,5 +1,7 @@
 import { Prisma, course } from "@prisma/client";
+
 import { db } from "@utils/db.server";
+
 
 export const getCourses = async (): Promise<course[]> => {
     const courses: course[] = await db.course.findMany();
@@ -80,3 +82,37 @@ export const deleteCourseById = async (id: number): Promise<Object> => {
 
     return { message: `Course with id ${id} deleted` }
 }
+
+export const getCourseParticipantsInfoByCourseId = async (id: number) => {
+    const result: { [key: string]: any[] } = {};
+
+    const dbResult = await db.intern_course.findMany({
+        where: { course_id: id },
+        include: {
+            role: true,
+            intern: true
+        },
+    });
+
+    dbResult.forEach(data => {
+        const roleName = `${data.role.name.toLocaleLowerCase()}s`;
+
+        if (!result.hasOwnProperty(roleName)) {
+            result[roleName] = [];
+        } 
+
+        result[roleName].push(data.intern); 
+    });
+
+    return result;
+};
+
+export const getCourseScheduleInfoByCourseId = async (id: number) => {
+    return await db.nobel_event.findMany({
+        where: { course_id: id },
+        select: {
+            meet_num: true,
+            event_date: true
+        }
+    });
+};
