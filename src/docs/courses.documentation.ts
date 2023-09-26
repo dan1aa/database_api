@@ -1,4 +1,4 @@
-import { createCourseSchema } from "./schemas/course.schema";
+import { createCourseSchema, getCourseDetailsListShema } from "./schemas/course.schema";
 import { InternalServerError } from "./errors.documentation";
 
 const getCoursesList = {
@@ -172,4 +172,101 @@ const deleteCourseById = {
     },
 };
 
-export { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById };
+const getCourseDetailsList = {
+    tags: ['Courses'],
+    summary: 'Get full info about courses by list of their names',
+    description: 'Get full info about courses by list of their names',
+    operationId: 'getCourseDetailsList',
+    parameters: [
+        {
+            name: 'courseName',
+            in: 'query',
+            description: 'Course Name',
+            required: true,
+            type: 'string',
+        },
+    ],
+    responses: {
+        '200': {
+            description: 'Full info about course',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            data: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        ...getCourseDetailsListShema.properties,
+                                        IWD336: {
+                                            type: 'object',
+                                            properties: {
+                                                start_date: {
+                                                    type: 'string',
+                                                    example: ''
+                                                },
+                                                end_date: {
+                                                    type: 'string',
+                                                    example: ''
+                                                },
+                                                schedule: {
+                                                    type: 'array',
+                                                    items: {
+                                                        type: 'string',
+                                                        example: "Empty array"
+                                                    }
+                                                },
+                                                participantsInfo: {
+                                                    type: 'array',
+                                                    items: {
+                                                        type: 'string',
+                                                        example: "Empty array"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                },
+            },
+        },
+    },
+    ...InternalServerError
+}
+
+const getCourseDetailsByName = {
+    tags: ['Courses'],
+    summary: 'Get full info about course by name',
+    description: 'Get full info about course by name',
+    operationId: 'getCourseDetailsByName',
+    parameters: [
+        {
+            name: 'courseName',
+            in: 'path',
+            description: 'Course Name',
+            required: true,
+            type: 'string',
+        },
+    ],
+    responses: {
+        '200': {
+            description: 'Full info about course',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: { ...getCourseDetailsListShema.properties },
+                    },
+                },
+            },
+        },
+        ...InternalServerError
+    },
+}
+
+export { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById, getCourseDetailsList, getCourseDetailsByName };
