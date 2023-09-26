@@ -10,7 +10,7 @@ datasource db {
 model intern {
   id          Int     @id @default(autoincrement())
   explorer_id String  @unique @db.VarChar(50)
-  discord_id  String?  @unique @db.VarChar(40)
+  discord_id  String? @db.VarChar(40)
   first_name  String  @db.VarChar(50)
   last_name   String  @db.VarChar(50)
   email       String  @unique @db.VarChar(50)
