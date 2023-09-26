@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start:dev": "nodemon",
+    "start": "nodemon",
     "test": "jest"
   },
   "author": "",
