@@ -24,14 +24,24 @@ const insertRequestedData = async (tableName: string, dataToInsert: tableTypes |
 
 async function updateInterns(dataToInsert: (intern[] | any[])): Promise<intern[]> {
 
+    const internsEmails: string[] = []
+
     for (const intern of dataToInsert) {
-        await db.intern.upsert({
-            where: {
-                explorer_id: intern.explorer_id
-            },
-            update: intern,
-            create: intern,
-        })
+        if (internsEmails.includes(intern.email)) {
+            console.log('Duplicated email for ', intern.explorer_id)
+            continue;
+        }
+
+        else {
+            internsEmails.push(intern.email)
+            await db.intern.upsert({
+                where: {
+                    explorer_id: intern.explorer_id
+                },
+                update: intern,
+                create: intern,
+            })
+        }
     }
 
     const allInterns: any[] = await db.intern.findMany({
