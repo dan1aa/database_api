@@ -6,6 +6,7 @@ import deleteRequestedData from '../services/dataSynchronization/deleteData.serv
 import insertRequestedData from '../services/dataSynchronization/insertData.service';
 
 
+
 export const synchronizeData = async (req: Request, res: Response) => {
     const { tableName } = req.params;
 
@@ -14,8 +15,8 @@ export const synchronizeData = async (req: Request, res: Response) => {
     await deleteRequestedData(tableName, dataToDelete);
     const insertResult = await insertRequestedData(tableName, dataToInsert);
 
-    const convertedInsertionDataToQueryParams = JSON.stringify(insertResult.map(row => [...Object.values(row)]))
-    const baseUrlToNotifyGoogleSheetsAboutSyccesfullyInsertion = `
+    const convertedInsertionDataToQueryParams: string = JSON.stringify(insertResult.map(row => [...Object.values(row)]))
+    const baseUrlToNotifyGoogleSheetsAboutSyccesfullyInsertion: string = `
         ${process.env.GOOGLE_SHEETS_DATABASE_BASE_URL}table=${tableName}&object=${convertedInsertionDataToQueryParams}
     `;
 

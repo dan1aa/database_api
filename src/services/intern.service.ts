@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, intern } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
@@ -10,18 +10,28 @@ interface FilteringParams {
 };
 
 export const createIntern = async (data: Prisma.internCreateInput) => {
-    //TODO: handle erro when insert data with duplicated unique values
-    const result = await db.intern.create({ data });
+    
+    const isExist: intern | null = await db.intern.findFirst({
+        where: {
+            explorer_id: data.explorer_id
+        }
+    })
 
-    return result;
+    if(!isExist) {
+        const result = await db.intern.create({ data });
+        return result;
+    }
+
+    throw new NotFoundError('Intern with that data is already in DB')
+
 }
 
 export const updateInternById = async (id: number, data: Prisma.internUpdateInput) => {
-    const isInternExist = await db.intern.findUnique({ where: { id } });
+    const isInternExist: intern | null = await db.intern.findUnique({ where: { id } });
 
     if (!isInternExist) throw new NotFoundError('Intern with this id doesn`t exist');
 
-    const result = await db.intern.update({
+    const result: intern = await db.intern.update({
         where: { id },
         data: data
     });
@@ -34,7 +44,7 @@ export const getInternById = async (id: number) => {
         where: { id },
     });
 
-    if (!result) throw new NotFoundError();
+    if (!result) throw new NotFoundError(`There is no intern with id ${id}`);
 
     return result;
 };

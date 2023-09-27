@@ -7,9 +7,9 @@ import * as InternService from '@services/intern.service';
 export const createIntern = async (req: Request, res: Response) => {
     const internData = req.body;
 
-    await InternService.createIntern(internData);
+    const result = await InternService.createIntern(internData);
 
-    res.status(StatusCodes.CREATED).end();
+    res.status(StatusCodes.CREATED).json(result).end();
 };
 
 export const updateInternById = async (req: Request, res: Response) => {

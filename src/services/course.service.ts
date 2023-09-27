@@ -1,6 +1,7 @@
-import { Prisma, course } from "@prisma/client";
+import { Prisma, course, intern_course } from "@prisma/client";
 
 import { db } from "@utils/db.server";
+import { NotFoundError } from "@utils/exeptions/ApiErrors";
 
 
 export const getCourses = async (): Promise<course[]> => {
@@ -16,10 +17,12 @@ export const getCourseById = async (id: number): Promise<course | null> => {
         }
     })
 
+    if(!course) throw new NotFoundError(`There is no course with id ${id}`)
+
     return course
 }
 
-export const createCourse = async (data: Prisma.courseCreateInput): Promise<Object> => {
+export const createCourse = async (data: Prisma.courseCreateInput): Promise<course> => {
 
     const { course_name, start_date, end_date } = data;
 
@@ -32,14 +35,14 @@ export const createCourse = async (data: Prisma.courseCreateInput): Promise<Obje
         }
     })
 
-    if(courseExistance) return { message: `Course with name ${course_name} already exist` };
+    if(courseExistance) throw new NotFoundError('Course with that course name is already exist')
 
     const result: course = await db.course.create({ data })
 
     return result
 }
 
-export const updateCourseById = async (id: number, data: any): Promise<Object> => {
+export const updateCourseById = async (id: number, data: any): Promise<course> => {
 
     const { start_date, end_date } = data;
 
@@ -52,19 +55,19 @@ export const updateCourseById = async (id: number, data: any): Promise<Object> =
         }
     })
 
-    if(!courseExistance) return { message: `Course with id ${id} doesn't exist` };
+    if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
 
-    await db.course.update({
+    const result: course = await db.course.update({
         where: {
             id
         },
         data
     })
 
-    return { message: `Course with id ${id} updated` }
+    return result
 }
 
-export const deleteCourseById = async (id: number): Promise<Object> => {
+export const deleteCourseById = async (id: number): Promise<course | Object> => {
 
     const courseExistance: course | null = await db.course.findUnique({
         where: {
@@ -72,7 +75,7 @@ export const deleteCourseById = async (id: number): Promise<Object> => {
         }
     })
 
-    if(!courseExistance) return { message: `Course with id ${id} doesn't exist` };
+    if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
 
     await db.course.delete({
         where: {
@@ -86,7 +89,7 @@ export const deleteCourseById = async (id: number): Promise<Object> => {
 export const getCourseParticipantsInfoByCourseId = async (id: number) => {
     const result: { [key: string]: any[] } = {};
 
-    const dbResult = await db.intern_course.findMany({
+    const dbResult: any[] = await db.intern_course.findMany({
         where: { course_id: id },
         include: {
             role: true,
@@ -94,8 +97,10 @@ export const getCourseParticipantsInfoByCourseId = async (id: number) => {
         },
     });
 
+    console.log(dbResult)
+
     dbResult.forEach(data => {
-        const roleName = `${data.role.name.toLocaleLowerCase()}s`;
+        const roleName: string = `${data.role.name.toLocaleLowerCase()}s`;
 
         if (!result.hasOwnProperty(roleName)) {
             result[roleName] = [];
