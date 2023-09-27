@@ -16,12 +16,23 @@ export const synchronizeData = async (req: Request, res: Response) => {
     const insertResult = await insertRequestedData(tableName, dataToInsert);
 
     const convertedInsertionDataToQueryParams: string = JSON.stringify(insertResult.map(row => [...Object.values(row)]))
-    const baseUrlToNotifyGoogleSheetsAboutSyccesfullyInsertion: string = `
-        ${process.env.GOOGLE_SHEETS_DATABASE_BASE_URL}table=${tableName}&object=${convertedInsertionDataToQueryParams}
-    `;
 
-    await axios.get(baseUrlToNotifyGoogleSheetsAboutSyccesfullyInsertion);
+    const data = { table: tableName, object: convertedInsertionDataToQueryParams }
 
-    res.status(StatusCodes.OK).send({ msg: 'Data was succesfully synchronized' }).end();
+    const url: string | undefined = process.env.GOOGLE_SHEETS_DATABASE_BASE_URL;
+
+    axios.post((url || ""), data, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => {
+            console.log('Response:', response.data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    res.status(StatusCodes.OK).send({ msg: "Success" }).end();
 };
 
