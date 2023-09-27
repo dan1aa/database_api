@@ -1,16 +1,16 @@
-import { course, intern, intern_course } from '@prisma/client';
+import { course, event_feedback, facilitator_feedback, intern, intern_course, nobel_event, oversight_feedback } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 
 
-type tableTypes = intern[] | course[] | intern_course[];
-type parametrizedDbData = (string | number | Date | null)[];
+type tableTypes = intern[] | course[] | intern_course[] | nobel_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[];
+
 type UpsertFunctions = {
     [key: string]: (dataToInsert: tableTypes) => Promise<intern[] | course[] | intern_course[]>;
 };
 
 
-const insertRequestedData = async (tableName: string, dataToInsert: tableTypes | any[]) => {
+const insertRequestedData = async (tableName: string, dataToInsert: tableTypes | any[]): Promise<tableTypes> => {
     const upsertFunctions: UpsertFunctions = {
         'intern': updateInterns,
         'course': updateCourses,
