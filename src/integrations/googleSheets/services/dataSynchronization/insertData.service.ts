@@ -78,10 +78,18 @@ async function updateCourses(dataToInsert: course[] | any[]): Promise<course[]> 
 
         await db.course.upsert({
             where: {
-                course_name: course.course_name
+                course_name: course.course_id
             },
-            update: course,
-            create: course,
+            update: {
+                start_date: course.start_date,
+                end_date: course.end_date,
+                course_name: course.course_id
+            },
+            create: {
+                start_date: course.start_date,
+                end_date: course.end_date,
+                course_name: course.course_id
+            },
         })
     }
 
