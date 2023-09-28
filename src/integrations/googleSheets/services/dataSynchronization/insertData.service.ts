@@ -3,11 +3,21 @@ import { course, event_feedback, facilitator_feedback, intern, intern_course, no
 import { db } from '@utils/db.server';
 
 
-type tableTypes = intern[] | course[] | intern_course[] | nobel_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[];
+type tableTypes = intern[] | course[] | intern_course[] | nobel_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[] | Intern[];
 
 type UpsertFunctions = {
-    [key: string]: (dataToInsert: tableTypes) => Promise<intern[] | course[] | intern_course[]>;
+    [key: string]: (dataToInsert: tableTypes) => Promise<tableTypes>;
 };
+
+type Intern = {
+    id: number,
+    explorer_id: string,
+    discord_id: string | null,
+    first_name: string,
+    last_name: string,
+    email: string | null,
+    cohort: string | null
+}
 
 
 const insertRequestedData = async (tableName: string, dataToInsert: tableTypes | any[]): Promise<tableTypes> => {
@@ -22,7 +32,7 @@ const insertRequestedData = async (tableName: string, dataToInsert: tableTypes |
     return result;
 };
 
-async function updateInterns(dataToInsert: (intern[] | any[])): Promise<intern[]> {
+async function updateInterns(dataToInsert: (intern[] | any[])): Promise<Intern[]> {
 
     const internsEmails: string[] = []
 
@@ -44,7 +54,7 @@ async function updateInterns(dataToInsert: (intern[] | any[])): Promise<intern[]
         }
     }
 
-    const allInterns: any[] = await db.intern.findMany({
+    const allInterns: Intern[] = await db.intern.findMany({
         select: {
             id: true,   
             explorer_id: true,  
