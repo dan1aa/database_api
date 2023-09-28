@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import * as InternModels from '@models/intern.model';
+import * as InternModels from '@request-schemas/intern.request-schema';
 
 import * as InternController from '@controllers/intern.controller';
 
