@@ -9,6 +9,9 @@ const deleteRequestedData = async (tableName: string, data: any[]) => {
         case 'course':
             await deleteRowsFromCourseTable(data);
             break;
+        case 'intern_course': 
+            console.log("NIKITA PAY ATTENTION");
+            break;
         default:
             throw new BadRequestError(`Unknown table name: ${tableName}`);
     }
