@@ -15,11 +15,10 @@ const errorHandler = (
 
     console.log(error);
     
-    //TODO: Handle Internal server error (make loging)
     res.status(statusCode).json({
         msg: error instanceof BaseApiError 
             ? error.message 
-            : 'Internal Server Error',
+            : 'Internal server error',
     });
 };
 

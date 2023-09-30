@@ -1,7 +1,7 @@
 import { Prisma, intern } from '@prisma/client';
 
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
+import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
 
 
 interface FilteringParams {
@@ -10,20 +10,16 @@ interface FilteringParams {
 };
 
 export const createIntern = async (data: Prisma.internCreateInput) => {
-    
-    const isExist: intern | null = await db.intern.findFirst({
-        where: {
-            explorer_id: data.explorer_id
-        }
-    })
-
-    if(!isExist) {
+    try {
         const result = await db.intern.create({ data });
         return result;
-    }
-
-    throw new NotFoundError('Intern with that data is already in DB')
-
+      } catch (error) {
+        console.error('Error in createIntern:', error);
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2011') {
+          throw new BadRequestError('Unique constraint violation');
+        }
+        throw error;
+      }
 }
 
 export const updateInternById = async (id: number, data: Prisma.internUpdateInput) => {

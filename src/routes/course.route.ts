@@ -3,7 +3,7 @@ import { Router } from 'express';
 import * as CourseController from '@controllers/course.controller';
 import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 import validateRequestBody from '@middlewares/validateRequestBody.middleware';
-import * as CourseModels from '@models/course.model';
+import * as CourseModels from '../request-schemas/course.request-schema';
 
 
 const router = Router();

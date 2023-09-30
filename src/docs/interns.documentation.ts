@@ -1,4 +1,5 @@
-import { createInternSchema } from "./schemas/intern.schema";
+import { swaggerCreateInternScheme, swaggerUpdateInternScheme } from './schemas/intern.schema';
+
 import { InternalServerError } from './errors.documentation'
 
 const createIntern = {
@@ -9,7 +10,7 @@ const createIntern = {
     requestBody: {
         content: {
             'application/json': {
-                schema: createInternSchema,
+                schema: swaggerCreateInternScheme,
             },
         },
         required: true,
@@ -26,7 +27,7 @@ const createIntern = {
                                 type: 'number',
                                 example: 2
                             },
-                            ...createInternSchema.properties
+                            // ...createInternSchema.properties
                         }
                     }
                 },
@@ -97,7 +98,7 @@ const getInternById = {
                                 type: 'number',
                                 example: 2
                             },
-                            ...createInternSchema.properties
+                            // ...createInternSchema.properties
                         }
                     }
                 },
@@ -141,7 +142,7 @@ const getInternsList = {
                                     type: 'number',
                                     example: 2
                                 },
-                                ...createInternSchema.properties
+                                // ...createInternSchema.properties
                             }
                         }
                     },

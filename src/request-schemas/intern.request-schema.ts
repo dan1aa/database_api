@@ -17,4 +17,3 @@ export const updateInternSheme = Joi.object({
     explorer_id: Joi.string(),
     discord_id: Joi.string(),
 });
-

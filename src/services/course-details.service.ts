@@ -19,12 +19,11 @@ export const getCourseDetailsByName = async (courseName: string) => {
     const courseParticipants = await CourseService.getCourseParticipantsInfoByCourseId(courseData.id); 
 
     return {
-        [courseName]: {
-            startDate: formatedEndDate,
-            endDate: formatedStartDate,
-            schedule: courseShedule,
-            participantsInfo: courseParticipants
-        }
+        courseName: coursName,
+        startDate: formatedStartDate,
+        endDate: formatedEndDate,
+        schedule: courseShedule,
+        participantsInfo: courseParticipants
     }; 
 };
 
