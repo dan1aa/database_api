@@ -1,9 +1,9 @@
-import { course, event_feedback, facilitator_feedback, intern, intern_course, nobel_event, oversight_feedback } from '@prisma/client';
+import { course, event_feedback, facilitator_feedback, intern, intern_course, class_event, oversight_feedback } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 
 
-type tableTypes = intern[] | course[] | intern_course[] | nobel_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[] | Intern[];
+type tableTypes = intern[] | course[] | intern_course[] | class_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[] | Intern[];
 
 type UpsertFunctions = {
     [key: string]: (dataToInsert: tableTypes) => Promise<tableTypes>;
@@ -119,18 +119,3 @@ async function updateInternCourse(dataToInsert: intern_course[] | any[]): Promis
 }
 
 export default insertRequestedData;
-
-
-const intern_course = {
-    "id": 2,
-    "first_name": "John",
-    "last_name": "Snow",
-    "email": "john.snow@email.com",
-    "cohort": "SEP 16 WE 23",
-    "explorer_id": "explorerE8Jr5",
-    "discord_id": "605636683f6e29c81c8b2db0",
-    "course_name": "adf",
-    "start_date": "adf",
-    "end_date": "dasd",
-    "role": "facilitator"
-}
