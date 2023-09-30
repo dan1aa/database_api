@@ -1,8 +1,6 @@
 import { createIntern, deleteIntern, updateInternById, getInternsList, getInternById } from "./interns.documentation";
 import { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById } from "./courses.documentation";
 import { modifyCourses, modifyInternCourses, modifyInterns } from "./googleSheets.documentation";
-import { createInternSchema } from "./schemas/intern.schema";
-import { createCourseSchema } from "./schemas/course.schema";
 import { modifyCoursesBody, modifyInternsBody, modifyInternCoursesBody } from "./schemas/googleSheets.schema";
 
 const apiDocumentation = {
@@ -50,11 +48,11 @@ const apiDocumentation = {
         }
     },
     schemas: {
-        createInternSchema,
-        createCourseSchema,
-        modifyCoursesBody,
-        modifyInternsBody,
-        modifyInternCoursesBody
+        // createInternSchema,
+        // createCourseSchema,
+        // modifyCoursesBody,
+        // modifyInternsBody,
+        // modifyInternCoursesBody
     },
 
 };
