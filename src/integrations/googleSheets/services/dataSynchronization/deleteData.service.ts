@@ -1,13 +1,16 @@
 import { db } from '@utils/db.server';
 import { BadRequestError } from '@utils/exeptions/ApiErrors';
 
-const deleteRequstetData = async (tableName: string, data: any[]) => {
+const deleteRequestedData = async (tableName: string, data: any[]) => {
     switch (tableName) {
         case 'intern':
             await deleteRowsFromInternTable(data);
             break;
         case 'course':
             await deleteRowsFromCourseTable(data);
+            break;
+        case 'intern_course': 
+            console.log("NIKITA PAY ATTENTION");
             break;
         default:
             throw new BadRequestError(`Unknown table name: ${tableName}`);
@@ -19,7 +22,7 @@ const deleteRowsFromInternTable = async (data: any[]) => {
 
     const existingIds = await db.intern.findMany({
         where: {
-            id: {
+            explorer_id: {
                 in: targetIds,
             },
         },
@@ -47,7 +50,7 @@ const deleteRowsFromCourseTable = async (data: any[]) => {
 
     const existingIds = await db.course.findMany({
         where: {
-            id: {
+            course_name: {
                 in: targetIds,
             },
         },
@@ -69,4 +72,4 @@ const deleteRowsFromCourseTable = async (data: any[]) => {
     return result;
 };
 
-export default deleteRequstetData;
+export default deleteRequestedData;

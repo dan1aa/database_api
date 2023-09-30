@@ -1,15 +1,26 @@
-import { course, intern, intern_course } from '@prisma/client';
+import { course, event_feedback, facilitator_feedback, intern, intern_course, class_event, oversight_feedback } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 
 
-type tableTypes = intern[] | course[] | intern_course[];
-type parametrizedDbData = (string | number | Date | null)[];
+type tableTypes = intern[] | course[] | intern_course[] | class_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[] | Intern[];
+
 type UpsertFunctions = {
-    [key: string]: (dataToInsert: tableTypes) => Promise<intern[] | course[] | intern_course[]>;
+    [key: string]: (dataToInsert: tableTypes) => Promise<tableTypes>;
 };
 
-const insertRequstedData = async (tableName: string, dataToInsert: tableTypes | any[]) => {
+type Intern = {
+    id: number,
+    explorer_id: string,
+    discord_id: string | null,
+    first_name: string,
+    last_name: string,
+    email: string | null,
+    cohort: string | null
+}
+
+
+const insertRequestedData = async (tableName: string, dataToInsert: tableTypes | any[]): Promise<tableTypes> => {
     const upsertFunctions: UpsertFunctions = {
         'intern': updateInterns,
         'course': updateCourses,
@@ -21,19 +32,39 @@ const insertRequstedData = async (tableName: string, dataToInsert: tableTypes | 
     return result;
 };
 
-async function updateInterns(dataToInsert: (intern[] | any[])): Promise<intern[]> {
+async function updateInterns(dataToInsert: (intern[] | any[])): Promise<Intern[]> {
+
+    const internsEmails: string[] = []
 
     for (const intern of dataToInsert) {
-        await db.intern.upsert({
-            where: {
-                explorer_id: intern.explorer_id
-            },
-            update: intern,
-            create: intern,
-        })
+        if (internsEmails.includes(intern.email)) {
+            console.log('Duplicated email for ', intern.explorer_id)
+            continue;
+        }
+
+        else {
+            internsEmails.push(intern.email)
+            await db.intern.upsert({
+                where: {
+                    explorer_id: intern.explorer_id
+                },
+                update: intern,
+                create: intern,
+            })
+        }
     }
 
-    const allInterns: intern[] = await db.intern.findMany();
+    const allInterns: Intern[] = await db.intern.findMany({
+        select: {
+            id: true,   
+            explorer_id: true,  
+            discord_id: true,  
+            first_name: true,
+            last_name: true,
+            email: true,
+            cohort: true
+          },
+    });
 
     return allInterns;
 }
@@ -47,10 +78,18 @@ async function updateCourses(dataToInsert: course[] | any[]): Promise<course[]> 
 
         await db.course.upsert({
             where: {
-                course_name: course.course_name
+                course_name: course.course_id
             },
-            update: course,
-            create: course,
+            update: {
+                start_date: course.start_date,
+                end_date: course.end_date,
+                course_name: course.course_id
+            },
+            create: {
+                start_date: course.start_date,
+                end_date: course.end_date,
+                course_name: course.course_id
+            },
         })
     }
 
@@ -79,5 +118,4 @@ async function updateInternCourse(dataToInsert: intern_course[] | any[]): Promis
     return intern_courses;
 }
 
-export default insertRequstedData;
-
+export default insertRequestedData;

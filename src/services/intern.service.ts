@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, intern } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
@@ -14,7 +14,7 @@ export const createIntern = async (data: Prisma.internCreateInput) => {
         const result = await db.intern.create({ data });
         return result;
       } catch (error) {
-        console.error('Error in createIntern:', error); // Добавьте отладочный вывод
+        console.error('Error in createIntern:', error);
         if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2011') {
           throw new BadRequestError('Unique constraint violation');
         }
@@ -23,11 +23,11 @@ export const createIntern = async (data: Prisma.internCreateInput) => {
 }
 
 export const updateInternById = async (id: number, data: Prisma.internUpdateInput) => {
-    const isInternExist = await db.intern.findUnique({ where: { id } });
+    const isInternExist: intern | null = await db.intern.findUnique({ where: { id } });
 
     if (!isInternExist) throw new NotFoundError('Intern with this id doesn`t exist');
 
-    const result = await db.intern.update({
+    const result: intern = await db.intern.update({
         where: { id },
         data: data
     });
@@ -40,7 +40,7 @@ export const getInternById = async (id: number) => {
         where: { id },
     });
 
-    if (!result) throw new NotFoundError(`Intern with id = ${id} doesn't exist`);
+    if (!result) throw new NotFoundError(`There is no intern with id ${id}`);
 
     return result;
 };

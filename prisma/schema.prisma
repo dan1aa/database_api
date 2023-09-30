@@ -9,12 +9,15 @@ datasource db {
 
 model intern {
   id          Int     @id @default(autoincrement())
+  explorer_id String  @unique @db.VarChar(50)
+  discord_id  String? @db.VarChar(40)
   first_name  String  @db.VarChar(50)
   last_name   String  @db.VarChar(50)
   email       String  @unique @db.VarChar(50)
   cohort      String? @db.VarChar(50)
-  explorer_id String  @unique @db.VarChar(50)
-  discord_id  String?  @unique @db.VarChar(40)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime @updatedAt
 
   course_intern intern_course[] @relation(name: "intern_course: intern")
 
@@ -31,26 +34,30 @@ model intern {
 
 model course {
   id          Int      @id @default(autoincrement())
-  course_name String   @unique @db.VarChar(50)
   start_date  DateTime
   end_date    DateTime
+  course_name String   @unique @db.VarChar(50)
 
-  events        nobel_event[]
+  events        class_event[]
   course_intern intern_course[]
 }
 
-model nobel_event {
+model class_event {
   id         Int      @id @default(autoincrement())
   meet_num   Int
   event_date DateTime
+  link String
 
-  course_id Int?
+  course_id Int
   course    course? @relation(fields: [course_id], references: [id], onDelete: Cascade)
 
   oversight_feedbacks   oversight_feedback[]
   facilitator_feedbacks facilitator_feedback[]
   event_intern_badge    event_intern_badge[]
   event_feedback        event_feedback[]       @relation(name: "event_feedback: event")
+
+  type_id Int 
+  type class_type @relation(fields: [type_id], references: [id])
 
   @@unique([course_id, meet_num])
 }
@@ -59,7 +66,7 @@ model oversight_feedback {
   id Int @id @default(autoincrement())
 
   event_id    Int
-  nobel_event nobel_event @relation(fields: [event_id], references: [id])
+  nobel_event class_event @relation(fields: [event_id], references: [id])
 
   oversight_id Int
   oversight    intern @relation(fields: [oversight_id], references: [id], name: "oversight_feedback: oversight", onDelete: Cascade)
@@ -76,7 +83,7 @@ model facilitator_feedback {
   id Int @id @default(autoincrement())
 
   event_id    Int
-  nobel_event nobel_event @relation(fields: [event_id], references: [id])
+  nobel_event class_event @relation(fields: [event_id], references: [id])
 
   facilitator_id String
   facilitator    intern @relation(fields: [facilitator_id], references: [explorer_id], name: "facilitator_feedback: facilitator", onDelete: Cascade)
@@ -98,7 +105,7 @@ model event_feedback {
   sender    intern? @relation(fields: [sender_id], references: [id], name: "event_feedback: sender", onDelete: Cascade)
 
   event_id Int
-  event    nobel_event? @relation(fields: [event_id], references: [id], name: "event_feedback: event", onDelete: Cascade)
+  event    class_event? @relation(fields: [event_id], references: [id], name: "event_feedback: event", onDelete: Cascade)
 
   @@unique([event_id, comment])
 }
@@ -111,7 +118,7 @@ model badge {
 
 model event_intern_badge {
   event_id Int
-  event    nobel_event @relation(fields: [event_id], references: [id])
+  event    class_event @relation(fields: [event_id], references: [id])
 
   badge_id Int
   badge    badge @relation(fields: [badge_id], references: [id])
@@ -123,21 +130,28 @@ model event_intern_badge {
 }
 
 model intern_course {
-  intern_id Int
-  intern    intern @relation(fields: [intern_id], references: [id], name: "intern_course: intern", onDelete: Cascade)
-
   course_id Int
   course    course @relation(fields: [course_id], references: [id], onDelete: Cascade)
 
+  intern_id Int
+  intern    intern @relation(fields: [intern_id], references: [id], name: "intern_course: intern", onDelete: Cascade)
+
   role_id Int
-  role    course_role @relation(fields: [role_id], references: [id])
+  role    class_role @relation(fields: [role_id], references: [id])
 
   @@id([intern_id, course_id])
 }
 
-model course_role {
+model class_role {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(30)
 
   intern_course_roles intern_course[]
+}
+
+model class_type {
+  id Int @id @default(autoincrement())
+  type String 
+
+  event_type class_event[]
 }

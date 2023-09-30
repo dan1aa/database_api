@@ -4,13 +4,13 @@ import { db } from '@utils/db.server';
 import * as CourseService from '@services/course.service';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
-export const getCourseDetailsByName = async (coursName: string) => {
+export const getCourseDetailsByName = async (courseName: string) => {
     const courseData = await db.course.findUnique({
-        where: { course_name: coursName }
+        where: { course_name: courseName }
     });
 
     if (!courseData) {
-        throw new NotFoundError(`Course with name ${coursName} doesn't exist`);
+        throw new NotFoundError(`Course with name ${courseName} doesn't exist`);
     }
 
     const formatedEndDate = moment(courseData.end_date).format('M/D/YYYY');
@@ -24,7 +24,6 @@ export const getCourseDetailsByName = async (coursName: string) => {
         endDate: formatedEndDate,
         schedule: courseShedule,
         participantsInfo: courseParticipants
-        
     }; 
 };
 
