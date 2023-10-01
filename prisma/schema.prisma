@@ -7,151 +7,169 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model intern {
-  id          Int     @id @default(autoincrement())
-  explorer_id String  @unique @db.VarChar(50)
-  discord_id  String? @db.VarChar(40)
-  first_name  String  @db.VarChar(50)
-  last_name   String  @db.VarChar(50)
-  email       String  @unique @db.VarChar(50)
-  cohort      String? @db.VarChar(50)
+model Contact {
+  id               Int    @id @default(autoincrement())
+  firstName        String @db.VarChar(50)
+  lastName         String @db.VarChar(50)
+  email            String @unique @db.VarChar(50)
+  age              Int    @db.TinyInt
+  country          String @db.VarChar(50)
+  timezone         String @db.VarChar(50)
+  sourceOfReferral String @db.VarChar(50)
 
-  createdAt DateTime  @default(now())
+  eduQuestSelectedDateTime DateTime
+  eduQuestDecision         String   @db.VarChar(50)
+
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  course_intern intern_course[] @relation(name: "intern_course: intern")
-
-  sended_event_feedbacks event_feedback[] @relation(name: "event_feedback: sender")
-
-  event_intern_badge event_intern_badge[] @relation(name: "event_intern_badge: intern")
-
-  facilitator_feedbacks_facilitator facilitator_feedback[] @relation(name: "facilitator_feedback: facilitator")
-  facilitator_feedbacks_intern      facilitator_feedback[] @relation(name: "facilitator_feedback: intern")
-
-  oversight_feedback_oversight   oversight_feedback[] @relation(name: "oversight_feedback: oversight")
-  oversight_feedback_facilitator oversight_feedback[] @relation(name: "oversight_feedback: facilitator")
+  intern Intern?
 }
 
-model course {
-  id          Int      @id @default(autoincrement())
-  start_date  DateTime
-  end_date    DateTime
-  course_name String   @unique @db.VarChar(50)
+model Intern {
+  id               Int     @id @default(autoincrement())
+  explorerId       String  @unique @db.VarChar(50)
+  explorerMail     String  @db.VarChar(50)
+  explorerPassword String  @db.VarChar(50)
+  discordId        String? @db.VarChar(40)
+  cohort           String? @db.VarChar(50)
 
-  events        class_event[]
-  course_intern intern_course[]
+  contactId Int     @unique
+  contact   Contact @relation(fields: [contactId], references: [id])
+
+  internCourse InternCourse[] @relation(name: "InternCourse: Intern")
+
+  eventFeedbackSender EventFeedback[]    @relation(name: "EventFeedback: Sender")
+  eventInternBadge    EventInternBadge[] @relation(name: "EventInternBadge: Intern")
+
+  facilitatorFeedbackFacilitator FacilitatorFeedback[] @relation(name: "FacilitatorFeedback: Facilitator")
+  facilitatorFeedbackIntern      FacilitatorFeedback[] @relation(name: "FacilitatorFeedback: Intern")
+
+  oversightFeedbackOversight   OversightFeedback[] @relation(name: "OversightFeedback: Oversight")
+  oversightFeedbackFacilitator OversightFeedback[] @relation(name: "OversightFeedback: Facilitator")
 }
 
-model class_event {
-  id         Int      @id @default(autoincrement())
-  meet_num   Int
-  event_date DateTime
-  link String
+model Course {
+  id           Int      @id @default(autoincrement())
+  courseName   String   @db.VarChar(50)
+  courseCipher String   @db.VarChar(50)
+  startDate    DateTime
+  endDate      DateTime
 
-  course_id Int
-  course    course? @relation(fields: [course_id], references: [id], onDelete: Cascade)
-
-  oversight_feedbacks   oversight_feedback[]
-  facilitator_feedbacks facilitator_feedback[]
-  event_intern_badge    event_intern_badge[]
-  event_feedback        event_feedback[]       @relation(name: "event_feedback: event")
-
-  type_id Int 
-  type class_type @relation(fields: [type_id], references: [id])
-
-  @@unique([course_id, meet_num])
+  events       ClassEvent[]
+  courseIntern InternCourse[]
 }
 
-model oversight_feedback {
+model ClassEvent {
+  id             Int      @id @default(autoincrement())
+  meetNumber     Int      @db.TinyInt
+  eventDate      DateTime
+  googleMeetLink String   @db.VarChar(50)
+
+  courseId Int
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  classEventTypeId Int
+  type             ClassEventType @relation(fields: [classEventTypeId], references: [id])
+
+  eventInternBadge     EventInternBadge[]
+  oversightFeedbacks   OversightFeedback[]
+  facilitatorFeedbacks FacilitatorFeedback[]
+  eventFeedback        EventFeedback[]       @relation(name: "EventFeedback: Event")
+
+  @@unique([courseId, meetNumber])
+}
+
+model OversightFeedback {
   id Int @id @default(autoincrement())
 
-  event_id    Int
-  nobel_event class_event @relation(fields: [event_id], references: [id])
+  classEventId Int
+  classEvent   ClassEvent @relation(fields: [classEventId], references: [id])
 
-  oversight_id Int
-  oversight    intern @relation(fields: [oversight_id], references: [id], name: "oversight_feedback: oversight", onDelete: Cascade)
+  oversightId Int
+  oversight   Intern @relation(fields: [oversightId], references: [id], name: "OversightFeedback: Oversight", onDelete: Cascade)
 
-  facilitator_id Int
-  facilitator    intern @relation(fields: [facilitator_id], references: [id], name: "oversight_feedback: facilitator", onDelete: Cascade)
+  facilitatorId Int
+  facilitator   Intern @relation(fields: [facilitatorId], references: [id], name: "OversightFeedback: Facilitator", onDelete: Cascade)
 
   feedback String @db.VarChar(500)
 
-  @@unique([event_id, feedback])
+  @@unique([classEventId, feedback])
 }
 
-model facilitator_feedback {
+model FacilitatorFeedback {
   id Int @id @default(autoincrement())
 
-  event_id    Int
-  nobel_event class_event @relation(fields: [event_id], references: [id])
+  classEventId Int
+  classEvent   ClassEvent @relation(fields: [classEventId], references: [id])
 
-  facilitator_id String
-  facilitator    intern @relation(fields: [facilitator_id], references: [explorer_id], name: "facilitator_feedback: facilitator", onDelete: Cascade)
+  facilitatorId Int
+  facilitator   Intern @relation(fields: [facilitatorId], references: [id], name: "FacilitatorFeedback: Facilitator", onDelete: Cascade)
 
-
-  intern_id String
-  intern    intern @relation(fields: [intern_id], references: [explorer_id], name: "facilitator_feedback: intern", onDelete: Cascade)
+  internId Int
+  intern   Intern @relation(fields: [internId], references: [id], name: "FacilitatorFeedback: Intern", onDelete: Cascade)
 
   feedback String @db.VarChar(500)
 
-  @@unique([event_id, feedback])
+  @@unique([classEventId, feedback])
 }
 
-model event_feedback {
-  id      Int    @id @default(autoincrement())
-  comment String @db.VarChar(500)
+model EventFeedback {
+  id Int @id @default(autoincrement())
 
-  sender_id Int
-  sender    intern? @relation(fields: [sender_id], references: [id], name: "event_feedback: sender", onDelete: Cascade)
+  senderId Int
+  sender   Intern? @relation(fields: [senderId], references: [id], name: "EventFeedback: Sender", onDelete: Cascade)
 
-  event_id Int
-  event    class_event? @relation(fields: [event_id], references: [id], name: "event_feedback: event", onDelete: Cascade)
+  classEventId Int
+  classEvent   ClassEvent? @relation(fields: [classEventId], references: [id], name: "EventFeedback: Event", onDelete: Cascade)
 
-  @@unique([event_id, comment])
+  feedback String @db.VarChar(500)
+
+  @@unique([classEventId, feedback])
 }
 
-model badge {
-  id                 Int                  @id @default(autoincrement())
-  badge_name         String               @db.VarChar(30)
-  event_intern_badge event_intern_badge[]
+model Badge {
+  id               Int                @id @default(autoincrement())
+  badgeName        String             @db.VarChar(30)
+  eventInternBadge EventInternBadge[]
 }
 
-model event_intern_badge {
-  event_id Int
-  event    class_event @relation(fields: [event_id], references: [id])
+model EventInternBadge {
+  classEventId Int
+  classEvent   ClassEvent @relation(fields: [classEventId], references: [id])
 
-  badge_id Int
-  badge    badge @relation(fields: [badge_id], references: [id])
+  badgeId Int
+  badge   Badge @relation(fields: [badgeId], references: [id])
 
-  intern_id Int
-  intern    intern @relation(fields: [intern_id], references: [id], name: "event_intern_badge: intern", onDelete: Cascade)
+  internId Int
+  intern   Intern @relation(fields: [internId], references: [id], name: "EventInternBadge: Intern", onDelete: Cascade)
 
-  @@id([event_id, badge_id, intern_id])
+  @@id([classEventId, badgeId, internId])
 }
 
-model intern_course {
-  course_id Int
-  course    course @relation(fields: [course_id], references: [id], onDelete: Cascade)
+model InternCourse {
+  courseId Int
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  intern_id Int
-  intern    intern @relation(fields: [intern_id], references: [id], name: "intern_course: intern", onDelete: Cascade)
+  internId Int
+  intern   Intern @relation(fields: [internId], references: [id], name: "InternCourse: Intern", onDelete: Cascade)
 
-  role_id Int
-  role    class_role @relation(fields: [role_id], references: [id])
+  classRoleId Int
+  classRole   ClassRole @relation(fields: [classRoleId], references: [id])
 
-  @@id([intern_id, course_id])
+  @@id([internId, courseId])
 }
 
-model class_role {
+model ClassRole {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(30)
 
-  intern_course_roles intern_course[]
+  internCourse InternCourse[]
 }
 
-model class_type {
-  id Int @id @default(autoincrement())
-  type String 
+model ClassEventType {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(30)
 
-  event_type class_event[]
+  classEvent ClassEvent[]
 }
