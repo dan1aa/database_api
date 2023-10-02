@@ -22,17 +22,17 @@ app.use(cors({ origin: '*' }));
 
 app.use('/api', InternRouter);
 app.use('/api', ContacRouter);
-// app.use('/api', CourseRouter);
-// app.use('/api', CoursesDetailsRouter)
-// app.use('/', GoogleSheetsRouter);
+app.use('/api', CourseRouter);
+app.use('/api', CoursesDetailsRouter)
+app.use('/', GoogleSheetsRouter);
 
-// const specs = swaggerJsdoc(swaggerOptions);
+const specs = swaggerJsdoc(swaggerOptions);
 
-// app.use(
-//   '/docs',
-//   swaggerUi.serve,
-//   swaggerUi.setup(specs)
-// );
+app.use(
+  '/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
 
 app.use(errorHandler);
 
