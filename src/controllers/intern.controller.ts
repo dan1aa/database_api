@@ -24,13 +24,13 @@ export const updateInternById = async (req: Request, res: Response) => {
 export const getInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
     const internData = await InternService.getInternById(internId);
-        
+
     res.status(StatusCodes.OK).json(internData).end();
 };
 
 export const getFilteredInternsList = async (req: Request, res: Response) => {
     const filteringParams = req.query;
-    const result = await InternService.getFilteredInternsList(filteringParams);
+    const result = await InternService.getInternsList(filteringParams);
 
     res.status(StatusCodes.OK).json(result).end();
 };

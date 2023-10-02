@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 
 import CourseRouter from '@routes/course.route';
 import InternRouter from '@routes/intern.route';
+import ContacRouter from '@routes/contact.route';
 import CoursesDetailsRouter from '@routes/course-details.route';
 import GoogleSheetsRouter from '../integrations/googleSheets/index';
 
@@ -20,9 +21,10 @@ app.use(bodyParser.json());
 app.use(cors({ origin: '*' }));
 
 app.use('/api', InternRouter);
-app.use('/api', CourseRouter);
-app.use('/api', CoursesDetailsRouter)
-app.use('/', GoogleSheetsRouter);
+app.use('/api', ContacRouter);
+// app.use('/api', CourseRouter);
+// app.use('/api', CoursesDetailsRouter)
+// app.use('/', GoogleSheetsRouter);
 
 // const specs = swaggerJsdoc(swaggerOptions);
 

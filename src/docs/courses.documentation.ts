@@ -1,4 +1,4 @@
-import { createCourseSchema, getCourseDetailsListShema } from "./schemas/course.schema";
+// import { createCourseSchema, getCourseDetailsListShema } from "./schemas/course.schema";
 import { InternalServerError } from "./errors.documentation";
 
 const getCoursesList = {
@@ -21,7 +21,7 @@ const getCoursesList = {
                                     type: 'number',
                                     example: 2
                                 },
-                                ...createCourseSchema.properties
+                                // ...createCourseSchema.properties
                             }
                         }
                     },
@@ -57,7 +57,7 @@ const getCourseById = {
                                 type: 'number',
                                 example: 2
                             },
-                            ...createCourseSchema.properties
+                            // ...createCourseSchema.properties
                         }
                     }
                 },
@@ -75,7 +75,7 @@ const createCourse = {
     requestBody: {
         content: {
             'application/json': {
-                schema: createCourseSchema,
+                // schema: createCourseSchema,
             },
         },
         required: true,
@@ -92,7 +92,7 @@ const createCourse = {
                                 type: 'number',
                                 example: 2,
                             },
-                            ...createCourseSchema.properties
+                            // ...createCourseSchema.properties
                         },
                     },
                 },
@@ -199,7 +199,7 @@ const getCourseDetailsList = {
                                 items: {
                                     type: 'object',
                                     properties: {
-                                        ...getCourseDetailsListShema.properties,
+                                        // ...getCourseDetailsListShema.properties,
                                         IWD336: {
                                             type: 'object',
                                             properties: {
@@ -260,7 +260,7 @@ const getCourseDetailsByName = {
                 'application/json': {
                     schema: {
                         type: 'object',
-                        properties: { ...getCourseDetailsListShema.properties },
+                        // ,
                     },
                 },
             },

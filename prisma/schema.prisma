@@ -8,20 +8,17 @@ datasource db {
 }
 
 model Contact {
-  id               Int    @id @default(autoincrement())
-  firstName        String @db.VarChar(50)
-  lastName         String @db.VarChar(50)
-  email            String @unique @db.VarChar(50)
-  age              Int    @db.TinyInt
-  country          String @db.VarChar(50)
-  timezone         String @db.VarChar(50)
-  sourceOfReferral String @db.VarChar(50)
+  id               Int     @id @default(autoincrement())
+  firstName        String? @db.VarChar(50)
+  lastName         String? @db.VarChar(50)
+  email            String? @unique @db.VarChar(50)
+  age              Int?    @db.TinyInt
+  country          String? @db.VarChar(50)
+  timezone         String? @db.VarChar(50)
+  sourceOfReferral String? @db.VarChar(50)
 
-  eduQuestSelectedDateTime DateTime
-  eduQuestDecision         String   @db.VarChar(50)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  eduQuestSelectedDateTime DateTime?
+  eduQuestDecision         String?   @db.VarChar(50)
 
   intern Intern?
 }
@@ -31,6 +28,7 @@ model Intern {
   explorerId       String  @unique @db.VarChar(50)
   explorerMail     String  @db.VarChar(50)
   explorerPassword String  @db.VarChar(50)
+  discordNickname  String? @db.VarChar(50)
   discordId        String? @db.VarChar(40)
   cohort           String? @db.VarChar(50)
 
@@ -50,11 +48,12 @@ model Intern {
 }
 
 model Course {
-  id           Int      @id @default(autoincrement())
-  courseName   String   @db.VarChar(50)
-  courseCipher String   @db.VarChar(50)
-  startDate    DateTime
-  endDate      DateTime
+  id                   Int      @id @default(autoincrement())
+  courseName           String   @db.VarChar(50)
+  courseCipher         String   @db.VarChar(50)
+  linkToClassMaterials String?  @db.VarChar(50)
+  startDate            DateTime
+  endDate              DateTime
 
   events       ClassEvent[]
   courseIntern InternCourse[]
