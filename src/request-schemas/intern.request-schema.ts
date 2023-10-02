@@ -1,19 +1,21 @@
 import Joi from 'joi';
 
 export const createInternScheme = Joi.object({
-    first_name: Joi.string().required(),
-    last_name: Joi.string().required(),
-    email: Joi.string().required(),
-    cohort: Joi.string().required(),
-    explorer_id: Joi.string().required(),
-    discord_id: Joi.string().required(),
+    explorerId: Joi.string().allow(null).required(),
+    explorerMail: Joi.string().allow(null).required(),
+    explorerPassword: Joi.string().allow(null).required(),
+    discordNickname: Joi.string().allow(null).required(),
+    discordId: Joi.string().allow(null).required(),
+    cohort: Joi.string().allow(null).required(),
+    contactId: Joi.number().allow(null).required(),
 });
 
 export const updateInternSheme = Joi.object({
-    first_name: Joi.string(),
-    last_name: Joi.string(),
-    email: Joi.string(),
-    cohort: Joi.string(),
-    explorer_id: Joi.string(),
-    discord_id: Joi.string(),
+    explorerId: Joi.string().allow(null),
+    explorerMail: Joi.string().allow(null),
+    explorerPassword: Joi.string().allow(null),
+    discordNickname: Joi.string().allow(null),
+    discordId: Joi.string().allow(null),
+    cohort: Joi.string().allow(null),
+    contactId: Joi.number().allow(null),
 });
