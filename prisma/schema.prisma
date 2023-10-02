@@ -18,10 +18,7 @@ model Contact {
   sourceOfReferral String @db.VarChar(50)
 
   eduQuestSelectedDateTime DateTime
-  eduQuestDecision         String   @db.VarChar(50)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  eduQuestDecision         String?   @db.VarChar(50)
 
   intern Intern?
 }
