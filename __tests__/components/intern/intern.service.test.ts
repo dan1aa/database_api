@@ -10,6 +10,7 @@ describe('Intern service', () => {
             explorerId: 'explorerId',
             explorerMail: 'explorerId@gmail.com',    
             explorerPassword: 'password123', 
+            discordNickname: 'discordNickname',
             discordId: 'someDiscordId',       
             cohort: 'SEP 2023',
             contactId: 34
@@ -48,6 +49,7 @@ describe('Intern service', () => {
             explorerId: 'explorerId',
             explorerMail: 'explorerId@gmail.com',    
             explorerPassword: 'password123', 
+            discordNickname: 'discordNickname',
             discordId: 'someDiscordId',       
             cohort: 'SEP 2023',
             contactId: 34
@@ -72,6 +74,7 @@ describe('Intern service', () => {
             explorerId: 'explorerId',
             explorerMail: 'explorerId@gmail.com',    
             explorerPassword: 'password123', 
+            discordNickname: 'discordNickname',
             discordId: 'someDiscordId',       
             cohort: 'SEP 2023',
             contactId: 34
@@ -98,6 +101,7 @@ describe('Intern service', () => {
             explorerId: 'explorerId',
             explorerMail: 'explorerId@gmail.com',    
             explorerPassword: 'password123', 
+            discordNickname: 'discordNickname',
             discordId: 'someDiscordId',       
             cohort: 'SEP 2023',
             contactId: 34
@@ -136,7 +140,8 @@ describe('Intern service', () => {
                 id: 1,
                 explorerId: 'explorerId',
                 explorerMail: 'explorerId@gmail.com',    
-                explorerPassword: 'password123', 
+                explorerPassword: 'password123',
+                discordNickname: 'discordNickname', 
                 discordId: 'someDiscordId',       
                 cohort: 'SEP 2023',
                 contactId: 34
@@ -145,7 +150,8 @@ describe('Intern service', () => {
                 id: 2,
                 explorerId: 'explorerId',
                 explorerMail: 'explorerId@gmail.com',    
-                explorerPassword: 'password123', 
+                explorerPassword: 'password123',
+                discordNickname: 'discordNickname', 
                 discordId: 'someDiscordId',       
                 cohort: 'SEP 2023',
                 contactId: 35
