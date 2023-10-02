@@ -18,58 +18,58 @@ const deleteRequestedData = async (tableName: string, data: any[]) => {
 };
 
 const deleteRowsFromInternTable = async (data: any[]) => {
-    const targetIds = data.map(internData => internData.id);
+    // const targetIds = data.map(internData => internData.id);
 
-    const existingIds = await db.intern.findMany({
-        where: {
-            explorer_id: {
-                in: targetIds,
-            },
-        },
-        select: {
-            id: true,
-        },
-    });
+    // const existingIds = await db.intern.findMany({
+    //     where: {
+    //         explorer_id: {
+    //             in: targetIds,
+    //         },
+    //     },
+    //     select: {
+    //         id: true,
+    //     },
+    // });
 
-    const existingTargetIds = targetIds.filter(id => existingIds.some(existingId => existingId.id === id));
+    // const existingTargetIds = targetIds.filter(id => existingIds.some(existingId => existingId.id === id));
 
 
-    const result = await db.intern.deleteMany({
-        where: {
-            id: {
-                in: existingTargetIds,
-            },
-        },
-    });
+    // const result = await db.intern.deleteMany({
+    //     where: {
+    //         id: {
+    //             in: existingTargetIds,
+    //         },
+    //     },
+    // });
 
-    return result;
+    // return result;
 };
 
 const deleteRowsFromCourseTable = async (data: any[]) => {
-    const targetIds = data.map(courseData => courseData.id);
+    // const targetIds = data.map(courseData => courseData.id);
 
-    const existingIds = await db.course.findMany({
-        where: {
-            course_name: {
-                in: targetIds,
-            },
-        },
-        select: {
-            id: true,
-        },
-    });
+    // const existingIds = await db.course.findMany({
+    //     where: {
+    //         course_name: {
+    //             in: targetIds,
+    //         },
+    //     },
+    //     select: {
+    //         id: true,
+    //     },
+    // });
 
-    const existingTargetIds = targetIds.filter(id => existingIds.some(existingId => existingId.id === id));
+    // const existingTargetIds = targetIds.filter(id => existingIds.some(existingId => existingId.id === id));
 
-    const result = await db.course.deleteMany({
-        where: {
-            id: {
-                in: existingTargetIds,
-            },
-        },
-    });
+    // const result = await db.course.deleteMany({
+    //     where: {
+    //         id: {
+    //             in: existingTargetIds,
+    //         },
+    //     },
+    // });
 
-    return result;
+    // return result;
 };
 
 export default deleteRequestedData;

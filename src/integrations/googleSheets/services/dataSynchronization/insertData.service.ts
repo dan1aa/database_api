@@ -1,121 +1,121 @@
-import { course, event_feedback, facilitator_feedback, intern, intern_course, class_event, oversight_feedback } from '@prisma/client';
+// // import { course, event_feedback, facilitator_feedback, intern, intern_course, class_event, oversight_feedback } from '@prisma/client';
 
-import { db } from '@utils/db.server';
-
-
-type tableTypes = intern[] | course[] | intern_course[] | class_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[] | Intern[];
-
-type UpsertFunctions = {
-    [key: string]: (dataToInsert: tableTypes) => Promise<tableTypes>;
-};
-
-type Intern = {
-    id: number,
-    explorer_id: string,
-    discord_id: string | null,
-    first_name: string,
-    last_name: string,
-    email: string | null,
-    cohort: string | null
-}
+// import { db } from '@utils/db.server';
 
 
-const insertRequestedData = async (tableName: string, dataToInsert: tableTypes | any[]): Promise<tableTypes> => {
-    const upsertFunctions: UpsertFunctions = {
-        'intern': updateInterns,
-        'course': updateCourses,
-        'intern_course': updateInternCourse
-    }
+// // type tableTypes = intern[] | course[] | intern_course[] | class_event[] | oversight_feedback[] | facilitator_feedback[] | event_feedback[] | Intern[];
+
+// // type UpsertFunctions = {
+// //     [key: string]: (dataToInsert: tableTypes) => Promise<tableTypes>;
+// // };
+
+// // type Intern = {
+// //     id: number,
+// //     explorer_id: string,
+// //     discord_id: string | null,
+// //     first_name: string,
+// //     last_name: string,
+// //     email: string | null,
+// //     cohort: string | null
+// // }
+
+
+// // const insertRequestedData = async (tableName: string, dataToInsert: tableTypes | any[]): Promise<tableTypes> => {
+// //     // const upsertFunctions: UpsertFunctions = {
+// //     //     'intern': updateInterns,
+// //     //     'course': updateCourses,
+// //     //     'intern_course': updateInternCourse
+// //     // }
     
-    const result = await upsertFunctions[tableName](dataToInsert);
+// //     // const result = await upsertFunctions[tableName](dataToInsert);
 
-    return result;
-};
+// //     // return result;
+// // };
 
-async function updateInterns(dataToInsert: (intern[] | any[])): Promise<Intern[]> {
+// async function updateInterns(dataToInsert: (intern[] | any[])): Promise<Intern[]> {
 
-    const internsEmails: string[] = []
+//     const internsEmails: string[] = []
 
-    for (const intern of dataToInsert) {
-        if (internsEmails.includes(intern.email)) {
-            console.log('Duplicated email for ', intern.explorer_id)
-            continue;
-        }
+//     for (const intern of dataToInsert) {
+//         if (internsEmails.includes(intern.email)) {
+//             console.log('Duplicated email for ', intern.explorer_id)
+//             continue;
+//         }
 
-        else {
-            internsEmails.push(intern.email)
-            await db.intern.upsert({
-                where: {
-                    explorer_id: intern.explorer_id
-                },
-                update: intern,
-                create: intern,
-            })
-        }
-    }
+//         else {
+//             internsEmails.push(intern.email)
+//             await db.intern.upsert({
+//                 where: {
+//                     explorer_id: intern.explorer_id
+//                 },
+//                 update: intern,
+//                 create: intern,
+//             })
+//         }
+//     }
 
-    const allInterns: Intern[] = await db.intern.findMany({
-        select: {
-            id: true,   
-            explorer_id: true,  
-            discord_id: true,  
-            first_name: true,
-            last_name: true,
-            email: true,
-            cohort: true
-          },
-    });
+//     const allInterns: Intern[] = await db.intern.findMany({
+//         select: {
+//             id: true,   
+//             explorer_id: true,  
+//             discord_id: true,  
+//             first_name: true,
+//             last_name: true,
+//             email: true,
+//             cohort: true
+//           },
+//     });
 
-    return allInterns;
-}
+//     return allInterns;
+// }
 
 
-async function updateCourses(dataToInsert: course[] | any[]): Promise<course[]> {
+// async function updateCourses(dataToInsert: course[] | any[]): Promise<course[]> {
 
-    for (const course of dataToInsert) {
-        course.start_date = new Date(course.start_date)
-        course.end_date = new Date(course.end_date)
+//     for (const course of dataToInsert) {
+//         course.start_date = new Date(course.start_date)
+//         course.end_date = new Date(course.end_date)
 
-        await db.course.upsert({
-            where: {
-                course_name: course.course_id
-            },
-            update: {
-                start_date: course.start_date,
-                end_date: course.end_date,
-                course_name: course.course_id
-            },
-            create: {
-                start_date: course.start_date,
-                end_date: course.end_date,
-                course_name: course.course_id
-            },
-        })
-    }
+//         await db.course.upsert({
+//             where: {
+//                 course_name: course.course_id
+//             },
+//             update: {
+//                 start_date: course.start_date,
+//                 end_date: course.end_date,
+//                 course_name: course.course_id
+//             },
+//             create: {
+//                 start_date: course.start_date,
+//                 end_date: course.end_date,
+//                 course_name: course.course_id
+//             },
+//         })
+//     }
 
-    const allCourses: course[] = await db.course.findMany();
+//     const allCourses: course[] = await db.course.findMany();
 
-    return allCourses;
-}
+//     return allCourses;
+// }
 
-async function updateInternCourse(dataToInsert: intern_course[] | any[]): Promise<intern_course[]> {
-    for (const intern_course of dataToInsert) {
+// async function updateInternCourse(dataToInsert: intern_course[] | any[]): Promise<intern_course[]> {
+//     for (const intern_course of dataToInsert) {
 
-        await db.intern_course.upsert({
-            where: {
-                intern_id_course_id: {
-                    intern_id: intern_course.intern_id,
-                    course_id: intern_course.course_id,
-                },
-            },
-            update: intern_course,
-            create: intern_course
-        })
-    }
+//         await db.intern_course.upsert({
+//             where: {
+//                 intern_id_course_id: {
+//                     intern_id: intern_course.intern_id,
+//                     course_id: intern_course.course_id,
+//                 },
+//             },
+//             update: intern_course,
+//             create: intern_course
+//         })
+//     }
 
-    const intern_courses: intern_course[] = await db.intern_course.findMany();
+//     const intern_courses: intern_course[] = await db.intern_course.findMany();
 
-    return intern_courses;
-}
+//     return intern_courses;
+// }
 
-export default insertRequestedData;
+// export default insertRequestedData;
