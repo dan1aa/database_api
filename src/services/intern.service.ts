@@ -1,58 +1,90 @@
-import { Prisma, intern } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
 
-
-interface FilteringParams {
-    cohort?: string,
-    course_id?: string
+interface InternCreateInput {
+    explorerId: string;
+    explorerMail: string;
+    explorerPassword: string;
+    discordId: string;
+    cohort: string;
+    contactId: number;
 };
 
-export const createIntern = async (data: Prisma.internCreateInput) => {
+interface InternUpdateInput {
+    explorerId?: string;
+    explorerMail?: string;
+    explorerPassword?: string;
+    discordId?: string;
+    cohort?: string;
+    contactId?: number;
+};
+
+export const createIntern = async (internData: InternCreateInput) => {
     try {
-        const result = await db.intern.create({ data });
+        const result = await db.intern.create({ data: internData });
         return result;
-      } catch (error) {
-        console.error('Error in createIntern:', error);
-        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2011') {
-          throw new BadRequestError('Unique constraint violation');
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                throw new BadRequestError(`Intern with explorerId ${internData.explorerId} already exist`);
+            }
+            if (error.code === 'P2003') {
+                throw new NotFoundError(`Contact with id ${internData.contactId} dosen't exist`);
+            }
         }
         throw error;
-      }
-}
-
-export const updateInternById = async (id: number, data: Prisma.internUpdateInput) => {
-    const isInternExist: intern | null = await db.intern.findUnique({ where: { id } });
-
-    if (!isInternExist) throw new NotFoundError('Intern with this id doesn`t exist');
-
-    const result: intern = await db.intern.update({
-        where: { id },
-        data: data
-    });
-
-    return result;
+    }
 };
 
 export const getInternById = async (id: number) => {
-    const result = await db.intern.findUnique({
-        where: { id },
-    });
-
-    if (!result) throw new NotFoundError(`There is no intern with id ${id}`);
+    const result = await db.intern.findUnique({ where: { id } });
+    
+    if (!result) throw new NotFoundError(`Intern with id ${id} dosen't exist`);
 
     return result;
 };
 
-export const getFilteredInternsList = async (filteringParams: FilteringParams) => {
+export const deleteInternById = async (id: number) => {
+    try {
+        const result = await db.intern.delete({ where: { id } });
+        return result;
+    } catch(error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2025') {
+                throw new NotFoundError(`Intern with id ${id} dosen't exist`);
+            }
+        }
+        throw error;
+    }
+};
+
+export const updateInternById = async (id: number, data: InternUpdateInput) => {
+    try {
+        const result = await db.intern.update({ where: { id }, data: data });
+        return result;
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2025') {
+                throw new NotFoundError(`Intern with id ${id} dosen't exist`);
+            }
+            if(error.code === 'P2003') {
+                throw new NotFoundError(`Contact with id ${data.contactId} dosen't exist`);
+            }
+        }
+        throw error;
+    }
+};
+
+export const getInternsList = async (filteringParams: { cohort?: string, courseCipher?: string }) => {
     const result = await db.intern.findMany({
         where: {
             cohort: filteringParams.cohort,
-            course_intern: {
+            internCourse: {
                 some: {
                     course: {
-                        course_name: filteringParams.course_id,
+                        courseName: filteringParams.courseCipher,
                     },
                 },
             },
@@ -61,12 +93,3 @@ export const getFilteredInternsList = async (filteringParams: FilteringParams) =
 
     return result;
 };
-
-export const deleteInternById = async (id: number) => {
-    const result = await db.intern.delete({
-        where: { id }
-    });
-
-    return result;
-}
-
