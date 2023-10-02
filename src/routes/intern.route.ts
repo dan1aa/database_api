@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import * as InternModels from '../request-schemas/intern.request-schema';
+import * as InternRequestsShemas from '../request-schemas/intern.request-schema';
 
 import * as InternController from '@controllers/intern.controller';
 
@@ -13,14 +13,14 @@ const router = Router();
 
 router.post(
     '/interns',
-    validateRequestBody(InternModels.createInternScheme),
+    validateRequestBody(InternRequestsShemas.createInternScheme),
     tryCatchMiddleware(InternController.createIntern)
 );
 
 router.put(
     '/interns/:id',
     validateRequestId,
-    validateRequestBody(InternModels.updateInternSheme),
+    validateRequestBody(InternRequestsShemas.updateInternSheme),
     tryCatchMiddleware(InternController.updateInternById)
 );
 
