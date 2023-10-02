@@ -7,12 +7,12 @@ enum tableNames {
     Badge = 'badge',
     Intern = 'intern',
     Course = 'course',
-    NobelEvent = 'nobel_event',
-    InternCourse = 'intern_course',
-    EventFeedback = 'event_feedback',
-    OversightFeedback = 'oversight_feedback',
-    FacilitatorFeedback = 'facilitator_feedback', 
-    EventInternBadge = 'event_intern_badge'
+    NobelEvent = 'classEvent',
+    InternCourse = 'internCourse',
+    EventFeedback = 'eventFeedback',
+    OversightFeedback = 'oversightFeedback',
+    FacilitatorFeedback = 'facilitatorFeedback', 
+    EventInternBadge = 'eventInternBadge'
 };
 
 const validateRequestTableName = (req: Request, res: Response, next: NextFunction) => {

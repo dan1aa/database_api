@@ -1,13 +1,17 @@
 import Joi from 'joi';
 
 export const createCourseScheme = Joi.object({
-    course_name: Joi.string().required(),
-    start_date: Joi.string().required(),
-    end_date: Joi.string().required()
+    courseCipher: Joi.string().required(),
+    courseName: Joi.string().required(),
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
+    listToClassMaterials: Joi.string().required()
 });
 
 export const updateCourseScheme = Joi.object({
-    course_name: Joi.string(),
-    start_date: Joi.string(),
-    end_date: Joi.string()
+    courseCipher: Joi.string(),
+    courseName: Joi.string(),
+    startDate: Joi.string(),
+    endDate: Joi.string(),
+    listToClassMaterials: Joi.string()
 });
