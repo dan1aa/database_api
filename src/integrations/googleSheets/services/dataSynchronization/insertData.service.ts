@@ -11,7 +11,8 @@ const insertRequestedData = async (tableName: string, dataToInsert: any[]): Prom
     const upsertFunctions: UpsertFunctions = {
         'intern': updateInterns,
         'course': updateCourses,
-        'internCourse': updateInternCourse
+        'internCourse': updateInternCourse,
+        'classEvent': updateClassEvent
     }
 
     const result = await upsertFunctions[tableName](dataToInsert);
@@ -19,10 +20,9 @@ const insertRequestedData = async (tableName: string, dataToInsert: any[]): Prom
     return result;
 };
 
-async function updateInterns(dataToInsert: any[]): Promise<any> {
-
-
-    for (const intern of dataToInsert) {
+async function updateInterns(interns: Intern[]): Promise<any> {
+    
+    for (const intern of interns) {
         await db.intern.upsert({
             where: {
                 explorerId: intern.explorerId
@@ -49,30 +49,21 @@ async function updateInterns(dataToInsert: any[]): Promise<any> {
 }
 
 
-async function updateCourses(dataToInsert: any): Promise<any> {
+async function updateCourses(courses: Course[]): Promise<any> {
 
-    for (const course of dataToInsert) {
-        course.startDate = new Date(course.startDate)
-        course.endDate = new Date(course.endDate)
+    for (const course of courses) {
+
+        const { startDate, endDate, courseCipher } = course;
+
+        course.startDate = new Date(startDate)
+        course.endDate = new Date(endDate)
 
         await db.course.upsert({
             where: {
-                courseCipher: course.courseCipher
+                courseCipher
             },
-            update: {
-                startDate: course.startDate,
-                endDate: course.endDate,
-                courseName: course.courseName,
-                courseCipher: course.courseCipher,
-                linkToClassMaterials: course.linkToClassMaterials
-            },
-            create: {
-                startDate: course.startDate,
-                endDate: course.endDate,
-                courseName: course.courseName,
-                courseCipher: course.courseCipher,
-                linkToClassMaterials: course.linkToClassMaterials
-            },
+            update: course,
+            create: course
         })
     }
 
@@ -81,24 +72,55 @@ async function updateCourses(dataToInsert: any): Promise<any> {
     return allCourses;
 }
 
-async function updateInternCourse(dataToInsert: any): Promise<any> {
-    for (const internCourse of dataToInsert) {
+async function updateInternCourse(internCourses: InternCourse[]): Promise<any> {
+    for (const internCourse of internCourses) {
 
-        await db.internCourse.upsert({
-            where: {
-                internId_courseId: {
-                    internId: internCourse.internId,
-                    courseId: internCourse.courseId,
+        const { internId, courseId } = internCourse;
+
+        try {
+            await db.internCourse.upsert({
+                where: {
+                    internId_courseId: {
+                        internId,
+                        courseId,
+                    },
                 },
+                update: internCourse,
+                create: internCourse
+            })
+        } catch(error) {
+            continue;
+        }
+    }
+
+    const allInternCourses: InternCourse[] = await db.internCourse.findMany();
+
+    return allInternCourses;
+}
+
+async function updateClassEvent(classEvents: ClassEvent[]) {
+    for (const classEvent of classEvents) {
+
+        const { eventDate, courseId, meetNumber, classEventTypeId } = classEvent;
+
+        classEvent.eventDate = new Date(eventDate)
+
+        await db.classEvent.upsert({
+            where: {
+                courseId_meetNumber_classEventTypeId: {
+                    courseId,
+                    meetNumber,
+                    classEventTypeId
+                }
             },
-            update: internCourse,
-            create: internCourse
+            update: classEvent,
+            create: classEvent
         })
     }
 
-    const intern_courses: InternCourse[] = await db.internCourse.findMany();
+    const allClassEvents: ClassEvent[] = await db.classEvent.findMany();
 
-    return intern_courses;
+    return allClassEvents;
 }
 
 export default insertRequestedData;
