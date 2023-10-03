@@ -93,6 +93,15 @@ describe('Contact service', () => {
 
             await expect(ContactService.updateContactById(requestedId, mockedData)).rejects.toThrowError(new NotFoundError(`Contact with id ${requestedId} dosen't exist`));
         });
+
+        it('Should return error if try update contct email that already exist', async () => {
+            const requestedId = 1;
+            prismaMock.contact.update.mockImplementation(() => {
+                throw new PrismaClientKnownRequestError('Error', { code: 'P2002', clientVersion: 'some client version' });
+            });
+
+            await expect(ContactService.updateContactById(requestedId, mockedData)).rejects.toThrowError(new BadRequestError(`Contact with email ${mockedData.email} already exist`));
+        });
     });
 
     describe('Delete contact by id', () => {
