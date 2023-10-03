@@ -7,12 +7,14 @@ import swaggerUi from 'swagger-ui-express';
 import CourseRouter from '@routes/course.route';
 import InternRouter from '@routes/intern.route';
 import ContacRouter from '@routes/contact.route';
+import ClassEventRouter from '@routes/class-events.route';
 import CoursesDetailsRouter from '@routes/course-details.route';
 import GoogleSheetsRouter from '../integrations/googleSheets/index';
 
 import errorHandler from '@middlewares/errorHandler.middleware';
 
 import { swaggerOptions } from '@utils/swagger';
+import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 
 export const app = express();
 
@@ -23,7 +25,8 @@ app.use(cors({ origin: '*' }));
 app.use('/api', InternRouter);
 app.use('/api', ContacRouter);
 app.use('/api', CourseRouter);
-app.use('/api', CoursesDetailsRouter)
+app.use('/api', ClassEventRouter);
+app.use('/api', CoursesDetailsRouter);
 app.use('/', GoogleSheetsRouter);
 
 const specs = swaggerJsdoc(swaggerOptions);
