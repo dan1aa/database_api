@@ -1,75 +1,71 @@
+import { InternCourse, Prisma } from '@prisma/client';
 import { db } from '@utils/db.server';
-import { BadRequestError } from '@utils/exeptions/ApiErrors';
+
+type AnyObject = { // fuck typescript I don`t have permision to use object in prisma without that type
+    [key: string]: any
+}
+
+const tables: AnyObject = { // I need it in dynamic deleteRowsFromStaticTables func
+    'intern': db.intern,
+    'course': db.course,
+    'classEvent': db.classEvent,
+    'internCourse': db.internCourse
+}
+const nonStaticTables: string[] = ['internCourse'] // more will be added soon, like eventInternBadge , the tables which has many fields to filter by, not only id
+
+const nonStaticDeletes: AnyObject = { // Same thing, dynamic functions for non-static tables
+    'internCourse': deleteRowsFromInternCourseTable
+}
+
 
 const deleteRequestedData = async (tableName: string, data: any[]) => {
-    switch (tableName) {
-        case 'intern':
-            await deleteRowsFromInternTable(data);
-            break;
-        case 'course':
-            await deleteRowsFromCourseTable(data);
-            break;
-        case 'internCourse': 
-            console.log("NIKITA PAY ATTENTION");
-            break;
-        default:
-            throw new BadRequestError(`Unknown table name: ${tableName}`);
+    if(nonStaticTables.includes(tableName)) return await nonStaticDeletes[tableName](data) 
+    await deleteRowsFromStaticTables(data, tableName) 
+    // Sorry Nikita, I can`t find better way, if you can do somehow else pls do it
+}; 
+
+const deleteRowsFromStaticTables = async (data: any[], tableName: string) => {
+    const targetIds = data.map(data => data.id);
+
+    const existingIds = await tables[tableName].findMany({
+        where: {
+            id: {
+                in: targetIds,
+            },
+        },
+        select: {
+            id: true,
+        },
+    });
+
+
+    const existingTargetIds = targetIds.filter(id => existingIds.some((existingId: any) => existingId.id === id));
+
+    const result = await tables[tableName].deleteMany({
+        where: {
+            id: {
+                in: existingTargetIds,
+            },
+        },
+    });
+
+    return result;
+}
+
+async function deleteRowsFromInternCourseTable (internCourses: InternCourse[]) {
+    for (let internCourse of internCourses) {
+
+        try {
+            await db.internCourse.deleteMany({
+                where: internCourse
+            })
+
+        } catch(error) {
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === 'P2003') continue;
+            }
+        }
     }
-};
-
-const deleteRowsFromInternTable = async (data: any[]) => {
-    // const targetIds = data.map(internData => internData.id);
-
-    // const existingIds = await db.intern.findMany({
-    //     where: {
-    //         explorer_id: {
-    //             in: targetIds,
-    //         },
-    //     },
-    //     select: {
-    //         id: true,
-    //     },
-    // });
-
-    // const existingTargetIds = targetIds.filter(id => existingIds.some(existingId => existingId.id === id));
-
-
-    // const result = await db.intern.deleteMany({
-    //     where: {
-    //         id: {
-    //             in: existingTargetIds,
-    //         },
-    //     },
-    // });
-
-    // return result;
-};
-
-const deleteRowsFromCourseTable = async (data: any[]) => {
-    // const targetIds = data.map(courseData => courseData.id);
-
-    // const existingIds = await db.course.findMany({
-    //     where: {
-    //         course_name: {
-    //             in: targetIds,
-    //         },
-    //     },
-    //     select: {
-    //         id: true,
-    //     },
-    // });
-
-    // const existingTargetIds = targetIds.filter(id => existingIds.some(existingId => existingId.id === id));
-
-    // const result = await db.course.deleteMany({
-    //     where: {
-    //         id: {
-    //             in: existingTargetIds,
-    //         },
-    //     },
-    // });
-
-    // return result;
-};
+}
 
 export default deleteRequestedData;

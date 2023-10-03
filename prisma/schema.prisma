@@ -76,7 +76,7 @@ model ClassEvent {
   facilitatorFeedbacks FacilitatorFeedback[]
   eventFeedback        EventFeedback[]       @relation(name: "EventFeedback: Event")
 
-  @@unique([courseId, meetNumber])
+  @@unique([courseId, meetNumber, classEventTypeId])
 }
 
 model OversightFeedback {

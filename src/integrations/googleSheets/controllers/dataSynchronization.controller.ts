@@ -33,6 +33,6 @@ export const synchronizeData = async (req: Request, res: Response) => {
     //         console.error('Error:', error);
     //     });
 
-    res.status(StatusCodes.OK).send({ msg: "Success" }).end();
+    res.status(StatusCodes.OK).send({ msg: "Data syncronized successfully!" }).end();
 };
 
