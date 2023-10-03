@@ -4,6 +4,7 @@ import { modifyCourses, modifyInternCourses, modifyInterns } from "./googleSheet
 
 // import { createInternSchema } from "./schemas/intern.schema";
 // import { createCourseSchema, getCourseDetailsListShema } from "./schemas/course.schema";
+import ClassEventRoutes from './routes/class-event/class-event.documentation.route';
 
 import { modifyCoursesBody, modifyInternsBody, modifyInternCoursesBody } from "./schemas/googleSheets.schema";
 
@@ -15,12 +16,10 @@ const apiDocumentation = {
     },
     servers: [],
     tags: [
-        {
-            name: 'Interns',
-        },
-        {
-            name: 'Courses'
-        }
+        { name: 'Contacts'},
+        { name: 'Interns',},
+        { name: 'Courses'}, 
+
     ],
     paths: {
         '/api/interns': {
@@ -55,7 +54,8 @@ const apiDocumentation = {
         },
         '/api/course-details/{courseName}': {
             get: getCourseDetailsByName
-        }
+        },
+        ...ClassEventRoutes
     },
     schemas: {
         // createInternSchema,

@@ -35,6 +35,8 @@ export const updateContactById = async (id: number, data: Prisma.ContactUpdateIn
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2025') {
                 throw new NotFoundError(`Contact with id ${id} dosen't exist`);
+            } else if (error.code === 'P2002') {
+                throw new BadRequestError(`Contact with email ${data.email} already exist`);
             }
         }
         throw error;
