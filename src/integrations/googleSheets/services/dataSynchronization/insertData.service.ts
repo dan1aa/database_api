@@ -1,4 +1,5 @@
 import { Course, EventFeedback, FacilitatorFeedback, Intern, InternCourse, ClassEvent, OversightFeedback } from '@prisma/client';
+import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 
 import { db } from '@utils/db.server';
 
@@ -21,15 +22,19 @@ const insertRequestedData = async (tableName: string, dataToInsert: any[]): Prom
 };
 
 async function updateInterns(interns: Intern[]): Promise<any> {
-    
+
     for (const intern of interns) {
-        await db.intern.upsert({
-            where: {
-                explorerId: intern.explorerId
-            },
-            update: intern,
-            create: intern,
-        })
+        try {
+            await db.intern.upsert({
+                where: {
+                    explorerId: intern.explorerId
+                },
+                update: intern,
+                create: intern,
+            })
+        } catch(error) {
+            continue;
+        }
     }
 
     const allInterns: Intern[] = await db.intern.findMany({
@@ -58,13 +63,17 @@ async function updateCourses(courses: Course[]): Promise<any> {
         course.startDate = new Date(startDate)
         course.endDate = new Date(endDate)
 
-        await db.course.upsert({
-            where: {
-                courseCipher
-            },
-            update: course,
-            create: course
-        })
+        try {
+            await db.course.upsert({
+                where: {
+                    courseCipher
+                },
+                update: course,
+                create: course
+            })
+        } catch(error) {
+            continue;
+        }
     }
 
     const allCourses: Course[] = await db.course.findMany();
@@ -88,7 +97,7 @@ async function updateInternCourse(internCourses: InternCourse[]): Promise<any> {
                 update: internCourse,
                 create: internCourse
             })
-        } catch(error) {
+        } catch (error) {
             continue;
         }
     }
@@ -105,17 +114,21 @@ async function updateClassEvent(classEvents: ClassEvent[]) {
 
         classEvent.eventDate = new Date(eventDate)
 
-        await db.classEvent.upsert({
-            where: {
-                courseId_meetNumber_classEventTypeId: {
-                    courseId,
-                    meetNumber,
-                    classEventTypeId
-                }
-            },
-            update: classEvent,
-            create: classEvent
-        })
+        try {
+            await db.classEvent.upsert({
+                where: {
+                    courseId_meetNumber_classEventTypeId: {
+                        courseId,
+                        meetNumber,
+                        classEventTypeId
+                    }
+                },
+                update: classEvent,
+                create: classEvent
+            })
+        } catch(error) {
+            continue;
+        }
     }
 
     const allClassEvents: ClassEvent[] = await db.classEvent.findMany();
