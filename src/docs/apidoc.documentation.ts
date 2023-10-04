@@ -2,8 +2,7 @@ import { createIntern, deleteIntern, updateInternById, getInternsList, getIntern
 import { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById, getCourseDetailsList, getCourseDetailsByName } from "./courses.documentation";
 import { modifyCourses, modifyInternCourses, modifyInterns } from "./googleSheets.documentation";
 
-// import { createInternSchema } from "./schemas/intern.schema";
-// import { createCourseSchema, getCourseDetailsListShema } from "./schemas/course.schema";
+import InternsRouterDocumentation from './routes/interns.documentation.route';
 import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 
 import { modifyCoursesBody, modifyInternsBody, modifyInternCoursesBody } from "./schemas/googleSheets.schema";
@@ -22,15 +21,7 @@ const apiDocumentation = {
 
     ],
     paths: {
-        '/api/interns': {
-            get: getInternsList,
-            post: createIntern,
-        },
-        '/api/interns/{id}': {
-            get: getInternById,
-            put: updateInternById,
-            delete: deleteIntern
-        },
+        ...InternsRouterDocumentation,
         '/api/courses': {
             get: getCoursesList,
             post: createCourse
