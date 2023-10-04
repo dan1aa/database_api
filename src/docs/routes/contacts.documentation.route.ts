@@ -51,12 +51,37 @@ const createContact = {
                 },
             },
         },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
     },
 };
 
 const getContactById = {
     tags: ['Contacts'],
     operationId: 'getContectById',
+    parameters: [
+        {
+            name: 'id',
+            in: 'path',
+            description: 'Contact id',
+            required: true,
+            type: 'number',
+        },
+    ],
     responses: {
         '200': {
             description: 'Contact retrived successfully!',
@@ -96,12 +121,37 @@ const getContactById = {
                 },
             },
         },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
     },
 };
 
 const updateContactById = {
     tags: ['Contacts'],
     operationId: 'updateContactById',
+    parameters: [
+        {
+            name: 'id',
+            in: 'path',
+            description: 'Contact id',
+            required: true,
+            type: 'number',
+        },
+    ],
     requestBody: {
         content: {
             'application/json': {
@@ -165,12 +215,37 @@ const updateContactById = {
                 },
             },
         },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
     },
 };
 
 const deleteContactById = {
     tags: ['Contacts'],
     operationId: 'deleteContactById',
+    parameters: [
+        {
+            name: 'id',
+            in: 'path',
+            description: 'Contact id',
+            required: true,
+            type: 'number',
+        },
+    ],
     responses: {
         '200': {
             description: 'Contact deleted successfully!',
@@ -210,6 +285,22 @@ const deleteContactById = {
                 },
             },
         },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }  
     },
 };
 
@@ -250,6 +341,22 @@ const getListOfContacts = {
                 },
             },
         },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
     },
 };
 
@@ -277,9 +384,24 @@ const bulkingCreation = {
                 },
             },
         },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
     },
 };
-
 
 const routes = {
     '/api/contacts': {

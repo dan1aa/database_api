@@ -2,9 +2,8 @@ import { createIntern, deleteIntern, updateInternById, getInternsList, getIntern
 import { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById, getCourseDetailsList, getCourseDetailsByName } from "./courses.documentation";
 import { modifyCourses, modifyInternCourses, modifyInterns } from "./googleSheets.documentation";
 
-// import { createInternSchema } from "./schemas/intern.schema";
-// import { createCourseSchema, getCourseDetailsListShema } from "./schemas/course.schema";
-import ClassEventRoutes from './routes/class-event/class-event.documentation.route';
+import InternsRouterDocumentation from './routes/interns.documentation.route';
+import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 
 import { modifyCoursesBody, modifyInternsBody, modifyInternCoursesBody } from "./schemas/googleSheets.schema";
 
@@ -12,7 +11,7 @@ const apiDocumentation = {
     openapi: '3.0.1',
     info: {
         version: '1.3.0',
-        title: 'Nober REST API - Documentation',
+        title: 'Nobel REST API - Documentation',
     },
     servers: [],
     tags: [
@@ -22,15 +21,7 @@ const apiDocumentation = {
 
     ],
     paths: {
-        '/api/interns': {
-            get: getInternsList,
-            post: createIntern,
-        },
-        '/api/interns/{id}': {
-            get: getInternById,
-            put: updateInternById,
-            delete: deleteIntern
-        },
+        ...InternsRouterDocumentation,
         '/api/courses': {
             get: getCoursesList,
             post: createCourse
@@ -55,7 +46,7 @@ const apiDocumentation = {
         '/api/course-details/{courseName}': {
             get: getCourseDetailsByName
         },
-        ...ClassEventRoutes
+        ...ContactsRouterDocumentation
     },
     schemas: {
         // createInternSchema,
