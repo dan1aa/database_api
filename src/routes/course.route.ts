@@ -29,4 +29,9 @@ router.delete(
     tryCatchMiddleware(CourseController.deleteCourseById)
 )
 
+router.get(
+    '/courses/:id/details',
+    tryCatchMiddleware(CourseController.getCourseDetails)
+);
+
 export default router;

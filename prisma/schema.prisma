@@ -69,7 +69,7 @@ model ClassEvent {
   course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   classEventTypeId Int
-  type             ClassEventType @relation(fields: [classEventTypeId], references: [id])
+  classEventType   ClassEventType @relation(fields: [classEventTypeId], references: [id])
 
   eventInternBadge     EventInternBadge[]
   oversightFeedbacks   OversightFeedback[]
