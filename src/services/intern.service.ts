@@ -84,7 +84,7 @@ export const getInternsList = async (filteringParams: { cohort?: string, courseC
             internCourse: {
                 some: {
                     course: {
-                        courseName: filteringParams.courseCipher,
+                        courseCipher: filteringParams.courseCipher,
                     },
                 },
             },
