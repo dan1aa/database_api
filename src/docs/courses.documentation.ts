@@ -174,7 +174,7 @@ const deleteCourseById = {
 
 const getCourseDetailsList = {
     tags: ['Courses'],
-    summary: 'Get full info about courses by list of their names',
+    summary: 'Get full info about courses by list of their name (not updated, will be soon)',
     description: 'Get full info about courses by list of their names',
     operationId: 'getCourseDetailsList',
     parameters: [
@@ -241,7 +241,7 @@ const getCourseDetailsList = {
 
 const getCourseDetailsByName = {
     tags: ['Courses'],
-    summary: 'Get full info about course by name',
+    summary: 'Get full info about course by name (not updated, will be soon)',
     description: 'Get full info about course by name',
     operationId: 'getCourseDetailsByName',
     parameters: [

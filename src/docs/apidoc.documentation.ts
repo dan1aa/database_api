@@ -1,11 +1,9 @@
-import { createIntern, deleteIntern, updateInternById, getInternsList, getInternById } from "./interns.documentation";
-import { getCoursesList, getCourseById, createCourse, updateCourseById, deleteCourseById, getCourseDetailsList, getCourseDetailsByName } from "./courses.documentation";
-import { modifyCourses, modifyInternCourses, modifyInterns } from "./googleSheets.documentation";
+import { getCourseDetailsList, getCourseDetailsByName } from "./courses.documentation";
 
 import InternsRouterDocumentation from './routes/interns.documentation.route';
 import ContactsRouterDocumentation from './routes/contacts.documentation.route';
-
-import { modifyCoursesBody, modifyInternsBody, modifyInternCoursesBody } from "./schemas/googleSheets.schema";
+import CoursesRouterDocumentation from './routes/courses.documentation.route';
+import GoogleSheetsRouterDocumentation from './routes/googleSheets.documentation.route';
 
 const apiDocumentation = {
     openapi: '3.0.1',
@@ -18,44 +16,20 @@ const apiDocumentation = {
         { name: 'Contacts'},
         { name: 'Interns',},
         { name: 'Courses'}, 
-
+        { name: 'Sheets'}, 
     ],
     paths: {
         ...InternsRouterDocumentation,
-        '/api/courses': {
-            get: getCoursesList,
-            post: createCourse
-        },
-        '/api/courses/{id}': {
-            get: getCourseById,
-            put: updateCourseById,
-            delete: deleteCourseById
-        },
+        ...CoursesRouterDocumentation,
         '/api/course-details': {
             get: getCourseDetailsList
         },
-        '/api/googleSheets/course': {
-            put: modifyCourses
-        },
-        '/api/googleSheets/intern': {
-            put: modifyInterns
-        },
-        '/api/googleSheets/intern_course': {
-            put: modifyInternCourses
-        },
+        ...GoogleSheetsRouterDocumentation,
         '/api/course-details/{courseName}': {
             get: getCourseDetailsByName
         },
         ...ContactsRouterDocumentation
-    },
-    schemas: {
-        // createInternSchema,
-        // createCourseSchema,
-        modifyCoursesBody,
-        modifyInternsBody,
-        modifyInternCoursesBody,
-        // getCourseDetailsListShema
-    },
+    }
 
 };
 
