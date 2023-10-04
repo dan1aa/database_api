@@ -73,6 +73,15 @@ const createContact = {
 const getContactById = {
     tags: ['Contacts'],
     operationId: 'getContectById',
+    parameters: [
+        {
+            name: 'id',
+            in: 'path',
+            description: 'Contact id',
+            required: true,
+            type: 'number',
+        },
+    ],
     responses: {
         '200': {
             description: 'Contact retrived successfully!',
@@ -134,6 +143,15 @@ const getContactById = {
 const updateContactById = {
     tags: ['Contacts'],
     operationId: 'updateContactById',
+    parameters: [
+        {
+            name: 'id',
+            in: 'path',
+            description: 'Contact id',
+            required: true,
+            type: 'number',
+        },
+    ],
     requestBody: {
         content: {
             'application/json': {
@@ -219,6 +237,15 @@ const updateContactById = {
 const deleteContactById = {
     tags: ['Contacts'],
     operationId: 'deleteContactById',
+    parameters: [
+        {
+            name: 'id',
+            in: 'path',
+            description: 'Contact id',
+            required: true,
+            type: 'number',
+        },
+    ],
     responses: {
         '200': {
             description: 'Contact deleted successfully!',
@@ -375,7 +402,6 @@ const bulkingCreation = {
         }
     },
 };
-
 
 const routes = {
     '/api/contacts': {
