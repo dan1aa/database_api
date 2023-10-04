@@ -4,7 +4,7 @@ import { modifyCourses, modifyInternCourses, modifyInterns } from "./googleSheet
 
 // import { createInternSchema } from "./schemas/intern.schema";
 // import { createCourseSchema, getCourseDetailsListShema } from "./schemas/course.schema";
-import ClassEventRoutes from './routes/class-event/class-event.documentation.route';
+import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 
 import { modifyCoursesBody, modifyInternsBody, modifyInternCoursesBody } from "./schemas/googleSheets.schema";
 
@@ -12,7 +12,7 @@ const apiDocumentation = {
     openapi: '3.0.1',
     info: {
         version: '1.3.0',
-        title: 'Nober REST API - Documentation',
+        title: 'Nobel REST API - Documentation',
     },
     servers: [],
     tags: [
@@ -55,7 +55,7 @@ const apiDocumentation = {
         '/api/course-details/{courseName}': {
             get: getCourseDetailsByName
         },
-        ...ClassEventRoutes
+        ...ContactsRouterDocumentation
     },
     schemas: {
         // createInternSchema,
