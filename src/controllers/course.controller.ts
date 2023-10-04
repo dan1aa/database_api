@@ -44,3 +44,53 @@ export const deleteCourseById = async (req: Request, res: Response): Promise<str
     res.status(StatusCodes.OK).json(result).end();
 }
 
+interface CourseDetailsResponse {
+    courseName: string,
+    courseCipher: string,
+    linkToClassMaterials: string | null,
+    startDate: Date,
+    endDate: Date, 
+    participants: {
+        [key: string]: any[];
+    },
+    schedule: any[]
+}
+
+export const getCourseDetails = async (req: Request, res: Response) => {
+    const courseId = Number(req.params.id);
+
+    const databaseResult = await CourseService.getCourseDetailsById(courseId);
+
+    const responseResult: CourseDetailsResponse = {
+        ...databaseResult,
+        participants: {},
+        schedule: databaseResult.schedule.map(data => ({
+            meetNumber: data.meetNumber,
+            eventDate: data.eventDate,
+            googleMeetLink: data.googleMeetLink,
+            classEventType: data.classEventType.name
+        })),
+    };
+
+    databaseResult.participants.forEach(data => {
+        const classRole = data.classRole.name;
+        const contactInfo = data.intern.contact;
+        const { explorerId, explorerMail, explorerPassword, discordNickname, cohort } = data.intern;
+
+        const formatedInternData = {
+            explorerId,
+            explorerMail,
+            explorerPassword,
+            discordNickname,
+            cohort,
+            contactInfo
+        };
+
+        responseResult.participants[`${classRole}s`] = [
+            ...(responseResult.participants[`${classRole}s`] || []),
+            formatedInternData
+        ];
+    });
+
+    res.status(StatusCodes.OK).json(responseResult).end();
+};

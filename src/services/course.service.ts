@@ -112,12 +112,49 @@ export const getCourseParticipantsInfoByCourseId = async (id: number) => {
     return result;
 };
 
-export const getCourseScheduleInfoByCourseId = async (id: number) => {
-    // return await db.nobel_event.findMany({
-    //     where: { course_id: id },
-    //     select: {
-    //         meet_num: true,
-    //         event_date: true
-    //     }
-    // });
-};
+
+export const getCourseDetailsById = async (id: number) => {
+    const courseGeneralInfo = await db.course.findUnique({
+        where: { id },
+    });
+
+    if (!courseGeneralInfo) {
+        throw new NotFoundError(`Course with id ${id} dosen't exist`)
+    }
+
+    const courseParticipants = await db.internCourse.findMany({
+        where: { courseId: id },
+        include: {
+            classRole: true,
+            intern: {
+                include: {
+                    contact: true
+                }
+            }
+        },
+    });
+
+    const courseSchedule = await db.classEvent.findMany({
+        where: {
+          course: {
+            id: id
+          }
+        },
+        select: {
+          meetNumber: true,
+          googleMeetLink: true,
+          eventDate: true,
+          classEventType: {
+            select: {
+                name: true
+            }
+          }
+        }
+    });
+
+    return {
+        ...courseGeneralInfo,
+        participants: courseParticipants,
+        schedule: courseSchedule
+    };
+}
