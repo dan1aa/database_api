@@ -46,7 +46,7 @@ router.get(
 );
 
 router.post(
-    '/contacts/bulkingCreation',
+    '/contacts/bulking-creation',
     validateRequestBody(createContactArraySchema),
     tryCatchMiddleware(ContactController.bulkingCreation)
 );
