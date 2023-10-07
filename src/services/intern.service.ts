@@ -93,3 +93,27 @@ export const getInternsList = async (filteringParams: { cohort?: string, courseC
 
     return result;
 };
+
+export const synchronizeDiscordData = async (discordData: { discordNickname: string, discordId: string }[]) => {
+    const errors = [];
+    let updatedInterns = 0;
+
+    for (let data of discordData) {
+        try {
+            const updatedIntern = await db.intern.update({
+                where: { discordNickname: data.discordNickname },
+                data: { discordId: data.discordId }
+            });
+
+            updatedInterns += 1;
+        } catch(error) {
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === 'P2025') {
+                    errors.push({ msg: `Intern with discordNickname ${data.discordNickname} doesn't exist` });
+                }
+            }
+        };
+    };
+
+    return errors.length > 0 ? { updatedInterns, errors } : { updatedInterns };
+};
