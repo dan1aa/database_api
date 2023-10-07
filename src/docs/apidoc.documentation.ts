@@ -1,5 +1,3 @@
-import { getCourseDetailsList, getCourseDetailsByName } from "./courses.documentation";
-
 import InternsRouterDocumentation from './routes/interns.documentation.route';
 import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 import CoursesRouterDocumentation from './routes/courses.documentation.route';
@@ -21,14 +19,8 @@ const apiDocumentation = {
     paths: {
         ...InternsRouterDocumentation,
         ...CoursesRouterDocumentation,
-        '/api/course-details': {
-            get: getCourseDetailsList
-        },
-        ...GoogleSheetsRouterDocumentation,
-        '/api/course-details/{courseName}': {
-            get: getCourseDetailsByName
-        },
-        ...ContactsRouterDocumentation
+        ...ContactsRouterDocumentation,
+        ...GoogleSheetsRouterDocumentation
     }
 
 };
