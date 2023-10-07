@@ -8,6 +8,9 @@ export const createContactScheme = Joi.object({
     country: Joi.string().allow(null).required(),
     timezone: Joi.string().allow(null).required(),
     sourceOfReferral: Joi.string().allow(null).required(),
+    birthDate: Joi.date().allow(null).required(),
+    occupation: Joi.string().allow(null).required(),
+    gender: Joi.string().allow(null).required(),
     eduQuestSelectedDateTime: Joi.date().allow(null).required(),
     eduQuestDecision: Joi.string().allow(null).required()
 });
@@ -20,6 +23,9 @@ export const updateContactScheme = Joi.object({
     country: Joi.string().allow(null),
     timezone: Joi.string().allow(null),
     sourceOfReferral: Joi.string().allow(null),
+    birthDate: Joi.date().allow(null).required(),
+    occupation: Joi.string().allow(null).required(),
+    gender: Joi.string().allow(null).required(),
     eduQuestSelectedDateTime: Joi.date().allow(null),
     eduQuestDecision: Joi.string().allow(null)
 });
