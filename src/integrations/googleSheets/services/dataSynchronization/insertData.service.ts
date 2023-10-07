@@ -1,5 +1,4 @@
-import { Course, EventFeedback, FacilitatorFeedback, Intern, InternCourse, ClassEvent, OversightFeedback } from '@prisma/client';
-import { PrismaClientValidationError } from '@prisma/client/runtime/library';
+import { Course, Intern, InternCourse, ClassEvent } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 
@@ -58,7 +57,7 @@ async function updateCourses(courses: Course[]): Promise<any> {
 
     for (const course of courses) {
 
-        const { startDate, endDate, courseCipher } = course;
+        const { startDate, endDate } = course;
 
         course.startDate = new Date(startDate)
         course.endDate = new Date(endDate)
@@ -66,7 +65,7 @@ async function updateCourses(courses: Course[]): Promise<any> {
         try {
             await db.course.upsert({
                 where: {
-                    courseCipher
+                    courseCipher: course.courseCipher
                 },
                 update: course,
                 create: course
@@ -84,15 +83,10 @@ async function updateCourses(courses: Course[]): Promise<any> {
 async function updateInternCourse(internCourses: InternCourse[]): Promise<any> {
     for (const internCourse of internCourses) {
 
-        const { internId, courseId } = internCourse;
-
         try {
             await db.internCourse.upsert({
                 where: {
-                    internId_courseId: {
-                        internId,
-                        courseId,
-                    },
+                    id: internCourse.id
                 },
                 update: internCourse,
                 create: internCourse
@@ -110,18 +104,14 @@ async function updateInternCourse(internCourses: InternCourse[]): Promise<any> {
 async function updateClassEvent(classEvents: ClassEvent[]) {
     for (const classEvent of classEvents) {
 
-        const { eventDate, courseId, meetNumber, classEventTypeId } = classEvent;
+        const { eventDate } = classEvent;
 
         classEvent.eventDate = new Date(eventDate)
 
         try {
             await db.classEvent.upsert({
                 where: {
-                    courseId_meetNumber_classEventTypeId: {
-                        courseId,
-                        meetNumber,
-                        classEventTypeId
-                    }
+                    id: classEvent.id
                 },
                 update: classEvent,
                 create: classEvent
