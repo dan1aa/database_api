@@ -41,4 +41,10 @@ router.delete(
     tryCatchMiddleware(InternController.deleteInternById)
 );
 
+router.put(
+    '/interns/sync-data/discord',
+    validateRequestBody(InternRequestsShemas.updateDiscordDataArraySheme),
+    tryCatchMiddleware(InternController.synchronizeDiscordData)
+);
+
 export default router;

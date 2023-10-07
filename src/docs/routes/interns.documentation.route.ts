@@ -1,5 +1,9 @@
 import j2s from 'joi-to-swagger';
-import { createInternScheme, updateInternSheme } from '@request-schemas/intern.request-schema';
+import { 
+    createInternScheme, 
+    updateInternSheme, 
+    updateDiscordDataArraySheme 
+} from '@request-schemas/intern.request-schema';
 
 const createIntern = {
     tags: ['Interns'],
@@ -380,6 +384,52 @@ const getListOfInterns = {
     },
 };
 
+const synchronizeDiscordData = {
+    tags: ['Interns'],
+    operationId: 'synchronizeDiscordData',
+    requestBody: {
+        content: {
+            'application/json': {
+                schema: j2s(updateDiscordDataArraySheme).swagger,
+            },
+        },
+        required: true,
+    },
+    responses: {
+        '200': {
+            description: 'Successful updated discord data',
+            content: {
+                'application/json': {
+                    example: {
+                        "updatedInterns": 150,
+                        "errors": [
+                            {
+                                "msg": "Intern with discordNickname someDiscordNickname doesn't exist"
+                            }
+                        ]
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    }
+};
+
 
 const routes = {
     '/api/interns': {
@@ -390,6 +440,9 @@ const routes = {
         get: getInternById,
         put: updateInternById,
         delete: deleteInternById
+    },
+    '/interns/sync-data/discord': {
+        put: synchronizeDiscordData
     }
 };
 

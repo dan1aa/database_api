@@ -336,7 +336,102 @@ const getListOfCourses = {
     },
 };
 
-
+const getCourseDetails = {
+    tags: ['Courses'],
+    operationId: 'getCourseDetails',
+    responses: {
+        '200': {
+            description: 'Successful retrieve courses details',
+            content: {
+                'application/json': {
+                    example: 
+                    {
+                        id: 1,
+                        courseName: "iwd1",
+                        courseCipher: "iIWD336-6-a",
+                        linkToClassMaterials: "link",
+                        startDate: "2023-11-12T00:00:00.000Z",
+                        endDate: "2023-11-29T00:00:00.000Z",
+                        participants: {
+                          facilitators: [
+                            {
+                              explorerId: "e1",
+                              explorerMail: "string",
+                              explorerPassword: "string",
+                              discordNickname: "string",
+                              cohort: "string",
+                              contactInfo: {
+                                id: 1,
+                                firstName: "firstUpdated",
+                                lastName: "lastName",
+                                email: "email",
+                                age: 15,
+                                country: "country",
+                                timezone: "timezone",
+                                sourceOfReferral: "sourceOfReferral",
+                                eduQuestSelectedDateTime: "2023-06-08T00:00:00.000Z",
+                                eduQuestDecision: "Try again"
+                              }
+                            }
+                          ],
+                          interns: [
+                            {
+                              explorerId: "someExId",
+                              explorerMail: "some mail",
+                              explorerPassword: "some password",
+                              discordNickname: "nameDisc",
+                              cohort: "cohort",
+                              contactInfo: {
+                                id: 5,
+                                firstName: "firstUpdated",
+                                lastName: "lastName",
+                                email: "email2",
+                                age: 15,
+                                country: "country",
+                                timezone: "timezone",
+                                sourceOfReferral: "sourceOfReferral",
+                                eduQuestSelectedDateTime: "2023-06-08T00:00:00.000Z",
+                                eduQuestDecision: "Try again"
+                              }
+                            }
+                          ]
+                        },
+                        schedule: [
+                          {
+                            meetNumber: 5,
+                            eventDate: "2023-06-06T00:00:00.000Z",
+                            googleMeetLink: "some link",
+                            classEventType: "expo"
+                          },
+                          {
+                            meetNumber: 4,
+                            eventDate: "2023-07-06T00:00:00.000Z",
+                            googleMeetLink: "some link",
+                            classEventType: "expo"
+                          }
+                        ]
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
 
 const routes = {
     '/api/courses': {
@@ -347,6 +442,9 @@ const routes = {
         get: getCourseById,
         put: updateCourseById,
         delete: deleteCourseById
+    },
+    '/courses/:courseCipher/details': {
+        get: getCourseDetails
     }
 };
 

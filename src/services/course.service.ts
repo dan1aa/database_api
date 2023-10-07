@@ -113,19 +113,21 @@ export const getCourseParticipantsInfoByCourseId = async (id: number) => {
 };
 
 
-export const getCourseDetailsById = async (id: number) => {
-    const courseGeneralInfo = await db.course.findUnique({
-        where: { id },
-    });
+export const getCourseDetailsByCipher = async (courseCipher: string) => {
+    const targetCourse = await db.course.findUnique({ where: { courseCipher }});
 
-    if (!courseGeneralInfo) {
-        throw new NotFoundError(`Course with id ${id} dosen't exist`)
+    if (!targetCourse) {
+        throw new NotFoundError(`${courseCipher} course dosen't exist`)
     }
 
     const courseParticipants = await db.internCourse.findMany({
-        where: { courseId: id },
+        where: { classRoleId: targetCourse.id },
         include: {
-            classRole: true,
+            classRole: {
+                select: {
+                    name: true
+                }
+            },
             intern: {
                 include: {
                     contact: true
@@ -135,25 +137,18 @@ export const getCourseDetailsById = async (id: number) => {
     });
 
     const courseSchedule = await db.classEvent.findMany({
-        where: {
-          course: {
-            id: id
-          }
-        },
-        select: {
-          meetNumber: true,
-          googleMeetLink: true,
-          eventDate: true,
-          classEventType: {
-            select: {
-                name: true
+        where: { courseId: targetCourse.id },
+        include: {
+            classEventType: {
+                select: {
+                    name: true
+                }
             }
-          }
         }
     });
 
     return {
-        ...courseGeneralInfo,
+        courseInfo: targetCourse,
         participants: courseParticipants,
         schedule: courseSchedule
     };

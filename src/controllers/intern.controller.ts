@@ -38,7 +38,15 @@ export const getFilteredInternsList = async (req: Request, res: Response) => {
 export const deleteInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
 
-    await InternService.deleteInternById(internId);
+    const deletedIntern = await InternService.deleteInternById(internId);
 
-    res.status(StatusCodes.OK).send('Intern deleted successfully!').end();
+    res.status(StatusCodes.OK).send(deletedIntern).end();
+};
+
+export const synchronizeDiscordData = async (req: Request, res: Response) => {
+    const discordData = req.body;
+
+    const result = await InternService.synchronizeDiscordData(discordData);
+
+    res.status(StatusCodes.OK).json(result).end();
 };

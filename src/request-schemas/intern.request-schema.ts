@@ -19,3 +19,10 @@ export const updateInternSheme = Joi.object({
     cohort: Joi.string().allow(null),
     contactId: Joi.number().allow(null),
 });
+
+const updateDiscordDataSheme = Joi.object({
+    discordNickname: Joi.string(),
+    discordId: Joi.string(),
+});
+
+export const updateDiscordDataArraySheme = Joi.array().items(updateDiscordDataSheme); 

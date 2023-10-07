@@ -413,7 +413,7 @@ const routes = {
         put: updateContactById,
         delete: deleteContactById,
     },
-    '/contacts/bulkingCreation': {
+    '/contacts/bulking-creation': {
         post: bulkingCreation
     }
 };
