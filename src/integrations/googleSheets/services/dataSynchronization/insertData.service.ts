@@ -52,7 +52,6 @@ async function updateInterns(interns: Intern[]): Promise<any> {
     return allInterns;
 }
 
-
 async function updateCourses(courses: Course[]): Promise<any> {
 
     for (const course of courses) {
@@ -81,12 +80,16 @@ async function updateCourses(courses: Course[]): Promise<any> {
 }
 
 async function updateInternCourse(internCourses: InternCourse[]): Promise<any> {
+
     for (const internCourse of internCourses) {
 
         try {
             await db.internCourse.upsert({
                 where: {
-                    id: internCourse.id
+                    id: internCourse.id,
+                    // internId: internCourse.internId,
+                    // courseId: internCourse.courseId,
+                    // classRoleId: internCourse.classRoleId,
                 },
                 update: internCourse,
                 create: internCourse
@@ -111,7 +114,7 @@ async function updateClassEvent(classEvents: ClassEvent[]) {
         try {
             await db.classEvent.upsert({
                 where: {
-                    id: classEvent.id
+                    id: classEvent.id,
                 },
                 update: classEvent,
                 create: classEvent

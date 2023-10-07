@@ -10,8 +10,6 @@ const tables: AnyObject = { // I need it in dynamic deleteRowsFromStaticTables f
     'classEvent': db.classEvent,
     'internCourse': db.internCourse
 }
-const nonStaticTables: string[] = ['internCourse'] // more will be added soon, like eventInternBadge , the tables which has many fields to filter by, not only id
-
 
 const deleteRequestedData = async (tableName: string, data: any[]) => {
     await deleteRowsFromStaticTables(data, tableName) 
