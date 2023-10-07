@@ -32,12 +32,12 @@ model Intern {
   explorerId       String  @unique @db.VarChar(50)
   explorerMail     String  @db.VarChar(50)
   explorerPassword String  @db.VarChar(50)
-  discordNickname  String? @db.VarChar(50)
-  discordId        String? @db.VarChar(40)
+  discordNickname  String? @unique @db.VarChar(50)
+  discordId        String? @unique @db.VarChar(40)
   cohort           String? @db.VarChar(50)
 
   contactId Int     @unique
-  contact   Contact @relation(fields: [contactId], references: [id])
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
   internCourse InternCourse[] @relation(name: "InternCourse: intern")
 
@@ -69,7 +69,7 @@ model ClassEvent {
   course   Course? @relation(fields: [courseId], references: [id], name: "ClassEvent: course", onDelete: Cascade)
 
   classEventTypeId Int
-  classEventType   ClassEventType @relation(fields: [classEventTypeId], references: [id], name: "ClassEventType: classEvent")
+  classEventType   ClassEventType @relation(fields: [classEventTypeId], references: [id], name: "ClassEventType: classEvent", onDelete: Cascade)
 
   eventInternBadge  EventInternBadge[]  @relation(name: "EventInternBadge: classEvent")
   eventFeedback     EventFeedback[]     @relation(name: "EventFeedback: classEvent")
@@ -96,7 +96,7 @@ model CourseResult {
   id Int @id @default(autoincrement())
 
   internCourseId Int
-  internCourse   InternCourse @relation(fields: [internCourseId], references: [id], name: "CourseResult: internCourse")
+  internCourse   InternCourse @relation(fields: [internCourseId], references: [id], name: "CourseResult: internCourse", onDelete: Cascade)
 
   masteryResult  String @db.VarChar(50)
   englishLevel String @db.VarChar(50)
@@ -111,10 +111,10 @@ model FacilitatorResult {
   comment               String? @db.VarChar(300)
 
   internId Int
-  intern   Intern @relation(fields: [internId], references: [id], name: "FacilitatorResult: intern")
+  intern   Intern @relation(fields: [internId], references: [id], name: "FacilitatorResult: intern", onDelete: Cascade)
 
   classEventId Int
-  classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "FacilitatorResult: classEvent")
+  classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "FacilitatorResult: classEvent", onDelete: Cascade)
 }
 
 model OversightResult {
@@ -135,17 +135,17 @@ model OversightResult {
   isOptimalScreenPresentation Boolean @default(false)
 
   internId Int
-  intern   Intern @relation(fields: [internId], references: [id], name: "OversightResult: intern")
+  intern   Intern @relation(fields: [internId], references: [id], name: "OversightResult: intern", onDelete: Cascade)
 
   classEventId Int
-  classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "OversightResult: classEvent")
+  classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "OversightResult: classEvent", onDelete: Cascade)
 }
 
 model EventInternBadge {
   id Int @id @default(autoincrement())
 
   classEventId Int
-  classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "EventInternBadge: classEvent")
+  classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "EventInternBadge: classEvent", onDelete: Cascade)
 
   badgeId Int
   badge   Badge @relation(fields: [badgeId], references: [id])
@@ -164,7 +164,7 @@ model InternCourse {
   intern   Intern @relation(fields: [internId], references: [id], name: "InternCourse: intern", onDelete: Cascade)
 
   classRoleId Int
-  classRole   ClassRole @relation(fields: [classRoleId], references: [id], name: "InternCourse: classRole")
+  classRole   ClassRole @relation(fields: [classRoleId], references: [id], name: "InternCourse: classRole", onDelete: Cascade)
 
   courseResult CourseResult[] @relation(name: "CourseResult: internCourse")
 }
