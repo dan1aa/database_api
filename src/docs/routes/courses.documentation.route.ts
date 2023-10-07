@@ -443,7 +443,7 @@ const routes = {
         put: updateCourseById,
         delete: deleteCourseById
     },
-    '/api/courses/:id/details': {
+    '/courses/:courseCipher/details': {
         get: getCourseDetails
     }
 };

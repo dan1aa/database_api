@@ -56,41 +56,55 @@ interface CourseDetailsResponse {
     schedule: any[]
 }
 
-export const getCourseDetails = async (req: Request, res: Response) => {
-    const courseId = Number(req.params.id);
+export const getCourseDetailsByCipher = async (req: Request, res: Response) => {
+    const courseCipher = req.params.courseCipher;
 
-    const databaseResult = await CourseService.getCourseDetailsById(courseId);
+    const databaseResult = await CourseService.getCourseDetailsByCipher(courseCipher);
 
-    const responseResult: CourseDetailsResponse = {
-        ...databaseResult,
-        participants: {},
-        schedule: databaseResult.schedule.map(data => ({
-            meetNumber: data.meetNumber,
-            eventDate: data.eventDate,
-            googleMeetLink: data.googleMeetLink,
-            classEventType: data.classEventType.name
-        })),
-    };
+    const formatedScheduleData = databaseResult.schedule.map(data => ({
+        id: data.id,
+        meetNumber: data.meetNumber,
+        eventDate: data.eventDate,
+        googleMeetLink: data.googleMeetLink,
+        classEventType: data.classEventType.name,
+    }));
 
-    databaseResult.participants.forEach(data => {
-        const classRole = data.classRole.name;
-        const contactInfo = data.intern.contact;
-        const { explorerId, explorerMail, explorerPassword, discordNickname, cohort } = data.intern;
-
-        const formatedInternData = {
-            explorerId,
-            explorerMail,
-            explorerPassword,
-            discordNickname,
-            cohort,
-            contactInfo
+    const formatedParticipantsData = databaseResult.participants.reduce((result, data) => {
+        const roleName = data.classRole.name;
+        const participantFormatedData = {
+            explorerId: data.intern.explorerId,
+            explorerMail: data.intern.explorerMail,
+            explorerPassword: data.intern.explorerPassword,
+            discordNickname: data.intern.discordNickname,
+            cohort: data.intern.cohort,
+            contactInfo: {
+                id: data.intern.contact.id,
+                firstName: data.intern.contact.firstName,
+                lastName: data.intern.contact.lastName,
+                email: data.intern.contact.email,
+                age: data.intern.contact.age,
+                country: data.intern.contact.country,
+                timezone: data.intern.contact.timezone,
+                sourceOfReferral: data.intern.contact.sourceOfReferral,
+                eduQuestSelectedDateTime: data.intern.contact.eduQuestSelectedDateTime,
+                eduQuestDecision: data.intern.contact.eduQuestDecision,
+            }
         };
 
-        responseResult.participants[`${classRole}s`] = [
-            ...(responseResult.participants[`${classRole}s`] || []),
-            formatedInternData
-        ];
-    });
+        if (!result[roleName]) {
+            result[roleName] = [];
+        }
 
-    res.status(StatusCodes.OK).json(responseResult).end();
+        result[roleName].push(participantFormatedData);
+
+        return result;
+    }, {} as Record<string, any>);
+
+    const result = {
+        course: databaseResult.courseInfo,
+        participants: formatedParticipantsData,
+        schedule: formatedScheduleData
+    };
+
+    res.status(StatusCodes.OK).json(databaseResult).end();
 };

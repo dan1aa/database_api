@@ -30,8 +30,8 @@ router.delete(
 )
 
 router.get(
-    '/courses/:id/details',
-    tryCatchMiddleware(CourseController.getCourseDetails)
+    '/courses/:courseCipher/details',
+    tryCatchMiddleware(CourseController.getCourseDetailsByCipher)
 );
 
 export default router;
