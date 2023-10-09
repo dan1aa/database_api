@@ -11,11 +11,11 @@ const tables: AnyObject = { // I need it in dynamic deleteRowsFromStaticTables f
     'internCourse': db.internCourse
 }
 
-const deleteRequestedData = async (tableName: string, data: any[]) => {
-    await deleteRowsFromStaticTables(data, tableName) 
+const deleteRequestedData = async (data: any[], tableName: string) => {
+    await deleteRowsFromTable(data, tableName) 
 }; 
 
-const deleteRowsFromStaticTables = async (data: any[], tableName: string) => {
+const deleteRowsFromTable = async (data: any[], tableName: string) => {
     const targetIds = data.map(data => data.id);
 
     const existingIds = await tables[tableName].findMany({

@@ -2,18 +2,7 @@ import { Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
-
-interface CourseResultCreateInput {
-    internCourseId: number;
-    masteryResult: string;
-    englishLevel: string;
-};
-
-interface CourseResultUpdateInput {
-    internCourseId?: number;
-    masteryResult?: string;
-    englishLevel?: string;
-};
+import { CourseResultCreateInput, CourseResultUpdateInput } from 'types/types';
 
 export const createCourseResult = async (data: CourseResultCreateInput) => {
     try {

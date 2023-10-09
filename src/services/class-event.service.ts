@@ -2,36 +2,25 @@ import { Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
+import { ClassEventCreateInput, ClassEventUpdateInput } from 'types/types';
 
-interface ClassEventCreateInput {
-    meetNumber: number;
-    eventDate: Date;
-    googleMeetLink: string;
-    courseId: number;
-    classEventTypeId: number;
-};
 
-interface ClassEventUpdateInput {
-    meetNumber?: number;
-    eventDate?: Date;
-    googleMeetLink?: string;
-    courseId?: number;
-    classEventTypeId?: number;
-};
-
-export const createClassEvent = async (classEventData: ClassEventCreateInput) => {
+export const createClassEvent = async (classEvent: ClassEventCreateInput) => {
     try {
-        const createdClassevent = await db.classEvent.create({ data: classEventData });
-        return  createdClassevent;
+
+        classEvent.eventDate = new Date(classEvent.eventDate)
+
+        const result = await db.classEvent.create({ data: classEvent });
+        return result;
     } catch(error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new BadRequestError(`This meet already exist`);
             } else if (error.code === 'P2003') {
                 if (error.meta && error.meta.field_name === 'courseId') {
-                    throw new NotFoundError(`Course with id ${classEventData.courseId} dosen't exist`);
+                    throw new NotFoundError(`Course with id ${classEvent.courseId} dosen't exist`);
                 } else {
-                    throw new NotFoundError(`Class event type with id ${classEventData.classEventTypeId} dosen't exist`);
+                    throw new NotFoundError(`Class event type with id ${classEvent.classEventTypeId} dosen't exist`);
                 }               
             }
         }
@@ -40,13 +29,13 @@ export const createClassEvent = async (classEventData: ClassEventCreateInput) =>
 };
 
 export const getClassEventById = async (id: number) => {
-    const findingResult = await db.classEvent.findUnique({ where: { id } });
+    const result = await db.classEvent.findUnique({ where: { id } });
 
-    if (!findingResult) {
+    if (!result) {
         throw new NotFoundError(`Class event with id ${id} dosen't exist`);
     }
 
-    return findingResult;
+    return result;
 };
 
 export const updateClassEventById = async (id: number, data: ClassEventUpdateInput) => {

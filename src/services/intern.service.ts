@@ -2,24 +2,22 @@ import { Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
+import { FilteringParams, InternCreateInput, InternUpdateInput } from 'types/types';
 
-interface InternCreateInput {
-    explorerId: string;
-    explorerMail: string;
-    explorerPassword: string;
-    discordId: string;
-    cohort: string;
-    contactId: number;
-};
 
-interface InternUpdateInput {
-    explorerId?: string;
-    explorerMail?: string;
-    explorerPassword?: string;
-    discordId?: string;
-    cohort?: string;
-    contactId?: number;
-};
+export const createInternCourse = async (internCourse: any) => {
+    try {
+        const result = await db.internCourse.create({data: internCourse})
+        return result;
+    } catch(error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                throw new BadRequestError(`InternCourse with that values already exist`);
+            }
+        }
+    }
+}
+
 
 export const createIntern = async (internData: InternCreateInput) => {
     try {
@@ -77,7 +75,7 @@ export const updateInternById = async (id: number, data: InternUpdateInput) => {
     }
 };
 
-export const getInternsList = async (filteringParams: { cohort?: string, courseCipher?: string }) => {
+export const getInternsList = async (filteringParams: FilteringParams) => {
     const result = await db.intern.findMany({
         where: {
             cohort: filteringParams.cohort,

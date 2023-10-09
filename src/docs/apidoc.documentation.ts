@@ -2,7 +2,8 @@ import InternsRouterDocumentation from './routes/interns.documentation.route';
 import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 import CoursesRouterDocumentation from './routes/courses.documentation.route';
 import CourseResultsDocumentation from './routes/course-results.documentation.route';
-import GoogleSheetsRouterDocumentation from './routes/googleSheets.documentation.route';
+import GoogleSheetsRouterDocumentation from './routes/google-sheets-create.documentation';
+import ClassEventsDocumentation from './routes/class-events.documentation.route';
 
 const apiDocumentation = {
     openapi: '3.0.1',
@@ -23,7 +24,8 @@ const apiDocumentation = {
         ...CoursesRouterDocumentation,
         ...ContactsRouterDocumentation,
         ...GoogleSheetsRouterDocumentation,
-        ...CourseResultsDocumentation
+        ...CourseResultsDocumentation,
+        ...ClassEventsDocumentation
     }
 };
 
