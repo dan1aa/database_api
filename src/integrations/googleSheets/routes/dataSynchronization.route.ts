@@ -7,6 +7,7 @@ import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 import validateRequestTableName from '../middlewares/validateRequestTableName.middleware';
 
 import * as sheetsCreateController from '../controllers/createData.controller';
+import * as sheetsDeleteController from '../controllers/deleteData.controller';
 
 
 const router = Router();
@@ -19,5 +20,6 @@ const router = Router();
 // );
 
 router.put('/synchronizeData/create/:tableName', validateRequestTableName, tryCatchMiddleware(sheetsCreateController.sheetsCreate))
+router.delete('/synchronizeData/delete/:tableName', validateRequestTableName, tryCatchMiddleware(sheetsDeleteController.sheetsDelete))
 
 export default router;

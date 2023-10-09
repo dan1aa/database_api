@@ -59,3 +59,15 @@ export interface ClassEventUpdateInput {
     courseId?: number;
     classEventTypeId?: number;
 };
+
+export interface CourseResultCreateInput {
+    internCourseId: number;
+    masteryResult: string;
+    englishLevel: string;
+};
+
+export interface CourseResultUpdateInput {
+    internCourseId?: number;
+    masteryResult?: string;
+    englishLevel?: string;
+};
