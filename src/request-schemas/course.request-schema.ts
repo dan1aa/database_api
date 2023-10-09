@@ -5,7 +5,7 @@ export const createCourseScheme = Joi.object({
     courseName: Joi.string().required(),
     startDate: Joi.string().required(),
     endDate: Joi.string().required(),
-    listToClassMaterials: Joi.string().required()
+    linkToClassMaterials: Joi.string().allow(null).required()
 });
 
 export const updateCourseScheme = Joi.object({
@@ -13,5 +13,5 @@ export const updateCourseScheme = Joi.object({
     courseName: Joi.string(),
     startDate: Joi.string(),
     endDate: Joi.string(),
-    listToClassMaterials: Joi.string()
+    linkToClassMaterials: Joi.string().allow(null)
 });

@@ -1,6 +1,7 @@
 import InternsRouterDocumentation from './routes/interns.documentation.route';
 import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 import CoursesRouterDocumentation from './routes/courses.documentation.route';
+import CourseResultsDocumentation from './routes/course-results.documentation.route';
 import GoogleSheetsRouterDocumentation from './routes/googleSheets.documentation.route';
 
 const apiDocumentation = {
@@ -14,15 +15,16 @@ const apiDocumentation = {
         { name: 'Contacts'},
         { name: 'Interns',},
         { name: 'Courses'}, 
+        { name: 'Course Results'}, 
         { name: 'Sheets'}, 
     ],
     paths: {
         ...InternsRouterDocumentation,
         ...CoursesRouterDocumentation,
         ...ContactsRouterDocumentation,
-        ...GoogleSheetsRouterDocumentation
+        ...GoogleSheetsRouterDocumentation,
+        ...CourseResultsDocumentation
     }
-
 };
 
 export { apiDocumentation };

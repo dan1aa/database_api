@@ -8,6 +8,7 @@ import CourseRouter from '@routes/course.route';
 import InternRouter from '@routes/intern.route';
 import ContacRouter from '@routes/contact.route';
 import ClassEventRouter from '@routes/class-events.route';
+import CourseResultRouter from '@routes/course-result.route';
 import GoogleSheetsRouter from '../integrations/googleSheets/index';
 
 import errorHandler from '@middlewares/errorHandler.middleware';
@@ -24,6 +25,7 @@ app.use('/api', InternRouter);
 app.use('/api', ContacRouter);
 app.use('/api', CourseRouter);
 app.use('/api', ClassEventRouter);
+app.use('/api', CourseResultRouter);
 app.use('/', GoogleSheetsRouter);
 
 const specs = swaggerJsdoc(swaggerOptions);
