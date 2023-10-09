@@ -307,6 +307,22 @@ const deleteContactById = {
 const getListOfContacts = {
     tags: ['Contacts'],
     operationId: 'getListOfContacts',
+    parameters: [
+        {
+            name: 'from',
+            in: 'path',
+            description: 'Number of skiped contacts',
+            required: false,
+            type: 'number',
+        },
+        {
+            name: 'to',
+            in: 'path',
+            description: 'Number of received contacts',
+            required: false,
+            type: 'number',
+        },
+    ],
     responses: {
         '200': {
             description: 'Successful Retrieve list of contacts',

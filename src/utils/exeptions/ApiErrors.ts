@@ -28,3 +28,15 @@ export class BadRequestError extends BaseApiError {
         super('BAD REQUEST', StatusCodes.BAD_REQUEST, description, true);
     }
 };
+
+export class Unauthorized extends BaseApiError {
+    constructor(description = 'Unauthorized error') {
+        super('UNAUTHORIZED', StatusCodes.UNAUTHORIZED, description, true);
+    }
+};
+
+export class Forbidden extends BaseApiError {
+    constructor(description = 'Forbidden error') {
+        super('FORBIDDEN', StatusCodes.FORBIDDEN, description, true);
+    }
+};
