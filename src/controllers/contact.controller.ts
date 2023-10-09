@@ -37,7 +37,10 @@ export const deleteContactById = async (req: Request, res: Response) => {
 };
 
 export const getContactsList = async (req: Request, res: Response) => {
-    const contactsList = await ContactService.getContactsList();
+    const from = Number(req.query.from) || 0;
+    const to = Number(req.query.to) || 250;
+
+    const contactsList = await ContactService.getContactsList(from, to);
 
     res.status(StatusCodes.OK).json(contactsList).end();
 };

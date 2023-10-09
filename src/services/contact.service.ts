@@ -57,8 +57,12 @@ export const deleteContactById = async (id: number) => {
     }
 };
 
-export const getContactsList = async () => {
-    const result = await db.contact.findMany();
+export const getContactsList = async (from: number, to: number) => {
+    const result = await db.contact.findMany({
+        skip: from,
+        take: to - from
+    });
+
     return result;
 };
 
