@@ -12,6 +12,7 @@ import CourseResultRouter from '@routes/course-result.route';
 import GoogleSheetsRouter from '../integrations/googleSheets/index';
 
 import errorHandler from '@middlewares/errorHandler.middleware';
+import validateRequestApiToken from '@middlewares/validateRequestApiToken.middleware';
 
 import { swaggerOptions } from '@utils/swagger';
 
@@ -20,6 +21,8 @@ export const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({ origin: '*' }));
+
+app.use(validateRequestApiToken);
 
 app.use('/api', InternRouter);
 app.use('/api', ContacRouter);
