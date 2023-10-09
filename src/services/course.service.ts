@@ -1,10 +1,11 @@
 import { Course, Prisma } from "@prisma/client";
 
 import { db } from "@utils/db.server";
-import { NotFoundError } from "@utils/exeptions/ApiErrors";
+import { BadRequestError, NotFoundError } from "@utils/exeptions/ApiErrors";
+import { CourseCreateInput, CourseUpdateInput } from "types/types";
 
 
-export const getCourses = async (): Promise<any> => {
+export const getCourses = async () => {
     const courses: Course[] = await db.course.findMany();
 
     return courses
@@ -22,25 +23,25 @@ export const getCourseById = async (id: number) => {
     return course
 }
 
-export const createCourse = async (newCourse: any) => {
+export const createCourse = async (course: CourseCreateInput) => {
+    try {
+        const { startDate, endDate } = course;
 
-    const { courseCipher, startDate, endDate } = newCourse;
+        course.startDate = new Date(startDate)
+        course.endDate = new Date(endDate)
 
-    newCourse.endDate = new Date(startDate);
-    newCourse.end_date = new Date(endDate);
+        const result = await db.course.create({ data: course });
+        return result;
 
-    const courseExistance = await db.course.findUnique({
-        where: {
-            courseCipher: courseCipher
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                throw new BadRequestError(`Course with cipher ${course.courseCipher} already exist`);
+            }
         }
-    })
-
-    if(courseExistance) throw new NotFoundError('Course with that course cipher is already exist')
-
-    const result: Course = await db.course.create({ data: newCourse })
-
-    return result
-}
+        throw error;
+    }
+};
 
 export const updateCourseById = async (id: number , course: any) => {
 
@@ -96,8 +97,6 @@ export const getCourseParticipantsInfoByCourseId = async (id: number) => {
             intern: true
         },
     });
-
-    console.log(dbResult)
 
     dbResult.forEach(data => {
         const roleName: string = `${data.role.name.toLocaleLowerCase()}s`;

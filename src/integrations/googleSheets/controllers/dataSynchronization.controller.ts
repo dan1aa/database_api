@@ -1,19 +1,19 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import deleteRequestedData from '../services/dataSynchronization/deleteData.service';
-import insertRequestedData from '../services/dataSynchronization/insertData.service';
+// import deleteRequestedData from '../services/dataSynchronization/deleteData.service';
+// import insertRequestedData from '../services/dataSynchronization/insertData.service';
 
 
 
 export const synchronizeData = async (req: Request, res: Response) => {
     const { tableName } = req.params;
 
-    const { insert: dataToInsert, delete: dataToDelete } = req.body;
+    // const { insert: dataToInsert, delete: dataToDelete } = req.body;
 
-    await deleteRequestedData(tableName, dataToDelete);
-    const insertResult = await insertRequestedData(tableName, dataToInsert);
+    // await deleteRequestedData(tableName, dataToDelete);
+    // const insertResult = await insertRequestedData(tableName, dataToInsert);
 
     // const convertedInsertionDataToQueryParams: string = JSON.stringify(insertResult.map((row: any) => [...Object.values(row)]))
 
