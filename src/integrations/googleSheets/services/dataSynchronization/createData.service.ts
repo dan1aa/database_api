@@ -39,10 +39,9 @@ export const createNewRows = async (dataToCreate: any, tableName: string): Promi
 
     const rows = await dbObjects[tableName].db.findMany({})
 
-    const convertedInsertionDataToQueryParams: string = JSON.stringify(rows.map((row: any) => [...Object.values(row)]))
+    const convertedInsertionDataToQueryParams: any = rows.map((row: any) => [...Object.values(row)])
 
-    const data = { table: tableName.charAt(0).toUpperCase(), object: convertedInsertionDataToQueryParams }
-
+    const data = { table: tableName.charAt(0).toUpperCase() + tableName.slice(1), object: convertedInsertionDataToQueryParams }
     const url: string | undefined = process.env.GOOGLE_SHEETS_DATABASE_BASE_URL;
 
     axios.post((url || ""), data, {
