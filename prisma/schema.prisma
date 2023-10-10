@@ -49,9 +49,9 @@ model Intern {
 
 model Course {
   id                   Int      @id @default(autoincrement())
-  courseName           String   @db.VarChar(50)
+  courseName           String   @db.VarChar(150)
   courseCipher         String   @unique @db.VarChar(50)
-  linkToClassMaterials String?  @db.VarChar(50)
+  linkToClassMaterials String?  @db.VarChar(150)
   startDate            DateTime
   endDate              DateTime
 

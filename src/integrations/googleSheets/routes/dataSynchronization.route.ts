@@ -8,6 +8,7 @@ import validateRequestTableName from '../middlewares/validateRequestTableName.mi
 
 import * as sheetsCreateController from '../controllers/createData.controller';
 import * as sheetsDeleteController from '../controllers/deleteData.controller';
+import * as sheetsUpdateController from '../controllers/updateData.controller';
 
 
 const router = Router();
@@ -19,7 +20,8 @@ const router = Router();
 //     tryCatchMiddleware(DataSynchronizationController.synchronizeData)
 // );
 
-router.put('/synchronizeData/create/:tableName', validateRequestTableName, tryCatchMiddleware(sheetsCreateController.sheetsCreate))
+router.post('/synchronizeData/create/:tableName', validateRequestTableName, tryCatchMiddleware(sheetsCreateController.sheetsCreate))
 router.delete('/synchronizeData/delete/:tableName', validateRequestTableName, tryCatchMiddleware(sheetsDeleteController.sheetsDelete))
+router.put('/synchronizeData/update/:tableName', validateRequestTableName, tryCatchMiddleware(sheetsUpdateController.sheetsUpdate))
 
 export default router;
