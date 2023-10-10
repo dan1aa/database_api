@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({ origin: '*' }));
 
-app.use(validateRequestApiToken);
+app.use('/api', validateRequestApiToken);
 
 app.use('/api', InternRouter);
 app.use('/api', ContacRouter);
