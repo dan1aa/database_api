@@ -33,7 +33,7 @@ model Intern {
   explorerMail     String  @db.VarChar(50)
   explorerPassword String  @db.VarChar(50)
   discordNickname  String? @unique @db.VarChar(50)
-  discordId        String? @unique @db.VarChar(40)
+  discordId        String? @db.VarChar(100)
   cohort           String? @db.VarChar(50)
 
   contactId Int     @unique
