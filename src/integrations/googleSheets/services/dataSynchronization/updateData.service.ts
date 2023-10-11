@@ -1,15 +1,14 @@
-import { updateClassEventById } from '@services/class-event.service';
-import { updateCourseById } from '@services/course.service';
-import { updateInternById } from '@services/intern.service'
+import { bulkUpdateClassEvent, bulkUpdateCourse, bulkUpdateIntern, bulkUpdateInternCourse } from './bulkUpdate.service';
 
 type createFunctionsType = { // typescript i love you
     [key: string]: any
 }
 
 const updateFunctions: createFunctionsType = {
-    'intern': updateInternById,
-    'course': updateCourseById,
-    'classEvent': updateClassEventById
+    'intern': bulkUpdateIntern,
+    'course': bulkUpdateCourse,
+    'classEvent': bulkUpdateClassEvent,
+    'internCourse': bulkUpdateInternCourse
 }
 
 export const updateRows = async (dataToUpdate: any, tableName: string): Promise<string> => {

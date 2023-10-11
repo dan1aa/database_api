@@ -32,7 +32,7 @@ export const createNewRows = async (dataToCreate: any, tableName: string): Promi
         try {
             await dbObjects[tableName].create(row)
         } catch(error) {
-            console.log(error) // I can`t put some kind of custom error here with throw new Error(...) because it disables contrinue;
+            console.log(`${error} FROM CREATE DATA SERVICE`) // I can`t put some kind of custom error here with throw new Error(...) because it disables contrinue;
             continue;
         }
     }
