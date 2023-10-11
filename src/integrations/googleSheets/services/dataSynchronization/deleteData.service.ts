@@ -12,7 +12,8 @@ const tables: AnyObject = { // I need it in dynamic deleteRowsFromStaticTables f
 }
 
 const deleteRequestedData = async (data: any[], tableName: string) => {
-    await deleteRowsFromTable(data, tableName) 
+    const result = await deleteRowsFromTable(data, tableName)
+    return result; 
 }; 
 
 const deleteRowsFromTable = async (data: any[], tableName: string) => {
@@ -32,7 +33,7 @@ const deleteRowsFromTable = async (data: any[], tableName: string) => {
 
     const existingTargetIds = targetIds.filter(id => existingIds.some((existingId: any) => existingId.id === id));
 
-    const result = await tables[tableName].deleteMany({
+    await tables[tableName].deleteMany({
         where: {
             id: {
                 in: existingTargetIds,
@@ -40,7 +41,7 @@ const deleteRowsFromTable = async (data: any[], tableName: string) => {
         },
     });
 
-    return result;
+    return JSON.stringify({message: "Data deleted successfully"});
 }
 
 export default deleteRequestedData;
