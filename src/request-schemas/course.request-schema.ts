@@ -1,5 +1,13 @@
 import Joi from 'joi';
 
+const updateCourseObject = {
+    courseCipher: Joi.string(),
+    courseName: Joi.string(),
+    startDate: Joi.string(),
+    endDate: Joi.string(),
+    linkToClassMaterials: Joi.string().allow(null)
+}
+
 export const createCourseScheme = Joi.object({
     courseCipher: Joi.string().required(),
     courseName: Joi.string().required(),
@@ -8,10 +16,9 @@ export const createCourseScheme = Joi.object({
     linkToClassMaterials: Joi.string().allow(null).required()
 });
 
-export const updateCourseScheme = Joi.object({
-    courseCipher: Joi.string(),
-    courseName: Joi.string(),
-    startDate: Joi.string(),
-    endDate: Joi.string(),
-    linkToClassMaterials: Joi.string().allow(null)
+export const updateCourseScheme = Joi.object(updateCourseObject);
+
+export const modifyCourseSheetsScheme = Joi.object({
+    id: Joi.number().required(),
+    ...updateCourseObject
 });

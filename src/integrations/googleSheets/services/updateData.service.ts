@@ -1,4 +1,6 @@
 import { bulkUpdateClassEvent, bulkUpdateCourse, bulkUpdateIntern, bulkUpdateInternCourse } from './bulkUpdate.service';
+import { dbObjects } from './config/config';
+import { sendDataToSheets } from './helpers/sendDataToSheets';
 
 type createFunctionsType = { // typescript i love you
     [key: string]: any
@@ -12,14 +14,17 @@ const updateFunctions: createFunctionsType = {
 }
 
 export const updateRows = async (dataToUpdate: any, tableName: string): Promise<string> => {
+
+    const errorStack = []
+
     for (let row of dataToUpdate) {
         try {
-            updateFunctions[tableName](row)
-        } catch(error) {
-            console.log(error)
+            const error = await updateFunctions[tableName](row); 
+            if (error) errorStack.push({error})
+        } catch (error) {
             continue;
         }
     }
-
-    return JSON.stringify({ message: "Data updated successfully" })
+    await sendDataToSheets(tableName);
+    return JSON.stringify({ message: "Data updated successfully", errorStack })
 }

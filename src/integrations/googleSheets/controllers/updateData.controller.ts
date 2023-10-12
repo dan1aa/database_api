@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { updateRows } from "../services/dataSynchronization/updateData.service";
+import { updateRows } from "../services/updateData.service";
 
 export const sheetsUpdate = async (req: Request, res: Response) => {
     const { tableName } = req.params;

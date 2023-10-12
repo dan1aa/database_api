@@ -5,7 +5,7 @@ import { createClassEventScheme } from '@request-schemas/class-event.request-she
 import { createInternCourseSchema } from '@request-schemas/intern-course.request-schema';
 
 const createInterns = {
-    tags: ['Sheets'],
+    tags: ['SheetsCreate'],
     operationId: 'createInterns',
     description: 'Bulk insert of pack of interns to sql from sheets',
     requestBody: {
@@ -64,7 +64,7 @@ const createInterns = {
 };
 
 const createCourses = {
-    tags: ['Sheets'],
+    tags: ['SheetsCreate'],
     operationId: 'createCourses',
     description: 'Bulk insert of pack of courses to sql from sheets',
     requestBody: {
@@ -123,7 +123,7 @@ const createCourses = {
 };
 
 const createClassEvents = {
-    tags: ['Sheets'],
+    tags: ['SheetsCreate'],
     operationId: 'createClassEvents',
     description: 'Bulk insert of pack of class events to sql from sheets',
     requestBody: {
@@ -182,7 +182,7 @@ const createClassEvents = {
 };
 
 const createInternCourses = {
-    tags: ['Sheets'],
+    tags: ['SheetsCreate'],
     operationId: 'createInternCourses',
     description: 'Bulk insert of pack of class internCourses to sql from sheets',
     requestBody: {
@@ -242,16 +242,16 @@ const createInternCourses = {
 
 const routes = {
     '/google-sheets/synchronizeData/create/intern': {
-        put: createInterns,
+        post: createInterns,
     },
     '/google-sheets/synchronizeData/create/course': {
-        put: createCourses
+        post: createCourses
     },
     '/google-sheets/synchronizeData/create/classEvent': {
-        put: createClassEvents
+        post: createClassEvents
     },
     '/google-sheets/synchronizeData/create/internCourse': {
-        put: createInternCourses
+        post: createInternCourses
     }
 }
 

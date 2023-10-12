@@ -2,8 +2,10 @@ import InternsRouterDocumentation from './routes/interns.documentation.route';
 import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 import CoursesRouterDocumentation from './routes/courses.documentation.route';
 import CourseResultsDocumentation from './routes/course-results.documentation.route';
-import GoogleSheetsRouterDocumentation from './routes/google-sheets-create.documentation';
+import GoogleSheetsCreateRouterDocumentation from './routes/google-sheets-create.documentation.route';
 import ClassEventsDocumentation from './routes/class-events.documentation.route';
+import GoogleSheetsUpdateRouterDocumentation from './routes/google-sheets-update.documentation.route';
+import GoogleSheetsDeleteRouterDocumentation from './routes/google-sheets-delete.documentation.route';
 
 const apiDocumentation = {
     openapi: '3.0.1',
@@ -17,15 +19,19 @@ const apiDocumentation = {
         { name: 'Interns',},
         { name: 'Courses'}, 
         { name: 'Course Results'}, 
-        { name: 'Sheets'}, 
+        { name: 'Class Events' },
+        { name: 'SheetsCreate'},
+        { name: 'SheetsUpdate' } 
     ],
     paths: {
         ...InternsRouterDocumentation,
         ...CoursesRouterDocumentation,
         ...ContactsRouterDocumentation,
-        ...GoogleSheetsRouterDocumentation,
         ...CourseResultsDocumentation,
-        ...ClassEventsDocumentation
+        ...ClassEventsDocumentation,
+        ...GoogleSheetsCreateRouterDocumentation,
+        ...GoogleSheetsUpdateRouterDocumentation,
+        ...GoogleSheetsDeleteRouterDocumentation
     }
 };
 

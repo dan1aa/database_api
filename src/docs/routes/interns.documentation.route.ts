@@ -1,7 +1,7 @@
 import j2s from 'joi-to-swagger';
 import { 
     createInternScheme, 
-    updateInternSheme, 
+    updateInternScheme, 
     updateDiscordDataArraySheme 
 } from '@request-schemas/intern.request-schema';
 
@@ -171,7 +171,7 @@ const updateInternById = {
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(updateInternSheme).swagger,
+                schema: j2s(updateInternScheme).swagger,
             },
         },
         required: true,

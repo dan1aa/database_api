@@ -20,7 +20,7 @@ router.post(
 router.put(
     '/interns/:id',
     validateRequestId,
-    validateRequestBody(InternRequestsShemas.updateInternSheme),
+    validateRequestBody(InternRequestsShemas.updateInternScheme),
     tryCatchMiddleware(InternController.updateInternById)
 );
 
