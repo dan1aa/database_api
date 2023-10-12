@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { createNewRows } from '../services/dataSynchronization/createData.service';
+import { createNewRows } from '../services/createData.service';
 
 export const sheetsCreate = async (req: Request, res: Response) => {
     const { tableName } = req.params;
