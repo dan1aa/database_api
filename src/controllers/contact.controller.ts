@@ -2,10 +2,20 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as ContactService from '@services/contact.service';
+import * as IpGeolocationService from '@services/ip-geolocation.service';
 
 export const createContact = async (req: Request, res: Response) => {
-    const contactData = req.body;
+    const requestContactData = req.body;
+    const userIpAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
+    const userLocation = await IpGeolocationService.getLocationByIpAddress(userIpAddress);
+
+    if (userLocation && (userLocation['country_name'] === 'Russia' || userLocation['country_name'] === 'Belarus')) {
+        //TODO: using mail service, it is needed to sent mail with stop war message
+        return res.status(StatusCodes.FORBIDDEN).json('It is not possible to create a contact from Russia or Belarus').end();
+    }
+
+    const contactData = {...requestContactData, city: userLocation?.city}
     const createdContact = await ContactService.createContact(contactData);
 
     res.status(StatusCodes.CREATED).json(createdContact).end();

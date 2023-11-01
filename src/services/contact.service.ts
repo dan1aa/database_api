@@ -3,15 +3,17 @@ import { Prisma } from '@prisma/client';
 import { db } from '@utils/db.server';
 import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
 
+
 export const createContact = async (contactData: Prisma.ContactCreateInput) => {
     try {
         const createdContact = await db.contact.create({ data: contactData });
         return  createdContact;
     } catch(error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2002') {
-                throw new BadRequestError(`Contact with email ${contactData.email} already exist`);
-            }
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+            // Contact with email contactData.email already exist
+            const targetContact = await db.contact.findUnique({ where: { email: contactData.email!} });
+            const updatedContact = await updateContactById(targetContact!.id, contactData);
+            return updatedContact;
         }
         throw error;
     }
@@ -30,7 +32,10 @@ export const getContactById = async (id: number) => {
 export const updateContactById = async (id: number, data: Prisma.ContactUpdateInput) => {
     try {
         const result = await db.contact.update({ where: { id }, data: data });
+        console.log('Updating')
+        console.log(data)
         return result;
+
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2025') {
