@@ -13,6 +13,7 @@ import CohortScheduleRouter from '@routes/cohort-schedule.route';
 import GoogleSheetsRouter from '../integrations/googleSheets/index';
 
 import errorHandler from '@middlewares/errorHandler.middleware';
+import prismaErrorHandler from '@middlewares/prismaErrorsHandler.moddleware';
 import validateRequestApiToken from '@middlewares/validateRequestApiToken.middleware';
 
 import { swaggerOptions } from '@utils/swagger';
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({ origin: '*' }));
 
-app.use('/api', validateRequestApiToken);
+//app.use('/api', validateRequestApiToken);
 
 app.use('/api', InternRouter);
 app.use('/api', ContacRouter);
@@ -41,6 +42,7 @@ app.use(
   swaggerUi.setup(specs)
 );
 
+app.use(prismaErrorHandler);
 app.use(errorHandler);
 
 export default app;
