@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
-import { BadRequestError, NotFoundError } from '@utils/exeptions/ApiErrors';
+import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 
 export const createContact = async (contactData: Prisma.ContactCreateInput) => {
@@ -30,36 +30,13 @@ export const getContactById = async (id: number) => {
 };
 
 export const updateContactById = async (id: number, data: Prisma.ContactUpdateInput) => {
-    try {
-        const result = await db.contact.update({ where: { id }, data: data });
-        console.log('Updating')
-        console.log(data)
-        return result;
-
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2025') {
-                throw new NotFoundError(`Contact with id ${id} dosen't exist`);
-            } else if (error.code === 'P2002') {
-                throw new BadRequestError(`Contact with email ${data.email} already exist`);
-            }
-        }
-        throw error;
-    }
+    const result = await db.contact.update({ where: { id }, data: data });
+    return result;
 };
 
 export const deleteContactById = async (id: number) => {
-    try {
-        const result = await db.contact.delete({ where: { id } })
-        return result;
-    } catch(error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2025') {
-                throw new NotFoundError(`Contact with id ${id} doesn't exist`);
-            }
-        }
-        throw error;
-    }
+    const result = await db.contact.delete({ where: { id } })
+    return result;
 };
 
 export const getContactsList = async (from: number, to: number) => {

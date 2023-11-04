@@ -2,7 +2,7 @@ import { Course, Prisma } from "@prisma/client";
 
 import { db } from "@utils/db.server";
 import { BadRequestError, NotFoundError } from "@utils/exeptions/ApiErrors";
-import { CourseCreateInput, CourseUpdateInput } from "types/types";
+import { CourseCreateInput } from "types/types";
 
 
 export const getCourses = async () => {
@@ -18,29 +18,22 @@ export const getCourseById = async (id: number) => {
         }
     })
 
-    if(!course) throw new NotFoundError(`There is no course with id ${id}`)
+    if(!course) {
+        throw new NotFoundError(`There is no course with id ${id}`);
+    }
+    
 
     return course
 }
 
 export const createCourse = async (course: CourseCreateInput) => {
-    try {
-        const { startDate, endDate } = course;
+    const { startDate, endDate } = course;
 
-        course.startDate = new Date(startDate)
-        course.endDate = new Date(endDate)
+    course.startDate = new Date(startDate)
+    course.endDate = new Date(endDate)
 
-        const result = await db.course.create({ data: course });
-        return result;
-
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2002') {
-                throw new BadRequestError(`Course with cipher ${course.courseCipher} already exist`);
-            }
-        }
-        throw error;
-    }
+    const result = await db.course.create({ data: course });
+    return result;
 };
 
 export const updateCourseById = async (id: number , course: any) => {
