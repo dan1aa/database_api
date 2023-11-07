@@ -4,8 +4,6 @@ import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCohortSchedule = async (cohortSchedule: Prisma.CohortScheduleCreateInput) => {
-    cohortSchedule.eventDate = new Date(cohortSchedule.eventDate);
-
     const result = await db.cohortSchedule.create({ data: cohortSchedule });
 
     return result;
