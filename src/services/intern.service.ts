@@ -88,7 +88,7 @@ export const getCohortScheduleByExplorerId = async (explorerId: string) => {
             cohort: targetIntern.cohort!,
         }, 
         orderBy: {
-            eventDate: 'asc'
+            eventDate: { sort: 'asc', nulls: 'last' },
         }
     });
 
