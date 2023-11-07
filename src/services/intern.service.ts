@@ -75,3 +75,22 @@ export const synchronizeDiscordData = async (discordData: { discordNickname: str
 
     return errors.length > 0 ? { updatedInterns, errors } : { updatedInterns };
 };
+
+export const getCohortScheduleByExplorerId = async (explorerId: string) => {
+    const targetIntern = await db.intern.findUnique({ where: { explorerId }});
+
+    if (!targetIntern) {
+        throw new NotFoundError(`Intern with exporerId ${explorerId} dosen't exist`);
+    }
+
+    const schedule = db.cohortSchedule.findMany({
+        where: {
+            cohort: targetIntern.cohort!,
+        }, 
+        orderBy: {
+            eventDate: 'asc'
+        }
+    });
+
+    return schedule;
+};

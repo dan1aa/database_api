@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-import * as InternRequestsShemas from '../request-schemas/intern.request-schema';
-
 import * as InternController from '@controllers/intern.controller';
 
 import validateRequestId from '@middlewares/validateRequestId.middleware';
 import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 import validateRequestBody from '@middlewares/validateRequestBody.middleware';
+
+import * as InternRequestsShemas from '../request-schemas/intern.request-schema';
 
 
 const router = Router();
@@ -46,5 +46,11 @@ router.put(
     validateRequestBody(InternRequestsShemas.updateDiscordDataArraySheme),
     tryCatchMiddleware(InternController.synchronizeDiscordData)
 );
+
+router.get(
+    '/interns/:explorerId/cohort-schedule',
+    tryCatchMiddleware(InternController.getCohortScheduleByExplorerId)
+);
+
 
 export default router;
