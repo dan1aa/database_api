@@ -50,3 +50,11 @@ export const synchronizeDiscordData = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json(result).end();
 };
+
+export const getCohortScheduleByExplorerId = async (req: Request, res: Response) => {
+    const explorerId = req.params.explorerId;
+
+    const result = await InternService.getCohortScheduleByExplorerId(explorerId);
+
+    res.status(StatusCodes.OK).json(result).end();
+};

@@ -184,8 +184,8 @@ model ClassEventType {
 }
 
 model CohortSchedule {
-  id        Int      @id @default(autoincrement())
-  eventDate DateTime
-  eventName String   @db.VarChar(80)
-  cohort    String   @db.VarChar(50)
+  id        Int       @id @default(autoincrement())
+  eventDate DateTime?
+  eventName String    @db.VarChar(80)
+  cohort    String    @db.VarChar(50)
 }
