@@ -23,21 +23,29 @@ model Contact {
 
   eduQuestSelectedDateTime DateTime?
   eduQuestDecision         String?   @db.VarChar(50)
-
-  intern Intern?
 }
 
 model Intern {
-  id               Int     @id @default(autoincrement())
-  explorerId       String  @unique @db.VarChar(50)
-  explorerMail     String  @db.VarChar(50)
-  explorerPassword String  @db.VarChar(50)
-  discordNickname  String? @unique @db.VarChar(50)
-  discordId        String? @db.VarChar(100)
-  cohort           String? @db.VarChar(50)
+  id      Int    @id @default(autoincrement())
+  name    String @db.VarChar(100)
+  surname String @db.VarChar(100)
+  email   String @unique @db.VarChar(50)
 
-  contactId Int     @unique
-  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  explorerId       String @unique @db.VarChar(50)
+  explorerMail     String @unique @db.VarChar(50)
+  explorerPassword String @db.VarChar(50)
+
+  discordId       String? @unique @db.VarChar(100)
+  discordNickname String? @unique @db.VarChar(50)
+
+  cohort String? @db.VarChar(50)
+
+  teachableId String? @unique @db.VarChar(15)
+
+  age      Int    @db.TinyInt
+  city     String @db.VarChar(50)
+  country  String @db.VarChar(50)
+  timezone String @db.VarChar(50)
 
   internCourse InternCourse[] @relation(name: "InternCourse: intern")
 

@@ -1,35 +1,47 @@
 import Joi from 'joi';
-
-const updateInternObject = {
-    explorerId: Joi.string(),
-    explorerMail: Joi.string(),
-    explorerPassword: Joi.string(),
-    discordNickname: Joi.string().allow(null),
-    discordId: Joi.string().allow(null),
-    cohort: Joi.string().allow(null),
-    contactId: Joi.number(),
-}
-
-export const createInternScheme = Joi.object({
-    explorerId: Joi.string().required(),
-    explorerMail: Joi.string().required(),
-    explorerPassword: Joi.string().required(),
-    discordNickname: Joi.string().allow(null).required(),
-    discordId: Joi.string().allow(null).required(),
-    cohort: Joi.string().allow(null).required(),
-    contactId: Joi.number().required(),
+  
+const createInternSchemeItem = Joi.object({
+    name : Joi.string().max(100),
+    surname: Joi.string().max(100),
+    email: Joi.string().max(50).email(),
+  
+    explorerId: Joi.string().max(50),
+    explorerMail: Joi.string().max(50),
+    explorerPassword: Joi.string().max(50),
+  
+    discordId: Joi.string().max(100).allow(null),
+    discordNickname: Joi.string().max(50).allow(null),
+  
+    cohort: Joi.string().max(50).allow(null),
+    teachableId: Joi.string().max(15).allow(null),
+  
+    age: Joi.number().integer(),
+    city: Joi.string().max(50),
+    country: Joi.string().max(50),
+    timezone: Joi.string().max(50),
 });
 
-export const updateInternScheme = Joi.object(updateInternObject);
-
-export const modifyInternSheetsScheme = Joi.object({
-    id: Joi.number().required(),
-    ...updateInternObject
+export const createInternsScheme = Joi.object({
+    data: Joi.array().items(createInternSchemeItem),
 });
 
-const updateDiscordDataScheme = Joi.object({
-    discordNickname: Joi.string(),
-    discordId: Joi.string(),
+export const updateInternScheme = Joi.object({
+    name : Joi.string().max(100).allow(null),
+    surname: Joi.string().max(100).allow(null),
+    email: Joi.string().max(50).email().allow(null),
+  
+    explorerId: Joi.string().max(50).allow(null),
+    explorerMail: Joi.string().max(50).allow(null),
+    explorerPassword: Joi.string().max(50).allow(null),
+  
+    discordId: Joi.string().max(100).allow(null),
+    discordNickname: Joi.string().max(50).allow(null),
+  
+    cohort: Joi.string().max(50).allow(null),
+    teachableId: Joi.string().max(15).allow(null),
+  
+    age: Joi.number().integer().allow(null),
+    city: Joi.string().max(50).allow(null),
+    country: Joi.string().max(50).allow(null),
+    timezone: Joi.string().max(50).allow(null),
 });
-
-export const updateDiscordDataArraySheme = Joi.array().items(updateDiscordDataScheme); 

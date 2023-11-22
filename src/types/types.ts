@@ -3,24 +3,6 @@ export interface FilteringParams {
     courseCipher?: string;
 }
 
-export interface InternCreateInput {
-    explorerId: string;
-    explorerMail: string;
-    explorerPassword: string;
-    discordId: string;
-    cohort: string;
-    contactId: number;
-};
-
-export interface InternUpdateInput {
-    explorerId?: string;
-    explorerMail?: string;
-    explorerPassword?: string;
-    discordId?: string;
-    cohort?: string;
-    contactId?: number;
-};
-
 export interface CourseCreateInput {
     courseName: string;
     courseCipher: string;

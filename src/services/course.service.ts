@@ -106,30 +106,22 @@ export const getCourseParticipantsInfoByCourseId = async (id: number) => {
 
 
 export const getCourseDetailsByCipher = async (courseCipher: string) => {
-    const targetCourse = await db.course.findUnique({ where: { courseCipher }});
+    const courseData = await db.course.findUnique({ where: { courseCipher }});
 
-    if (!targetCourse) {
-        throw new NotFoundError(`${courseCipher} course dosen't exist`)
+    if (!courseData) {
+        throw new NotFoundError(`${courseCipher} course dosen't exist`);
     }
 
     const courseParticipants = await db.internCourse.findMany({
-        where: { classRoleId: targetCourse.id },
+        where: { classRoleId: courseData.id },
         include: {
-            classRole: {
-                select: {
-                    name: true
-                }
-            },
-            intern: {
-                include: {
-                    contact: true
-                }
-            }
+            classRole: true,
+            intern: true
         },
     });
 
     const courseSchedule = await db.classEvent.findMany({
-        where: { courseId: targetCourse.id },
+        where: { courseId: courseData.id },
         include: {
             classEventType: {
                 select: {
@@ -140,7 +132,7 @@ export const getCourseDetailsByCipher = async (courseCipher: string) => {
     });
 
     return {
-        courseInfo: targetCourse,
+        courseInfo: courseData,
         participants: courseParticipants,
         schedule: courseSchedule
     };

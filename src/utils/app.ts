@@ -10,7 +10,6 @@ import ContacRouter from '@routes/contact.route';
 import ClassEventRouter from '@routes/class-events.route';
 import CourseResultRouter from '@routes/course-result.route';
 import CohortScheduleRouter from '@routes/cohort-schedule.route';
-import GoogleSheetsRouter from '../integrations/googleSheets/index';
 
 import errorHandler from '@middlewares/errorHandler.middleware';
 import prismaErrorHandler from '@middlewares/prismaErrorsHandler.moddleware';
@@ -32,7 +31,7 @@ app.use('/api', CourseRouter);
 app.use('/api', ClassEventRouter);
 app.use('/api', CourseResultRouter);
 app.use('/api', CohortScheduleRouter);
-app.use('/', GoogleSheetsRouter);
+
 
 const specs = swaggerJsdoc(swaggerOptions);
 

@@ -1,67 +1,8 @@
 import j2s from 'joi-to-swagger';
-import { modifyInternSheetsScheme } from '@request-schemas/intern.request-schema';
+
 import { modifyCourseSheetsScheme } from '@request-schemas/course.request-schema';
 import { modifyClassEventSheetsScheme } from '@request-schemas/class-event.request-shema';
 import { modifyInternCourseSheetsScheme } from '@request-schemas/intern-course.request-schema';
-
-const updateInterns = {
-    tags: ['SheetsUpdate'],
-    operationId: 'updateInterns',
-    description: 'Bulk update of pack of interns to sql from sheets',
-    requestBody: {
-        content: {
-            'application/json': {
-                schema: {
-                    type: 'object',
-                    properties: {
-                        update: {
-                            type: 'array',
-                            items: {
-                                ...j2s(modifyInternSheetsScheme).swagger,
-                            }
-                        },
-
-                    }
-                },
-            },
-        },
-        required: true,
-    },
-    responses: {
-        '200': {
-            description: 'Successful bulking update of interns',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: "string",
-                                example: "Data updated successfully!"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal server error',
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    },
-};
 
 const updateCourses = {
     tags: ['SheetsUpdate'],
@@ -242,9 +183,6 @@ const updateInternCourses = {
 };
 
 const routes = {
-    '/google-sheets/synchronizeData/update/intern': {
-        put: updateInterns,
-    },
     '/google-sheets/synchronizeData/update/course': {
         put: updateCourses
     },
