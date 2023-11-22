@@ -1,5 +1,5 @@
 import j2s from 'joi-to-swagger';
-import { createInternScheme } from '@request-schemas/intern.request-schema';
+import { createInternsScheme } from '@request-schemas/intern.request-schema';
 import { createCourseScheme } from '@request-schemas/course.request-schema';
 import { createClassEventScheme } from '@request-schemas/class-event.request-shema';
 import { createInternCourseSchema } from '@request-schemas/intern-course.request-schema';
@@ -17,7 +17,7 @@ const createInterns = {
                         create: {
                             type: 'array',
                             items: {
-                                ...j2s(createInternScheme).swagger
+                                ...j2s(createInternsScheme).swagger
                             }
                         },
 

@@ -4,10 +4,10 @@ import { StatusCodes } from 'http-status-codes';
 import * as InternService from '@services/intern.service';
 
 
-export const createIntern = async (req: Request, res: Response) => {
-    const internData = req.body;
+export const createInterns = async (req: Request, res: Response) => {
+    const { data } = req.body;
 
-    const result = await InternService.createIntern(internData);
+    const result = await InternService.createInterns(data);
 
     res.status(StatusCodes.CREATED).json(result).end();
 };
@@ -41,14 +41,6 @@ export const deleteInternById = async (req: Request, res: Response) => {
     const deletedIntern = await InternService.deleteInternById(internId);
 
     res.status(StatusCodes.OK).send(deletedIntern).end();
-};
-
-export const synchronizeDiscordData = async (req: Request, res: Response) => {
-    const discordData = req.body;
-
-    const result = await InternService.synchronizeDiscordData(discordData);
-
-    res.status(StatusCodes.OK).json(result).end();
 };
 
 export const getCohortScheduleByExplorerId = async (req: Request, res: Response) => {

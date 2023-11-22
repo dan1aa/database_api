@@ -8,13 +8,12 @@ import validateRequestBody from '@middlewares/validateRequestBody.middleware';
 
 import * as InternRequestsShemas from '../request-schemas/intern.request-schema';
 
-
 const router = Router();
 
 router.post(
     '/interns',
-    validateRequestBody(InternRequestsShemas.createInternScheme),
-    tryCatchMiddleware(InternController.createIntern)
+    validateRequestBody(InternRequestsShemas.createInternsScheme),
+    tryCatchMiddleware(InternController.createInterns)
 );
 
 router.put(
@@ -39,12 +38,6 @@ router.delete(
     '/interns/:id',
     validateRequestId,
     tryCatchMiddleware(InternController.deleteInternById)
-);
-
-router.put(
-    '/interns/sync-data/discord',
-    validateRequestBody(InternRequestsShemas.updateDiscordDataArraySheme),
-    tryCatchMiddleware(InternController.synchronizeDiscordData)
 );
 
 router.get(

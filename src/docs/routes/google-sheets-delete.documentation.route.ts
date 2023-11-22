@@ -1,67 +1,7 @@
 import j2s from 'joi-to-swagger';
-import { modifyInternSheetsScheme } from '@request-schemas/intern.request-schema';
 import { modifyCourseSheetsScheme } from '@request-schemas/course.request-schema';
 import { modifyClassEventSheetsScheme } from '@request-schemas/class-event.request-shema';
 import { modifyInternCourseSheetsScheme } from '@request-schemas/intern-course.request-schema';
-
-const deleteInterns = {
-    tags: ['SheetsDelete'],
-    operationId: 'deleteInterns',
-    description: 'Bulk delete of pack of interns',
-    requestBody: {
-        content: {
-            'application/json': {
-                schema: {
-                    type: 'object',
-                    properties: {
-                        delete: {
-                            type: 'array',
-                            items: {
-                                ...j2s(modifyInternSheetsScheme).swagger,
-                            }
-                        },
-
-                    }
-                },
-            },
-        },
-        required: true,
-    },
-    responses: {
-        '200': {
-            description: 'Successful bulking delete of interns',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: "string",
-                                example: "Data deleted successfully!"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal server error',
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    },
-};
 
 const deleteCourses = {
     tags: ['SheetsDelete'],
@@ -242,9 +182,6 @@ const deleteInternCourses = {
 };
 
 const routes = {
-    '/google-sheets/synchronizeData/delete/intern': {
-        delete: deleteInterns,
-    },
     '/google-sheets/synchronizeData/delete/course': {
         delete: deleteCourses
     },
