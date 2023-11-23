@@ -4,6 +4,13 @@ import { Request, Response } from 'express';
 import * as CourseService from '@services/course.service';
 import { Course } from '@prisma/client';
 
+export const createCourses = async (req: Request, res: Response) => {
+    const { data } = req.body;
+
+    const result = await CourseService.createCourses(data);
+
+    res.status(StatusCodes.CREATED).json(result).end();
+};
 
 export const getCourses = async (req: Request, res: Response): Promise<string | void> => {
     const result: Course[] = await CourseService.getCourses();

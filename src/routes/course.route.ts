@@ -14,8 +14,8 @@ router.get('/courses/:id', tryCatchMiddleware(CourseController.getCourseById));
 
 router.post(
     '/courses', 
-    validateRequestBody(CourseModels.createCourseScheme),
-    tryCatchMiddleware(CourseController.createCourse)
+    validateRequestBody(CourseModels.createCoursesScheme),
+    tryCatchMiddleware(CourseController.createCourses)
 )
 
 router.put(

@@ -4,6 +4,11 @@ import { db } from "@utils/db.server";
 import { BadRequestError, NotFoundError } from "@utils/exeptions/ApiErrors";
 import { CourseCreateInput } from "types/types";
 
+export const createCourses = async (data: Prisma.CourseCreateInput[]) => {
+    const result = await db.course.createMany({ data});
+    return result;
+};
+
 
 export const getCourses = async () => {
     const courses: Course[] = await db.course.findMany();

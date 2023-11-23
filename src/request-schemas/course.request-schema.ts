@@ -16,6 +16,10 @@ export const createCourseScheme = Joi.object({
     linkToClassMaterials: Joi.string().allow(null).required()
 });
 
+export const createCoursesScheme = Joi.object({
+    data: Joi.array().items(createCourseScheme),
+})
+
 export const updateCourseScheme = Joi.object(updateCourseObject);
 
 export const modifyCourseSheetsScheme = Joi.object({
