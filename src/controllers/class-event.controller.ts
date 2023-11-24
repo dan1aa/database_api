@@ -41,3 +41,11 @@ export const getListOfClassEvents = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json(classEventsList).end();
 };
+
+//it is for talk time
+export const getClassEventByGoogleMeetCode = async (req: Request, res: Response) => {
+    const { code } = req.params;
+    const classEventByGoogleMeetLink = await ClassEventService.getClassEventByGoogleMeetLink(code)
+
+    res.status(StatusCodes.OK).json(classEventByGoogleMeetLink).end()
+}
