@@ -36,7 +36,7 @@ export const getListOfClassEvents = async () => {
     return result;
 };
 
-export const getClassEventByGoogleMeetLink = async (code: string) => {
+export const getClassEventByGoogleMeetCode = async (code: string) => {
     const result = await db.classEvent.findFirst({
         where: {
             googleMeetLink: `https://meet.google.com/${code}`
