@@ -43,4 +43,9 @@ router.get(
     tryCatchMiddleware(ClassEventController.getListOfClassEvents)
 );
 
+router.get(
+    '/class-events/link/:code',
+    tryCatchMiddleware(ClassEventController.getClassEventByGoogleMeetCode)
+)
+
 export default router;
