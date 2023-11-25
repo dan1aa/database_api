@@ -35,3 +35,13 @@ export const getListOfClassEvents = async () => {
     const result = await db.classEvent.findMany();
     return result;
 };
+
+export const getClassEventByGoogleMeetCode = async (code: string) => {
+    const result = await db.classEvent.findFirst({
+        where: {
+            googleMeetLink: `https://meet.google.com/${code}`
+        }
+    })
+
+    return result;
+}
