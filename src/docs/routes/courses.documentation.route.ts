@@ -1,5 +1,9 @@
 import j2s from 'joi-to-swagger';
-import { createCourseScheme, updateCourseScheme } from '@request-schemas/course.request-schema';
+import { 
+    createCourseScheme, 
+    updateCourseScheme, 
+    enrollmentInternsScheme 
+} from '@request-schemas/course.request-schema';
 
 const createCourse = {
     tags: ['Courses'],
@@ -433,6 +437,19 @@ const getCourseDetails = {
     },
 };
 
+const enrollInternsInCourseById = {
+    tags: ['Courses'],
+    operationId: 'enrollInternsInCourseById',
+    requestBody: {
+        content: {
+            'application/json': {
+                schema: j2s(enrollmentInternsScheme).swagger,
+            },
+        },
+        required: true,
+    },
+};
+
 const routes = {
     '/api/courses': {
         get: getListOfCourses,
@@ -445,6 +462,9 @@ const routes = {
     },
     '/courses/:courseCipher/details': {
         get: getCourseDetails
+    },
+    '/courses/:id/enroll-interns': {
+        post: enrollInternsInCourseById
     }
 };
 

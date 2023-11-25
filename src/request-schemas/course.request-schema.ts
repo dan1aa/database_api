@@ -26,3 +26,12 @@ export const modifyCourseSheetsScheme = Joi.object({
     id: Joi.number().required(),
     ...updateCourseObject
 });
+
+export const enrollmentInternsScheme = Joi.object({
+    data: Joi.array().items(
+        Joi.object({
+            internId: Joi.number().required(),
+            classRoleId: Joi.number().required(),
+        })
+    ),
+});
