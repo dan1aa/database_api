@@ -1,8 +1,6 @@
 import j2s from 'joi-to-swagger';
 
 import { 
-    createCourseScheme, 
-    updateCourseScheme, 
     enrollmentInternsScheme 
 } from '@request-schemas/course.request-schema';
 
