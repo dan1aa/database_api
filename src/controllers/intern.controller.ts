@@ -24,6 +24,7 @@ export const updateInternById = async (req: Request, res: Response) => {
 export const getInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
     const internData = await InternService.getInternById(internId);
+    console.log("HERE IS YOUR INTERN WEBHOOKS WORKING")
     res.status(StatusCodes.OK).json(internData).end();
 };
 
