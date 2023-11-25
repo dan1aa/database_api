@@ -85,60 +85,74 @@ export const deleteCourseById = async (id: number) => {
     return { message: `Course with id ${id} deleted` }
 }
 
+export const enrollInternsInCourseById = async (courseId: number, participantsData: Array<{ internId: number, classRoleId: number }>) => {
+    for (const data of participantsData) {
+        const { internId, classRoleId } = data;
+
+        const internEnrollmentResult = await db.internCourse.create({ data: { internId, courseId } });
+        const internCourseRoleAssignmentResult = await db.internCourseRole.create({ 
+            data: { 
+                classRoleId,
+                internCourseId: internEnrollmentResult.id 
+            } 
+        });
+    }
+}
+
 export const getCourseParticipantsInfoByCourseId = async (id: number) => {
-    const result: { [key: string]: any[] } = {};
+    // const result: { [key: string]: any[] } = {};
 
-    const dbResult: any[] = await db.internCourse.findMany({
-        where: { courseId: id },
-        include: {
-            classRole: true,
-            intern: true
-        },
-    });
+    // const dbResult: any[] = await db.internCourse.findMany({
+    //     where: { courseId: id },
+    //     include: {
+    //         classRole: true,
+    //         intern: true
+    //     },
+    // });
 
-    dbResult.forEach(data => {
-        const roleName: string = `${data.role.name.toLocaleLowerCase()}s`;
+    // dbResult.forEach(data => {
+    //     const roleName: string = `${data.role.name.toLocaleLowerCase()}s`;
 
-        if (!result.hasOwnProperty(roleName)) {
-            result[roleName] = [];
-        } 
+    //     if (!result.hasOwnProperty(roleName)) {
+    //         result[roleName] = [];
+    //     } 
 
-        result[roleName].push(data.intern); 
-    });
+    //     result[roleName].push(data.intern); 
+    // });
 
-    return result;
+    // return result;
 };
 
 
 export const getCourseDetailsByCipher = async (courseCipher: string) => {
-    const courseData = await db.course.findUnique({ where: { courseCipher }});
+    // const courseData = await db.course.findUnique({ where: { courseCipher }});
 
-    if (!courseData) {
-        throw new NotFoundError(`${courseCipher} course dosen't exist`);
-    }
+    // if (!courseData) {
+    //     throw new NotFoundError(`${courseCipher} course dosen't exist`);
+    // }
 
-    const courseParticipants = await db.internCourse.findMany({
-        where: { classRoleId: courseData.id },
-        include: {
-            classRole: true,
-            intern: true
-        },
-    });
+    // const courseParticipants = await db.internCourse.findMany({
+    //     where: { classRoleId: courseData.id },
+    //     include: {
+    //         classRole: true,
+    //         intern: true
+    //     },
+    // });
 
-    const courseSchedule = await db.classEvent.findMany({
-        where: { courseId: courseData.id },
-        include: {
-            classEventType: {
-                select: {
-                    name: true
-                }
-            }
-        }
-    });
+    // const courseSchedule = await db.classEvent.findMany({
+    //     where: { courseId: courseData.id },
+    //     include: {
+    //         classEventType: {
+    //             select: {
+    //                 name: true
+    //             }
+    //         }
+    //     }
+    // });
 
-    return {
-        courseInfo: courseData,
-        participants: courseParticipants,
-        schedule: courseSchedule
-    };
+    // return {
+    //     courseInfo: courseData,
+    //     participants: courseParticipants,
+    //     schedule: courseSchedule
+    // };
 }

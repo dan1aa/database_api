@@ -171,17 +171,25 @@ model InternCourse {
   internId Int
   intern   Intern @relation(fields: [internId], references: [id], name: "InternCourse: intern", onDelete: Cascade)
 
-  classRoleId Int
-  classRole   ClassRole @relation(fields: [classRoleId], references: [id], name: "InternCourse: classRole", onDelete: Cascade)
+  internCourseRole InternCourseRole? @relation(name: "InternCourseRole: internCourse")
+  courseResult     CourseResult[]    @relation(name: "CourseResult: internCourse")
+}
 
-  courseResult CourseResult[] @relation(name: "CourseResult: internCourse")
+model InternCourseRole {
+  id Int @id @default(autoincrement())
+
+  internCourseId Int          @unique
+  internCourse   InternCourse @relation(fields: [internCourseId], references: [id], name: "InternCourseRole: internCourse", onDelete: Cascade)
+
+  classRoleId Int
+  classRole   ClassRole @relation(fields: [classRoleId], references: [id], name: "InternCourseRole: classRole", onDelete: Cascade)
 }
 
 model ClassRole {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(30)
 
-  internCourse InternCourse[] @relation(name: "InternCourse: classRole")
+  internCourseRole InternCourseRole[] @relation(name: "InternCourseRole: classRole")
 }
 
 model ClassEventType {

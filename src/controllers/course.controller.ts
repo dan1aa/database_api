@@ -51,6 +51,15 @@ export const deleteCourseById = async (req: Request, res: Response): Promise<str
     res.status(StatusCodes.OK).json(result).end();
 }
 
+export const enrollInternsInCourseById = async (req: Request, res: Response) => {
+    const courseId = Number(req.params.id);
+    const participantsData = req.body.data;
+
+    const result = await CourseService.enrollInternsInCourseById(courseId, participantsData);
+
+    res.status(StatusCodes.OK).end();
+}
+
 interface CourseDetailsResponse {
     courseName: string,
     courseCipher: string,
