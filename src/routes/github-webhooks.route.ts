@@ -9,3 +9,5 @@ router.post(
     '/github-webhooks', 
     GithubWebhooksController.restartAppOnGithubUpdate
 );
+
+export default router;
