@@ -99,60 +99,73 @@ export const enrollInternsInCourseById = async (courseId: number, participantsDa
     }
 }
 
-export const getCourseParticipantsInfoByCourseId = async (id: number) => {
-    // const result: { [key: string]: any[] } = {};
-
-    // const dbResult: any[] = await db.internCourse.findMany({
-    //     where: { courseId: id },
-    //     include: {
-    //         classRole: true,
-    //         intern: true
-    //     },
-    // });
-
-    // dbResult.forEach(data => {
-    //     const roleName: string = `${data.role.name.toLocaleLowerCase()}s`;
-
-    //     if (!result.hasOwnProperty(roleName)) {
-    //         result[roleName] = [];
-    //     } 
-
-    //     result[roleName].push(data.intern); 
-    // });
-
-    // return result;
-};
-
 
 export const getCourseDetailsByCipher = async (courseCipher: string) => {
-    // const courseData = await db.course.findUnique({ where: { courseCipher }});
+    const targetCourseData = await db.course.findUnique({ where: { courseCipher }});
 
-    // if (!courseData) {
-    //     throw new NotFoundError(`${courseCipher} course dosen't exist`);
-    // }
+    if (!targetCourseData) {
+        throw new NotFoundError(`${courseCipher} course dosen't exist`);
+    }
+    
+    const courseSchedule = await getCourseScheduleByCourseId(targetCourseData.id);
+    const courseParticipants = await getCourseParticipantsByCourseId(targetCourseData.id);
+    
+    const result = {
+        ...targetCourseData,
+        participants: courseParticipants,
+        schedule: courseSchedule
+    }
 
-    // const courseParticipants = await db.internCourse.findMany({
-    //     where: { classRoleId: courseData.id },
-    //     include: {
-    //         classRole: true,
-    //         intern: true
-    //     },
-    // });
-
-    // const courseSchedule = await db.classEvent.findMany({
-    //     where: { courseId: courseData.id },
-    //     include: {
-    //         classEventType: {
-    //             select: {
-    //                 name: true
-    //             }
-    //         }
-    //     }
-    // });
-
-    // return {
-    //     courseInfo: courseData,
-    //     participants: courseParticipants,
-    //     schedule: courseSchedule
-    // };
+    return result;
 }
+
+const getCourseScheduleByCourseId = async (courseId: number) => {
+    const courseSchedule = await db.classEvent.findMany({
+        where: { courseId },
+        include: {
+            classEventType: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    });
+
+    return courseSchedule;
+};
+
+const getCourseParticipantsByCourseId = async (courseId: number) => {
+    const courseParticipants = await db.internCourseRole.findMany({ 
+        where: {
+            internCourse: {
+                courseId: courseId
+            }
+        },
+        include: {
+            internCourse: {
+                include: {
+                    intern: true
+                }
+            },
+            classRole: true
+        }
+    });
+
+    const groupedInternsByRole = courseParticipants.reduce((result: Record<string, Array<any>>, participant) => {
+        const { classRole, internCourse } = participant;
+      
+        const role = classRole.name;
+        const intern = internCourse.intern;
+      
+        if (!result[role]) {
+            result[role] = [];
+        }
+        
+        result[role].push(intern);
+
+        return result;
+    }, {});
+      
+
+    return groupedInternsByRole;
+};
