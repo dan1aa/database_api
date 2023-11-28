@@ -352,55 +352,70 @@ const getCourseDetails = {
                 'application/json': {
                     example: 
                     {
-                        id: 1,
-                        courseName: "iwd1",
-                        courseCipher: "iIWD336-6-a",
-                        linkToClassMaterials: "link",
-                        startDate: "2023-11-12T00:00:00.000Z",
-                        endDate: "2023-11-29T00:00:00.000Z",
+                        id: 4,
+                        courseName: "Basics of Internet Troubleshooting and Communication",
+                        courseCipher: "iBIT346-1-a",
+                        linkToClassMaterials: null,
+                        startDate: "2023-11-13T17:00:00.000Z",
+                        endDate: "2023-11-14T",
                         participants: {
-                          facilitators: [
-                            {
-                              explorerId: "e1",
-                              explorerMail: "string",
-                              explorerPassword: "string",
-                              discordNickname: "string",
-                              cohort: "string",
-                              contactInfo: {
-                                id: 1,
-                                firstName: "firstUpdated",
-                                lastName: "lastName",
-                                email: "email",
-                                age: 15,
-                                country: "country",
-                                timezone: "timezone",
-                                sourceOfReferral: "sourceOfReferral",
-                                eduQuestSelectedDateTime: "2023-06-08T00:00:00.000Z",
-                                eduQuestDecision: "Try again"
-                              }
-                            }
-                          ],
-                          interns: [
-                            {
-                              explorerId: "someExId",
-                              explorerMail: "some mail",
-                              explorerPassword: "some password",
-                              discordNickname: "nameDisc",
-                              cohort: "cohort",
-                              contactInfo: {
-                                id: 5,
-                                firstName: "firstUpdated",
-                                lastName: "lastName",
-                                email: "email2",
-                                age: 15,
-                                country: "country",
-                                timezone: "timezone",
-                                sourceOfReferral: "sourceOfReferral",
-                                eduQuestSelectedDateTime: "2023-06-08T00:00:00.000Z",
-                                eduQuestDecision: "Try again"
-                              }
-                            }
-                          ]
+                            Oversight: [
+                                {
+                                    id: 1,
+                                    name: "Nikita",
+                                    surname: "Kutsokon",
+                                    email: "irohweb@gmail.com",
+                                    explorerId: "exp1",
+                                    explorerMail: "explorer2WlCW@nobelcoaching.com",
+                                    explorerPassword: "MeerkatIvoryItaly",
+                                    discordId: null,
+                                    discordNickname: null,
+                                    cohort: null,
+                                    teachableId: "41747050",
+                                    age: 22,
+                                    city: "Kyiv",
+                                    country: "Ukraine",
+                                    timezone: "GMT+3:00"
+                                }
+                            ],
+                            Intern: [
+                                {
+                                    id: 3,
+                                    name: "Babita",
+                                    surname: "Yoshi",
+                                    email: "volodymyr.ch@nobelcoaching.com",
+                                    explorerId: "exp3",
+                                    explorerMail: "explorerNaAfg@nobelcoaching.com",
+                                    explorerPassword: "KangarooBlackEgypt",
+                                    discordId: null,
+                                    discordNickname: null,
+                                    cohort: null,
+                                    teachableId: "41681769",
+                                    age: 23,
+                                    city: "Kyiv",
+                                    country: "Ukraine",
+                                    timezone: "GMT+3:00"
+                                }
+                            ],
+                            Facilitator: [
+                                {
+                                    id: 2,
+                                    name: "Volodymyr",
+                                    surname: "Cherno",
+                                    email: "chernovsch7@gmail.com",
+                                    explorerId: "exp2",
+                                    explorerMail: "explorerEJgQu@nobelcoaching.com",
+                                    explorerPassword: "KangarooIndigoVietnam",
+                                    discordId: null,
+                                    discordNickname: null,
+                                    cohort: null,
+                                    teachableId: "41751034",
+                                    age: 21,
+                                    city: "Kyiv",
+                                    country: "Ukraine",
+                                    timezone: "GMT+3:00"
+                                }
+                            ]
                         },
                         schedule: [
                           {
