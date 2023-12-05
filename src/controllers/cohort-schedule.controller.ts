@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as CohortScheduleService from '@services/cohort-schedule.service';
 import { CohortSchedule } from '@prisma/client';
+import { CohortScheduleType } from 'types/types';
 
 export const createCohorSchedules = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -15,7 +16,7 @@ export const createCohorSchedules = async (req: Request, res: Response) => {
 export const getCohortScheduleById = async (req: Request, res: Response) => {
     const cohortScheduleId = Number(req.params.id);
 
-    const CohortSchedule: CohortSchedule | null = await CohortScheduleService.getCohortScheduleById(cohortScheduleId);
+    const CohortSchedule: CohortScheduleType = await CohortScheduleService.getCohortScheduleById(cohortScheduleId);
 
     res.status(StatusCodes.OK).json(CohortSchedule).end();
 };
@@ -24,7 +25,7 @@ export const updateCohortScheduleById = async (req: Request, res: Response) => {
     const cohortScheduleData = req.body;
     const cohortScheduleId = Number(req.params.id);
     
-    const updatedCohortScheduleData: CohortSchedule | null = await CohortScheduleService.updateCohortScheduleById(cohortScheduleId, cohortScheduleData);
+    const updatedCohortScheduleData: CohortScheduleType = await CohortScheduleService.updateCohortScheduleById(cohortScheduleId, cohortScheduleData);
 
     res.status(StatusCodes.OK).json(updatedCohortScheduleData).end();
 };
@@ -32,7 +33,7 @@ export const updateCohortScheduleById = async (req: Request, res: Response) => {
 export const deleteCohortScheduleById = async (req: Request, res: Response) => {
     const cohortScheduleId = Number(req.params.id);
 
-    const deletedCohortScheduleData: CohortSchedule | null = await CohortScheduleService.deleteCohortScheduleById(cohortScheduleId);
+    const deletedCohortScheduleData: CohortScheduleType = await CohortScheduleService.deleteCohortScheduleById(cohortScheduleId);
 
     res.status(StatusCodes.OK).json(deletedCohortScheduleData).end();
 };

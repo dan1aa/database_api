@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as CourseResultService from '@services/course-result.service';
 import { CourseResult } from '@prisma/client';
+import { CourseResultType } from 'types/types';
 
 export const createCourseResults = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -16,7 +17,7 @@ export const updateCourseResultById = async (req: Request, res: Response) => {
     const courseResultData = req.body;
     const courseResultId = Number(req.params.id);
     
-    const updatedCourseResult: CourseResult | null = await CourseResultService.updateCourseResultById(courseResultId, courseResultData);
+    const updatedCourseResult: CourseResultType = await CourseResultService.updateCourseResultById(courseResultId, courseResultData);
 
     res.status(StatusCodes.OK).json(updatedCourseResult).end();
 };
@@ -24,7 +25,7 @@ export const updateCourseResultById = async (req: Request, res: Response) => {
 export const getCourseResultById = async (req: Request, res: Response) => {
     const courseResultId = Number(req.params.id);
 
-    const courseResult: CourseResult | null = await CourseResultService.getCourseResultById(courseResultId);
+    const courseResult: CourseResultType = await CourseResultService.getCourseResultById(courseResultId);
 
     res.status(StatusCodes.OK).json(courseResult).end();
 };
@@ -32,7 +33,7 @@ export const getCourseResultById = async (req: Request, res: Response) => {
 export const deleteCourseResultById = async (req: Request, res: Response) => {
     const courseResultId = Number(req.params.id);
 
-    const deletedCourseResult: CourseResult | null = await CourseResultService.deleteCourseResultById(courseResultId);
+    const deletedCourseResult: CourseResultType = await CourseResultService.deleteCourseResultById(courseResultId);
 
     res.status(StatusCodes.OK).json(deletedCourseResult).end();
 };

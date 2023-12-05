@@ -2,6 +2,7 @@ import { Course, Prisma } from "@prisma/client";
 
 import { db } from "@utils/db.server";
 import { NotFoundError } from "@utils/exeptions/ApiErrors";
+import { CourseType } from "types/types";
 
 export const createCourses = async (courses: Prisma.CourseCreateInput[]) => {
 
@@ -21,8 +22,8 @@ export const getCourses = async (): Promise<Course[] | null> => {
     return coursesList
 }
 
-export const getCourseById = async (id: number): Promise<Course | null> => {
-    const course: Course | null = await db.course.findUnique({
+export const getCourseById = async (id: number): Promise<CourseType> => {
+    const course: CourseType = await db.course.findUnique({
         where: {
             id
         }
@@ -36,14 +37,14 @@ export const getCourseById = async (id: number): Promise<Course | null> => {
     return course
 }
 
-export const updateCourseById = async (id: number , course: any): Promise<Course | null> => {
+export const updateCourseById = async (id: number , course: any): Promise<CourseType> => {
 
     const { startDate, endDate } = course;
 
     course.startDate = new Date(startDate);
     course.endDate = new Date(endDate)
 
-    const courseExistance: Course | null = await db.course.findUnique({
+    const courseExistance: CourseType = await db.course.findUnique({
         where: {
             id
         }
@@ -51,7 +52,7 @@ export const updateCourseById = async (id: number , course: any): Promise<Course
 
     if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
 
-    const updatedCourse: Course | null = await db.course.update({
+    const updatedCourse: CourseType = await db.course.update({
         where: {
             id
         },
@@ -61,9 +62,9 @@ export const updateCourseById = async (id: number , course: any): Promise<Course
     return updatedCourse
 }
 
-export const deleteCourseById = async (id: number): Promise<Course | null> => {
+export const deleteCourseById = async (id: number): Promise<CourseType> => {
 
-    const courseExistance: Course | null = await db.course.findUnique({
+    const courseExistance: CourseType = await db.course.findUnique({
         where: {
             id
         }
@@ -71,7 +72,7 @@ export const deleteCourseById = async (id: number): Promise<Course | null> => {
 
     if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
 
-    const deletedCourse: Course | null = await db.course.delete({
+    const deletedCourse: CourseType = await db.course.delete({
         where: {
             id
         }
@@ -96,7 +97,7 @@ export const enrollInternsInCourseById = async (courseId: number, participantsDa
 
 
 export const getCourseDetailsByCipher = async (courseCipher: string) => {
-    const targetCourseData: Course | null = await db.course.findUnique({ where: { courseCipher }});
+    const targetCourseData: CourseType = await db.course.findUnique({ where: { courseCipher }});
 
     if (!targetCourseData) {
         throw new NotFoundError(`${courseCipher} course doesn't exist`);

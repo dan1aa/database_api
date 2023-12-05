@@ -2,6 +2,7 @@ import { CohortSchedule, Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
+import { CohortScheduleType } from 'types/types';
 
 export const createCohortSchedules = async (data: Prisma.CohortScheduleCreateInput[]) => {
     const createdCohortSchedules = await db.cohortSchedule.createMany({ data });
@@ -9,8 +10,8 @@ export const createCohortSchedules = async (data: Prisma.CohortScheduleCreateInp
     return createdCohortSchedules;
 };
 
-export const getCohortScheduleById = async (id: number): Promise<CohortSchedule | null> => {
-    const cohortSchedule: CohortSchedule | null = await db.cohortSchedule.findUnique({ where: { id } });
+export const getCohortScheduleById = async (id: number): Promise<CohortScheduleType> => {
+    const cohortSchedule: CohortScheduleType = await db.cohortSchedule.findUnique({ where: { id } });
 
     if (!cohortSchedule) {
         throw new NotFoundError(`Cohort schedule with id ${id} doesn't exist`);
@@ -19,14 +20,14 @@ export const getCohortScheduleById = async (id: number): Promise<CohortSchedule 
     return cohortSchedule;
 };
 
-export const updateCohortScheduleById = async (id: number, data: Prisma.CohortScheduleUpdateInput): Promise<CohortSchedule | null> => {
-    const updatedCohortSchedule: CohortSchedule | null = await db.cohortSchedule.update({ where: { id }, data: data });
+export const updateCohortScheduleById = async (id: number, data: Prisma.CohortScheduleUpdateInput): Promise<CohortScheduleType> => {
+    const updatedCohortSchedule: CohortScheduleType = await db.cohortSchedule.update({ where: { id }, data: data });
 
     return updatedCohortSchedule;
 };
 
-export const deleteCohortScheduleById = async (id: number): Promise<CohortSchedule | null> => {
-    const deletedCohortSchedule: CohortSchedule | null = await db.cohortSchedule.delete({ where: { id } })
+export const deleteCohortScheduleById = async (id: number): Promise<CohortScheduleType> => {
+    const deletedCohortSchedule: CohortScheduleType = await db.cohortSchedule.delete({ where: { id } })
 
     return deletedCohortSchedule;
 };

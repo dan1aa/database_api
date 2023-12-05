@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import * as ContactService from '@services/contact.service';
 import * as IpGeolocationService from '@services/ip-geolocation.service';
 import { Contact } from '@prisma/client';
+import { ContactType } from 'types/types';
 
 export const createContact = async (req: Request, res: Response) => {
     const requestContactData = req.body;
@@ -25,7 +26,7 @@ export const createContact = async (req: Request, res: Response) => {
 export const getContactById = async (req: Request, res: Response) => {
     const contactId = Number(req.params.id);
 
-    const contact: Contact | null = await ContactService.getContactById(contactId);
+    const contact: ContactType = await ContactService.getContactById(contactId);
 
     res.status(StatusCodes.OK).json(contact).end();
 };
@@ -34,7 +35,7 @@ export const updateContactById = async (req: Request, res: Response) => {
     const contactData = req.body;
     const contactId = Number(req.params.id);
     
-    const updatedContact: Contact | null = await ContactService.updateContactById(contactId, contactData);
+    const updatedContact: ContactType = await ContactService.updateContactById(contactId, contactData);
 
     res.status(StatusCodes.OK).json(updatedContact).end();
 };
@@ -42,7 +43,7 @@ export const updateContactById = async (req: Request, res: Response) => {
 export const deleteContactById = async (req: Request, res: Response) => {
     const contactId = Number(req.params.id);
 
-    const deletedContact: Contact | null = await ContactService.deleteContactById(contactId);
+    const deletedContact: ContactType = await ContactService.deleteContactById(contactId);
 
     res.status(StatusCodes.OK).json(deletedContact).end();
 };
