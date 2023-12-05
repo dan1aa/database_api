@@ -1,5 +1,5 @@
 import { exec } from "child_process";
-import { Response, Request } from "express";
+import { Response } from "express";
 
 export const restartAppOnGithubUpdate = async (res: Response) => {
     exec('git stash', (err, stdout, stderr) => {

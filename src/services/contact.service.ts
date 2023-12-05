@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Contact, Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
@@ -19,40 +19,42 @@ export const createContact = async (contactData: Prisma.ContactCreateInput) => {
     }
 };
 
-export const getContactById = async (id: number) => {
-    const findingResult = await db.contact.findUnique({ where: { id } });
+export const getContactById = async (id: number): Promise<Contact | null> => {
+    const contact: Contact | null = await db.contact.findUnique({ where: { id } });
 
-    if (!findingResult) {
-        throw new NotFoundError(`Contact with id ${id} dosen't exist`);
+    if (!contact) {
+        throw new NotFoundError(`Contact with id ${id} doesn't exist`);
     }
 
-    return findingResult;
+    return contact;
 };
 
-export const updateContactById = async (id: number, data: Prisma.ContactUpdateInput) => {
-    const result = await db.contact.update({ where: { id }, data: data });
-    return result;
+export const updateContactById = async (id: number, data: Prisma.ContactUpdateInput): Promise<Contact | null> => {
+    const updatedContact: Contact | null = await db.contact.update({ where: { id }, data: data });
+
+    return updatedContact;
 };
 
-export const deleteContactById = async (id: number) => {
-    const result = await db.contact.delete({ where: { id } })
-    return result;
+export const deleteContactById = async (id: number): Promise<Contact | null> => {
+    const deletedContact: Contact | null = await db.contact.delete({ where: { id } })
+
+    return deletedContact;
 };
 
-export const getContactsList = async (from: number, to: number) => {
-    const result = await db.contact.findMany({
+export const getContactsList = async (from: number, to: number): Promise<Contact[] | null> => {
+    const contactsList: Contact[] | null = await db.contact.findMany({
         skip: from,
         take: to - from
     });
 
-    return result;
+    return contactsList;
 };
 
-export const bulkingCreation = async (listOfContactsData: Prisma.ContactCreateInput[]) => {
+export const bulkingCreation = async (contactsData: Prisma.ContactCreateInput[]) => {
     const errors = [];
     let createdContactsCount = 0;
 
-    for (let contactData of listOfContactsData) {
+    for (let contactData of contactsData) {
         try {
             const createdContact = await db.contact.create({ data: contactData });
             createdContactsCount += 1;

@@ -11,8 +11,8 @@ const replicateData = async(tag: TReplicationDataTag, data: Prisma.InternCreateI
         }
     
         await axios.post(process.env.GOOGLE_SHEETS_DATABASE_BASE_URL, {
-            tag: tag,
-            data: data
+            tag,
+            data
         });
     } catch(error) {
         throw new Error(`Error replicating data to Google Sheets:\n ${error}`);

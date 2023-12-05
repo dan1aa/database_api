@@ -114,7 +114,7 @@ const getContactById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Contact with id 34 dosen`t exist'
+                                example: 'Contact with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -208,7 +208,7 @@ const updateContactById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Contact with id 34 dosen`t exist'
+                                example: 'Contact with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -278,7 +278,7 @@ const deleteContactById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Contact with id 34 dosen`t exist'
+                                example: 'Contact with id 34 doesn`t exist'
                             }
                         }
                     }

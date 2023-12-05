@@ -2,42 +2,43 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as CourseResultService from '@services/course-result.service';
+import { CourseResult } from '@prisma/client';
 
-export const createCourseResult = async (req: Request, res: Response) => {
-    const courseResultData = req.body;
+export const createCourseResults = async (req: Request, res: Response) => {
+    const { data } = req.body;
 
-    const createdCourseResultRecord = await CourseResultService.createCourseResult(courseResultData);
+    const createdCourseResult = await CourseResultService.createCourseResults(data);
 
-    res.status(StatusCodes.CREATED).json(createdCourseResultRecord).end();
+    res.status(StatusCodes.CREATED).json(createdCourseResult).end();
 };
 
 export const updateCourseResultById = async (req: Request, res: Response) => {
     const courseResultData = req.body;
     const courseResultId = Number(req.params.id);
     
-    const updatedCourseResultRecord = await CourseResultService.updateCourseResultById(courseResultId, courseResultData);
+    const updatedCourseResult: CourseResult | null = await CourseResultService.updateCourseResultById(courseResultId, courseResultData);
 
-    res.status(StatusCodes.OK).json(updatedCourseResultRecord).end();
+    res.status(StatusCodes.OK).json(updatedCourseResult).end();
 };
 
 export const getCourseResultById = async (req: Request, res: Response) => {
     const courseResultId = Number(req.params.id);
 
-    const courseResultData = await CourseResultService.getCourseResultById(courseResultId);
+    const courseResult: CourseResult | null = await CourseResultService.getCourseResultById(courseResultId);
 
-    res.status(StatusCodes.OK).json(courseResultData).end();
+    res.status(StatusCodes.OK).json(courseResult).end();
 };
 
 export const deleteCourseResultById = async (req: Request, res: Response) => {
     const courseResultId = Number(req.params.id);
 
-    const deletedCourseResult = await CourseResultService.deleteCourseResultById(courseResultId);
+    const deletedCourseResult: CourseResult | null = await CourseResultService.deleteCourseResultById(courseResultId);
 
     res.status(StatusCodes.OK).json(deletedCourseResult).end();
 };
 
 export const getListOfCourseResults = async (req: Request, res: Response) => {
-    const courseResultsList = await CourseResultService.getListOfCourseResults();
+    const courseResultsList: CourseResult[] | null = await CourseResultService.getListOfCourseResults();
 
     res.status(StatusCodes.OK).json(courseResultsList).end();
 };

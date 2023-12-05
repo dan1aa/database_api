@@ -61,7 +61,7 @@ const createIntern = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Contact with id 34 dosen`t exist'
+                                example: 'Contact with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -129,7 +129,7 @@ const getInternById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with id 34 dosen`t exist'
+                                example: 'Intern with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -221,7 +221,7 @@ const updateInternById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with id 34 dosen`t exist'
+                                example: 'Intern with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -289,7 +289,7 @@ const deleteInternById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with id 34 dosen`t exist'
+                                example: 'Intern with id 34 doesn`t exist'
                             }
                         }
                     }

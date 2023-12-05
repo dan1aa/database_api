@@ -1,39 +1,41 @@
-import { Prisma } from '@prisma/client';
+import { Intern, Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
 import { FilteringParams } from 'types/types';
 
 
-export const createInterns = async (data: Prisma.InternCreateInput[]) => {
-    const result = await db.intern.createMany({ data: data});
-    return result;
+export const createInterns = async (interns: Prisma.InternCreateInput[]) => {
+    const createdInterns = await db.intern.createMany({ data: interns});
+
+    return createdInterns;
 };
 
 
-
-export const getInternById = async (id: number) => {
-    const result = await db.intern.findUnique({ where: { id } });
+export const getInternById = async (id: number): Promise<Intern | null> => {
+    const intern: Intern | null = await db.intern.findUnique({ where: { id } });
     
-    if (!result) {
-        throw new NotFoundError(`Intern with id ${id} dosen't exist`);
+    if (!intern) {
+        throw new NotFoundError(`Intern with id ${id} doesn't exist`);
     }
 
-    return result;
+    return intern;
 };
 
-export const deleteInternById = async (id: number) => {
-    const result = await db.intern.delete({ where: { id } });
-    return result;
+export const deleteInternById = async (id: number): Promise<Intern | null> => {
+    const deletedIntern: Intern | null = await db.intern.delete({ where: { id } });
+
+    return deletedIntern;
 };
 
-export const updateInternById = async (id: number, data: Prisma.InternUpdateInput) => {    
-    const result = await db.intern.update({ where: { id }, data: data });
-    return result;
+export const updateInternById = async (id: number, intern: Prisma.InternUpdateInput): Promise<Intern | null> => {    
+    const updatedIntern: Intern | null = await db.intern.update({ where: { id }, data: intern });
+
+    return updatedIntern;
 };
 
-export const getInternsList = async (filteringParams: FilteringParams) => {
-    const result = await db.intern.findMany({
+export const getInternsList = async (filteringParams: FilteringParams): Promise<Intern[] | null> => {
+    const internsList: Intern[] | null = await db.intern.findMany({
         where: {
             cohort: filteringParams.cohort,
             internCourse: {
@@ -46,17 +48,17 @@ export const getInternsList = async (filteringParams: FilteringParams) => {
         },
     });
 
-    return result;
+    return internsList;
 };
 
 export const getCohortScheduleByExplorerId = async (explorerId: string) => {
-    const targetIntern = await db.intern.findUnique({ where: { explorerId }});
+    const targetIntern: Intern | null = await db.intern.findUnique({ where: { explorerId }});
 
     if (!targetIntern) {
-        throw new NotFoundError(`Intern with exporerId ${explorerId} dosen't exist`);
+        throw new NotFoundError(`Intern with exporerId ${explorerId} doesn't exist`);
     }
 
-    const schedule = db.cohortSchedule.findMany({
+    const cohortSchedule = db.cohortSchedule.findMany({
         where: {
             cohort: targetIntern.cohort!,
         }, 
@@ -65,5 +67,5 @@ export const getCohortScheduleByExplorerId = async (explorerId: string) => {
         }
     });
 
-    return schedule;
+    return cohortSchedule;
 };

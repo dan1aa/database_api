@@ -16,7 +16,7 @@ const router = Router();
 router.post(
     '/class-events',
     validateRequestBody(createClassEventScheme),
-    tryCatchMiddleware(ClassEventController.createClassEvent)
+    tryCatchMiddleware(ClassEventController.createClassEvents)
 );
 
 router.get(

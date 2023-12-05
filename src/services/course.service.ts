@@ -1,23 +1,28 @@
 import { Course, Prisma } from "@prisma/client";
 
 import { db } from "@utils/db.server";
-import { BadRequestError, NotFoundError } from "@utils/exeptions/ApiErrors";
-import { CourseCreateInput } from "types/types";
+import { NotFoundError } from "@utils/exeptions/ApiErrors";
 
-export const createCourses = async (data: Prisma.CourseCreateInput[]) => {
-    const result = await db.course.createMany({ data});
-    return result;
+export const createCourses = async (courses: Prisma.CourseCreateInput[]) => {
+
+    courses.forEach(course => {
+        course.startDate = new Date(course.startDate)
+        course.endDate = new Date(course.endDate)
+    })
+
+    const createdCourses = await db.course.createMany({ data: courses });
+    return createdCourses;
 };
 
 
-export const getCourses = async () => {
-    const courses: Course[] = await db.course.findMany();
+export const getCourses = async (): Promise<Course[] | null> => {
+    const coursesList: Course[] = await db.course.findMany();
 
-    return courses
+    return coursesList
 }
 
-export const getCourseById = async (id: number) => {
-    const course: any = await db.course.findUnique({
+export const getCourseById = async (id: number): Promise<Course | null> => {
+    const course: Course | null = await db.course.findUnique({
         where: {
             id
         }
@@ -31,24 +36,14 @@ export const getCourseById = async (id: number) => {
     return course
 }
 
-export const createCourse = async (course: CourseCreateInput) => {
-    const { startDate, endDate } = course;
-
-    course.startDate = new Date(startDate)
-    course.endDate = new Date(endDate)
-
-    const result = await db.course.create({ data: course });
-    return result;
-};
-
-export const updateCourseById = async (id: number , course: any) => {
+export const updateCourseById = async (id: number , course: any): Promise<Course | null> => {
 
     const { startDate, endDate } = course;
 
     course.startDate = new Date(startDate);
     course.endDate = new Date(endDate)
 
-    const courseExistance: any = await db.course.findUnique({
+    const courseExistance: Course | null = await db.course.findUnique({
         where: {
             id
         }
@@ -56,19 +51,19 @@ export const updateCourseById = async (id: number , course: any) => {
 
     if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
 
-    const result: Course = await db.course.update({
+    const updatedCourse: Course | null = await db.course.update({
         where: {
             id
         },
         data: course
     })
 
-    return result
+    return updatedCourse
 }
 
-export const deleteCourseById = async (id: number) => {
+export const deleteCourseById = async (id: number): Promise<Course | null> => {
 
-    const courseExistance: any = await db.course.findUnique({
+    const courseExistance: Course | null = await db.course.findUnique({
         where: {
             id
         }
@@ -76,18 +71,18 @@ export const deleteCourseById = async (id: number) => {
 
     if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
 
-    await db.course.delete({
+    const deletedCourse: Course | null = await db.course.delete({
         where: {
             id
         }
     })
 
-    return { message: `Course with id ${id} deleted` }
+    return deletedCourse;
 }
 
 export const enrollInternsInCourseById = async (courseId: number, participantsData: Array<{ internId: number, classRoleId: number }>) => {
-    for (const data of participantsData) {
-        const { internId, classRoleId } = data;
+    for (const participantData of participantsData) {
+        const { internId, classRoleId } = participantData;
 
         const internEnrollmentResult = await db.internCourse.create({ data: { internId, courseId } });
         const internCourseRoleAssignmentResult = await db.internCourseRole.create({ 
@@ -101,10 +96,10 @@ export const enrollInternsInCourseById = async (courseId: number, participantsDa
 
 
 export const getCourseDetailsByCipher = async (courseCipher: string) => {
-    const targetCourseData = await db.course.findUnique({ where: { courseCipher }});
+    const targetCourseData: Course | null = await db.course.findUnique({ where: { courseCipher }});
 
     if (!targetCourseData) {
-        throw new NotFoundError(`${courseCipher} course dosen't exist`);
+        throw new NotFoundError(`${courseCipher} course doesn't exist`);
     }
     
     const courseSchedule = await getCourseScheduleByCourseId(targetCourseData.id);
