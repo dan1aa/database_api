@@ -7,55 +7,47 @@ import { Course } from '@prisma/client';
 export const createCourses = async (req: Request, res: Response) => {
     const { data } = req.body;
 
-    const result = await CourseService.createCourses(data);
+    const cratedCourses = await CourseService.createCourses(data);
 
-    res.status(StatusCodes.CREATED).json(result).end();
+    res.status(StatusCodes.CREATED).json(cratedCourses).end();
 };
 
-export const getCourses = async (req: Request, res: Response): Promise<string | void> => {
-    const result: Course[] = await CourseService.getCourses();
+export const getCourses = async (req: Request, res: Response) => {
+    const coursesList: Course[] | null = await CourseService.getCourses();
         
-    res.status(StatusCodes.OK).json(result).end();
+    res.status(StatusCodes.OK).json(coursesList).end();
 };
 
-export const getCourseById = async (req: Request, res: Response): Promise<string | void> => {
+export const getCourseById = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result: Course | null = await CourseService.getCourseById(+id)
+    const course: Course | null = await CourseService.getCourseById(+id)
 
-    res.status(StatusCodes.OK).json(result).end()
+    res.status(StatusCodes.OK).json(course).end()
 }
 
-export const createCourse = async (req: Request, res: Response): Promise<string | void> => {
-    const courseData = req.body;
-
-    const result = await CourseService.createCourse(courseData);
-
-    res.status(StatusCodes.CREATED).json(result).end();
-}
-
-export const updateCourseById = async (req: Request, res: Response): Promise<string | void> => {
+export const updateCourseById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const data = req.body;
 
-    const result = await CourseService.updateCourseById(+id, data);
+    const updatedCourse: Course | null = await CourseService.updateCourseById(+id, data);
 
-    res.status(StatusCodes.OK).json(result).end();
+    res.status(StatusCodes.OK).json(updatedCourse).end();
 }
 
 
-export const deleteCourseById = async (req: Request, res: Response): Promise<string | void> => {
+export const deleteCourseById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const result = await CourseService.deleteCourseById(+id);
+    const deletedCourse: Course | null = await CourseService.deleteCourseById(+id);
 
-    res.status(StatusCodes.OK).json(result).end();
+    res.status(StatusCodes.OK).json(deletedCourse).end();
 }
 
 export const enrollInternsInCourseById = async (req: Request, res: Response) => {
     const courseId = Number(req.params.id);
     const participantsData = req.body.data;
 
-    const result = await CourseService.enrollInternsInCourseById(courseId, participantsData);
+    await CourseService.enrollInternsInCourseById(courseId, participantsData);
 
     res.status(StatusCodes.OK).end();
 }
@@ -64,7 +56,7 @@ export const enrollInternsInCourseById = async (req: Request, res: Response) => 
 export const getCourseDetailsByCipher = async (req: Request, res: Response) => {
     const courseCipher = req.params.courseCipher;
 
-    const databaseResult = await CourseService.getCourseDetailsByCipher(courseCipher);
+    const courseDetails = await CourseService.getCourseDetailsByCipher(courseCipher);
 
-    res.status(StatusCodes.OK).json(databaseResult).end();
+    res.status(StatusCodes.OK).json(courseDetails).end();
 };

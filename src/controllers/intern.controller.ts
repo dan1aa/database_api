@@ -2,43 +2,45 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as InternService from '@services/intern.service';
+import { Intern } from '@prisma/client';
 
 
 export const createInterns = async (req: Request, res: Response) => {
     const { data } = req.body;
 
-    const result = await InternService.createInterns(data);
+    const createdInterns = await InternService.createInterns(data);
 
-    res.status(StatusCodes.CREATED).json(result).end();
+    res.status(StatusCodes.CREATED).json(createdInterns).end();
 };
 
 export const updateInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
     const internData = req.body;
 
-    await InternService.updateInternById(internId, internData);
+    const updatedIntern: Intern | null = await InternService.updateInternById(internId, internData);
 
-    res.status(StatusCodes.OK).end();
+    res.status(StatusCodes.OK).json(updatedIntern).end();
 };
 
 export const getInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
-    const internData = await InternService.getInternById(internId);
-    console.log("HERE IS YOUR INTERN WEBHOOKS WORKING")
-    res.status(StatusCodes.OK).json(internData).end();
+
+    const intern: Intern | null = await InternService.getInternById(internId);
+
+    res.status(StatusCodes.OK).json(intern).end();
 };
 
 export const getFilteredInternsList = async (req: Request, res: Response) => {
     const filteringParams = req.query;
-    const result = await InternService.getInternsList(filteringParams);
+    const internsList: Intern[] | null = await InternService.getInternsList(filteringParams);
 
-    res.status(StatusCodes.OK).json(result).end();
+    res.status(StatusCodes.OK).json(internsList).end();
 };
 
 export const deleteInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
 
-    const deletedIntern = await InternService.deleteInternById(internId);
+    const deletedIntern: Intern | null = await InternService.deleteInternById(internId);
 
     res.status(StatusCodes.OK).send(deletedIntern).end();
 };
@@ -46,7 +48,7 @@ export const deleteInternById = async (req: Request, res: Response) => {
 export const getCohortScheduleByExplorerId = async (req: Request, res: Response) => {
     const explorerId = req.params.explorerId;
 
-    const result = await InternService.getCohortScheduleByExplorerId(explorerId);
+    const cohortSchedule = await InternService.getCohortScheduleByExplorerId(explorerId);
 
-    res.status(StatusCodes.OK).json(result).end();
+    res.status(StatusCodes.OK).json(cohortSchedule).end();
 };

@@ -41,7 +41,7 @@ const createInternCourseRole = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern course record with id 34 dosen`t exist'
+                                example: 'Intern course record with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -57,7 +57,7 @@ const createInternCourseRole = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Class role with id 34 dosen`t exist'
+                                example: 'Class role with id 34 doesn`t exist'
                             }
                         }
                     }

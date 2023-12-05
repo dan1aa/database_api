@@ -106,7 +106,7 @@ const getClassEventById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Class event with id 34 dosen`t exist'
+                                example: 'Class event with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -196,7 +196,7 @@ const updateClassEventById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Class Event with id 34 dosen`t exist'
+                                example: 'Class Event with id 34 doesn`t exist'
                             }
                         }
                     }

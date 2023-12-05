@@ -13,7 +13,7 @@ const router = Router();
 router.post(
     '/course-results',
     validateRequestBody(CourseResultRequestShemas.createCourseResultScheme),
-    tryCatchMiddleware(CourseResultController.createCourseResult)
+    tryCatchMiddleware(CourseResultController.createCourseResults)
 );
 
 router.get(

@@ -112,7 +112,7 @@ const getCourseById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course with id 34 dosen`t exist'
+                                example: 'Course with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -202,7 +202,7 @@ const updateCourseById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course with id 34 dosen`t exist'
+                                example: 'Course with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -268,7 +268,7 @@ const deleteCourseById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course with id 34 dosen`t exist'
+                                example: 'Course with id 34 doesn`t exist'
                             }
                         }
                     }

@@ -16,7 +16,7 @@ const router = Router();
 router.post(
     '/cohort-schedule',
     validateRequestBody(createCohorScheduleScheme),
-    tryCatchMiddleware(CohortScheduleController.createCohorSchedule)
+    tryCatchMiddleware(CohortScheduleController.createCohorSchedules)
 );
 
 router.get(

@@ -1,45 +1,32 @@
+import { createFacilitatorResultScheme, updateFacilitatorResultScheme } from "@request-schemas/facilitator-results.request-schema";
 import j2s from 'joi-to-swagger';
-import { createCourseResultScheme, updateCourseResultScheme } from '@request-schemas/course-result.request-shema';
 
-const createCourseResult = {
-    tags: ['Course Results'],
-    operationId: 'createCourseResult',
+
+const createFacilitatorResults = {
+    tags: ['Facilitator Results'],
+    operationId: 'createFacilitatorResults',
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createCourseResultScheme).swagger,
+                schema: j2s(createFacilitatorResultScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '201': {
-            description: 'Course-result created successfully!',
+            description: 'Facilitator Results created successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
-                            id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Amazing' },
-                        }
-                    }
-                },
-            },
-        },
-        '400': {
-            description: 'You try to create record with not exising id in Intern-Course table',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            msg: {
-                                type: 'string',
-                                example: 'Record in table Intern-Course with id ${internCourseId} doesn`t exist'
-                            }
+                            id: { type: 'number', example: 1 },
+                            attendance: { type: 'boolean', example: true },
+                            techCheck: { type: 'string', example: 'techcheck result' },
+                            participationActivity: { type: 'string', example: "active" },
+                            internId: { type: 'number', example: 1 },
+                            classEventId: { type: 'number', example: 1 }
                         }
                     }
                 },
@@ -64,37 +51,87 @@ const createCourseResult = {
     },
 };
 
-const getCourseResultById = {
-    tags: ['Course Results'],
-    operationId: 'getCourseResultById',
+const getListOfFacilitatorResults = {
+    tags: ['Facilitator Results'],
+    operationId: 'getListOfFacilitatorResults',
+    responses: {
+        '200': {
+            description: 'Successful Retrieve list of facilitator results',
+            content: {
+                'application/json': {
+                    example: [
+                        {
+                            id: 1,
+                            attendance: true,
+                            techCheck: 'techcheck result',
+                            participationActivity: "active" ,
+                            internId: 1,
+                            classEventId: 1
+                        },
+                        {
+                            id: 2,
+                            attendance: false,
+                            techCheck: 'techcheck result',
+                            participationActivity: "active" ,
+                            internId: 2,
+                            classEventId: 2
+                        }
+                    ]
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
+const getFacilitatorResultById = {
+    tags: ['Facilitator Results'],
+    operationId: 'getFacilitatorResultById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Course-result id',
+            description: 'Facilitator Result id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Course-result retrived successfully!',
+            description: 'Facilitator Result retrived successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
-                            id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Amazing' },
+                            id: { type: 'number', example: 1 },
+                            attendance: { type: 'boolean', example: true },
+                            techCheck: { type: 'string', example: 'techcheck result' },
+                            participationActivity: { type: 'string', example: "active" },
+                            internId: { type: 'number', example: 1 },
+                            classEventId: { type: 'number', example: 1 }
                         }
                     }
                 },
             },
         },
         '404': {
-            description: 'You try access to not existing course-result record',
+            description: 'You try access facilitator result with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -102,7 +139,7 @@ const getCourseResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course-result with id {id} doesn`t exist'
+                                example: 'Facilitator Result with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -128,14 +165,14 @@ const getCourseResultById = {
     },
 };
 
-const updateCourseResultById = {
-    tags: ['Course Results'],
-    operationId: 'updateCourseResultById',
+const updateFacilitatorResultById = {
+    tags: ['Facilitator Results'],
+    operationId: 'updateFacilitatorResultById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Course-result id',
+            description: 'Facilitator Result id',
             required: true,
             type: 'number',
         },
@@ -143,30 +180,32 @@ const updateCourseResultById = {
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(updateCourseResultScheme).swagger,
+                schema: j2s(updateFacilitatorResultScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '200': {
-            description: 'Course-result updated successfully!',
+            description: 'Facilitator Result updated successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
-                            id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Amazing' },
+                            id: { type: 'number', example: 1 },
+                            attendance: { type: 'boolean', example: true },
+                            techCheck: { type: 'string', example: 'techcheck result' },
+                            participationActivity: { type: 'string', example: "active" },
+                            internId: { type: 'number', example: 1 },
+                            classEventId: { type: 'number', example: 1 }
                         }
                     }
                 },
             },
         },
         '400': {
-            description: 'You try update field internCourseId to value that dose`t exist',
+            description: 'You try to update unique field that isn`t exist',
             content: {
                 'application/json': {
                     schema: {
@@ -174,7 +213,7 @@ const updateCourseResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Record in table Intern-Course with id ${internCourseId} doesn`t exist'
+                                example: 'Facilitator Result with your id doesn`t exist'
                             }
                         }
                     }
@@ -182,7 +221,7 @@ const updateCourseResultById = {
             },
         },
         '404': {
-            description: 'You try access to not existing course-result record',
+            description: 'You try access Facilitator Result with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -190,7 +229,7 @@ const updateCourseResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course-result with id {id} doesn`t exist'
+                                example: 'Facilitator Result with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -216,37 +255,39 @@ const updateCourseResultById = {
     },
 };
 
-const deleteCourseResultById = {
-    tags: ['Course Results'],
-    operationId: 'deleteCourseResultById',
+const deleteFacilitatorResultById = {
+    tags: ['Facilitator Results'],
+    operationId: 'deleteFacilitatorResultById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Course-result id',
+            description: 'Facilitator Result id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Course-result deleted successfully!',
+            description: 'Facilitator Result deleted successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
-                            id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Amazing' },
+                            id: { type: 'number', example: 1 },
+                            attendance: { type: 'boolean', example: true },
+                            techCheck: { type: 'string', example: 'techcheck result' },
+                            participationActivity: { type: 'string', example: "active" },
+                            internId: { type: 'number', example: 1 },
+                            classEventId: { type: 'number', example: 1 }
                         }
                     }
                 },
             },
         },
         '404': {
-            description: 'You try to delete not existing course-result record',
+            description: 'You try to delete not existing Facilitator Result',
             content: {
                 'application/json': {
                     schema: {
@@ -254,7 +295,7 @@ const deleteCourseResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course-result with id ${id} doesn`t exist'
+                                example: 'Facilitator Result with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -280,60 +321,16 @@ const deleteCourseResultById = {
     },
 };
 
-const getListOfCourseResults = {
-    tags: ['Course Results'],
-    operationId: 'getListOfCourseResults',
-    responses: {
-        '200': {
-            description: 'Successful Retrieve list of course-results',
-            content: {
-                'application/json': {
-                    example: [
-                        {
-                            id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Amazing' },
-                        },
-                        {
-                            id: { type: 'number', example: 43 },
-                            internCourseId: { type: 'number', example: 18 },
-                            masteryResult: { type: 'string', example: 'Mastery' },
-                            englishLevel: { type: 'string', example: 'Not bad' },
-                        }
-                    ]
-                },
-            },
-        },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal server error',
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    },
-};
-
 const routes = {
-    '/api/course-results': {
-        get: getListOfCourseResults,
-        post: createCourseResult,
+    '/api/facilitator-results': {
+        post: createFacilitatorResults,
+        get: getListOfFacilitatorResults
     },
-    '/api/course-results/:id': {
-        get: getCourseResultById,
-        put: updateCourseResultById,
-        delete: deleteCourseResultById
-    },
+    '/api/facilitator-results/:id': {
+        get: getFacilitatorResultById,
+        put: updateFacilitatorResultById,
+        delete: deleteFacilitatorResultById
+    }
 };
 
 export default routes;
