@@ -1,6 +1,7 @@
 import { OversightResult, Prisma } from "@prisma/client"
 import { db } from "@utils/db.server"
 import { NotFoundError } from "@utils/exeptions/ApiErrors";
+import { OversightResultType } from "types/types";
 
 
 export const getListOfOversightResults = async (): Promise<OversightResult[] | null> => {
@@ -9,8 +10,8 @@ export const getListOfOversightResults = async (): Promise<OversightResult[] | n
     return oversightResultsList;
 }
 
-export const getOfOversightResultById = async (id: number): Promise<OversightResult | null> => {
-    const oversightResult: OversightResult | null = await db.oversightResult.findUnique({where: { id }})
+export const getOfOversightResultById = async (id: number): Promise<OversightResultType> => {
+    const oversightResult: OversightResultType = await db.oversightResult.findUnique({where: { id }})
 
     if (!oversightResult) {
         throw new NotFoundError(`Oversight result with id ${id} doesn't exist`);
@@ -25,14 +26,14 @@ export const createOversightResults = async (oversightResults: OversightResult[]
     return createdOversightResults;
 }
 
-export const updateOversightResultById = async (id: number, oversightResult: Prisma.OversightResultUpdateInput): Promise<OversightResult | null> => {
-    const updatedOversightResult: OversightResult | null = await db.oversightResult.update({where: { id }, data: oversightResult}) 
+export const updateOversightResultById = async (id: number, oversightResult: Prisma.OversightResultUpdateInput): Promise<OversightResultType> => {
+    const updatedOversightResult: OversightResultType = await db.oversightResult.update({where: { id }, data: oversightResult}) 
 
     return updatedOversightResult;
 }
 
-export const deleteOversightResultById = async (id: number): Promise<OversightResult | null> => {
-    const deletedOversightResult: OversightResult | null = await db.oversightResult.delete({where: { id }})
+export const deleteOversightResultById = async (id: number): Promise<OversightResultType> => {
+    const deletedOversightResult: OversightResultType = await db.oversightResult.delete({where: { id }})
 
     return deletedOversightResult;
 }

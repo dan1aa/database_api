@@ -1,6 +1,7 @@
 import { FacilitatorResult, Prisma } from '@prisma/client';
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
+import { FacilitatorResultType } from 'types/types';
 
 export const createFacilitatorResults = async (data: FacilitatorResult[]): Promise<FacilitatorResult[] | null> => {
     const createdFacilitatorResults: any = await db.facilitatorResult.createMany({ data })
@@ -14,8 +15,8 @@ export const getListOfFacilitatorResults = async (): Promise<FacilitatorResult[]
     return facilitatorResultsList
 }
 
-export const getFacilitatorResultById = async (id: number): Promise<FacilitatorResult | null> => {
-    const facilitatorResult: FacilitatorResult | null = await db.facilitatorResult.findUnique({ where: { id } })
+export const getFacilitatorResultById = async (id: number): Promise<FacilitatorResultType> => {
+    const facilitatorResult: FacilitatorResultType = await db.facilitatorResult.findUnique({ where: { id } })
 
     if (!facilitatorResult) {
         throw new NotFoundError(`Facilitator result with id ${id} doesn't exist`);
@@ -25,14 +26,14 @@ export const getFacilitatorResultById = async (id: number): Promise<FacilitatorR
 
 }
 
-export const updateFacilitatorResultById = async (id: number, data: Prisma.FacilitatorResultUpdateInput): Promise<FacilitatorResult | null> => {
-    const updatedFacilitatorResult: FacilitatorResult | null = await db.facilitatorResult.update({ where: { id }, data });
+export const updateFacilitatorResultById = async (id: number, data: Prisma.FacilitatorResultUpdateInput): Promise<FacilitatorResultType> => {
+    const updatedFacilitatorResult: FacilitatorResultType = await db.facilitatorResult.update({ where: { id }, data });
     
     return updatedFacilitatorResult;
 } 
 
-export const deleteFacilitatorResultById = async (id: number): Promise<FacilitatorResult | null> => {
-    const deletedFacilitatorResult: FacilitatorResult | null = await db.facilitatorResult.delete({ where: { id } })
+export const deleteFacilitatorResultById = async (id: number): Promise<FacilitatorResultType> => {
+    const deletedFacilitatorResult: FacilitatorResultType = await db.facilitatorResult.delete({ where: { id } })
 
     return deletedFacilitatorResult;
 }

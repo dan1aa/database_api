@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as InternService from '@services/intern.service';
 import { Intern } from '@prisma/client';
+import { InternType } from 'types/types';
 
 
 export const createInterns = async (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ export const updateInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
     const internData = req.body;
 
-    const updatedIntern: Intern | null = await InternService.updateInternById(internId, internData);
+    const updatedIntern: InternType = await InternService.updateInternById(internId, internData);
 
     res.status(StatusCodes.OK).json(updatedIntern).end();
 };
@@ -25,7 +26,7 @@ export const updateInternById = async (req: Request, res: Response) => {
 export const getInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
 
-    const intern: Intern | null = await InternService.getInternById(internId);
+    const intern: InternType = await InternService.getInternById(internId);
 
     res.status(StatusCodes.OK).json(intern).end();
 };
@@ -40,7 +41,7 @@ export const getFilteredInternsList = async (req: Request, res: Response) => {
 export const deleteInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
 
-    const deletedIntern: Intern | null = await InternService.deleteInternById(internId);
+    const deletedIntern: InternType = await InternService.deleteInternById(internId);
 
     res.status(StatusCodes.OK).send(deletedIntern).end();
 };

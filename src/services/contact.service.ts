@@ -2,6 +2,7 @@ import { Contact, Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
+import { ContactType } from 'types/types';
 
 
 export const createContact = async (contactData: Prisma.ContactCreateInput) => {
@@ -19,8 +20,8 @@ export const createContact = async (contactData: Prisma.ContactCreateInput) => {
     }
 };
 
-export const getContactById = async (id: number): Promise<Contact | null> => {
-    const contact: Contact | null = await db.contact.findUnique({ where: { id } });
+export const getContactById = async (id: number): Promise< ContactType> => {
+    const contact:  ContactType = await db.contact.findUnique({ where: { id } });
 
     if (!contact) {
         throw new NotFoundError(`Contact with id ${id} doesn't exist`);
@@ -29,14 +30,14 @@ export const getContactById = async (id: number): Promise<Contact | null> => {
     return contact;
 };
 
-export const updateContactById = async (id: number, data: Prisma.ContactUpdateInput): Promise<Contact | null> => {
-    const updatedContact: Contact | null = await db.contact.update({ where: { id }, data: data });
+export const updateContactById = async (id: number, data: Prisma.ContactUpdateInput): Promise< ContactType> => {
+    const updatedContact:  ContactType = await db.contact.update({ where: { id }, data: data });
 
     return updatedContact;
 };
 
-export const deleteContactById = async (id: number): Promise<Contact | null> => {
-    const deletedContact: Contact | null = await db.contact.delete({ where: { id } })
+export const deleteContactById = async (id: number): Promise< ContactType> => {
+    const deletedContact:  ContactType = await db.contact.delete({ where: { id } })
 
     return deletedContact;
 };
