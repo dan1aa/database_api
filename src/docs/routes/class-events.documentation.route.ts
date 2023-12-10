@@ -1,5 +1,5 @@
 import j2s from 'joi-to-swagger';
-import { createClassEventScheme, updateClassEventScheme } from '@request-schemas/class-event.request-shema';
+import { createClassEventsScheme, updateClassEventScheme } from '@request-schemas/class-event.request-shema';
 
 const createClassEvent = {
     tags: ['Class Events'],
@@ -7,7 +7,7 @@ const createClassEvent = {
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createClassEventScheme).swagger,
+                schema: j2s(createClassEventsScheme).swagger,
             },
         },
         required: true,
@@ -336,6 +336,72 @@ const getListOfClassEvents = {
     },
 };
 
+const getClassEventByLinkCode = {
+    tags: ['Class Events'],
+    operationId: 'getClassEventByLinkCode',
+    parameters: [
+        {
+            name: 'code',
+            in: 'path',
+            description: 'Class Event Google meet code',
+            required: true,
+            type: 'string',
+        },
+    ],
+    responses: {
+        '200': {
+            description: 'Class Event retrived successfully!',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'number', example: 42 },
+                            meetNumber: { type: 'number', example: 1 },
+                            eventDate: { type: 'string', example: "2023-11-12" },
+                            googleMeetLink: { type: 'string', example: "https://meet.google.com/xxx-xxxx-xxx" },
+                            courseId: { type: 'number', example: 1 },
+                            classEventTypeId: { type: 'number', example: 1 }
+                        }
+                    }
+                },
+            },
+        },
+        '404': {
+            description: 'You try access class event with not existing google meet code',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            msg: {
+                                type: 'string',
+                                example: 'Class event with google meet code xxx-xxxx-xxx doesn`t exist'
+                            }
+                        }
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
 const routes = {
     '/api/class-events': {
         get: getListOfClassEvents,
@@ -345,6 +411,9 @@ const routes = {
         get: getClassEventById,
         put: updateClassEventById,
         delete: deleteClassEventById
+    },
+    '/api/class-events/link/:code': {
+        get: getClassEventByLinkCode
     }
 };
 

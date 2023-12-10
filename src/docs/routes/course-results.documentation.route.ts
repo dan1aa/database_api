@@ -1,13 +1,13 @@
 import j2s from 'joi-to-swagger';
-import { createCourseResultScheme, updateCourseResultScheme } from '@request-schemas/course-result.request-shema';
+import { createCourseResultsScheme, updateCourseResultScheme } from '@request-schemas/course-result.request-shema';
 
-const createCourseResult = {
+const createCourseResults = {
     tags: ['Course Results'],
-    operationId: 'createCourseResult',
+    operationId: 'createCourseResults',
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createCourseResultScheme).swagger,
+                schema: j2s(createCourseResultsScheme).swagger,
             },
         },
         required: true,
@@ -327,7 +327,7 @@ const getListOfCourseResults = {
 const routes = {
     '/api/course-results': {
         get: getListOfCourseResults,
-        post: createCourseResult,
+        post: createCourseResults,
     },
     '/api/course-results/:id': {
         get: getCourseResultById,
