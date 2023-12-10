@@ -6,6 +6,10 @@ export const createCourseResultScheme = Joi.object({
     englishLevel: Joi.string().required()
 });
 
+export const createCourseResultsScheme = Joi.object({
+    data: Joi.array().items(createCourseResultScheme)
+})
+
 export const updateCourseResultScheme = Joi.object({
     internCourseId: Joi.number(),
     masteryResult:  Joi.string(),

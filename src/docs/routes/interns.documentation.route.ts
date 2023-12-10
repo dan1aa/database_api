@@ -4,9 +4,9 @@ import {
     updateInternScheme, 
 } from '@request-schemas/intern.request-schema';
 
-const createIntern = {
+const createInterns = {
     tags: ['Interns'],
-    operationId: 'createIntern',
+    operationId: 'createInterns',
     requestBody: {
         content: {
             'application/json': {
@@ -386,7 +386,7 @@ const getListOfInterns = {
 const routes = {
     '/api/interns': {
         get: getListOfInterns,
-        post: createIntern
+        post: createInterns
     },
     '/api/interns/:id': {
         get: getInternById,

@@ -16,6 +16,10 @@ export const createClassEventScheme = Joi.object({
     classEventTypeId: Joi.number().required(),
 });
 
+export const createClassEventsScheme = Joi.object({
+    data: Joi.array().items(createClassEventScheme)
+})
+
 export const updateClassEventScheme = Joi.object(updateClassEventObject);
 
 export const modifyClassEventSheetsScheme = Joi.object({
