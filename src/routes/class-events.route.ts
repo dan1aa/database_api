@@ -7,16 +7,15 @@ import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 import validateRequestBody from '@middlewares/validateRequestBody.middleware';
 
 import {
-    createClassEventScheme,
+    createClassEventsScheme,
     updateClassEventScheme
 } from '@request-schemas/class-event.request-shema';
 
 const router = Router();
 
-router.post(
+router.get(
     '/class-events',
-    validateRequestBody(createClassEventScheme),
-    tryCatchMiddleware(ClassEventController.createClassEvents)
+    tryCatchMiddleware(ClassEventController.getListOfClassEvents)
 );
 
 router.get(
@@ -24,6 +23,13 @@ router.get(
     validateRequestId,
     tryCatchMiddleware(ClassEventController.getClassEventById)
 );
+
+router.post(
+    '/class-events',
+    validateRequestBody(createClassEventsScheme),
+    tryCatchMiddleware(ClassEventController.createClassEvents)
+);
+
 
 router.put(
     '/class-events/:id',
@@ -38,10 +44,6 @@ router.delete(
     tryCatchMiddleware(ClassEventController.deleteClassEventById)
 );
 
-router.get(
-    '/class-events',
-    tryCatchMiddleware(ClassEventController.getListOfClassEvents)
-);
 
 router.get(
     '/class-events/link/:code',

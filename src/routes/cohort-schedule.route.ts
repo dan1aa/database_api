@@ -7,7 +7,7 @@ import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 import validateRequestBody from '@middlewares/validateRequestBody.middleware';
 
 import {
-    createCohorScheduleScheme,
+    createCohortSchedulesScheme,
     updateCohorScheduleScheme
 } from '@request-schemas/cohort-schedule.request-schema';
 
@@ -15,7 +15,7 @@ const router = Router();
 
 router.post(
     '/cohort-schedule',
-    validateRequestBody(createCohorScheduleScheme),
+    validateRequestBody(createCohortSchedulesScheme),
     tryCatchMiddleware(CohortScheduleController.createCohorSchedules)
 );
 

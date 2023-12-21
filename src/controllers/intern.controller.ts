@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import * as InternService from '@services/intern.service';
 import { Intern } from '@prisma/client';
 import { InternType } from 'types/types';
+import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 
 
 export const createInterns = async (req: Request, res: Response) => {
@@ -24,7 +25,7 @@ export const updateInternById = async (req: Request, res: Response) => {
 };
 
 export const getInternById = async (req: Request, res: Response) => {
-    const internId = Number(req.params.id);
+    const internId = Number(req.params.name);
 
     const intern: InternType = await InternService.getInternById(internId);
 
