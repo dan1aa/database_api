@@ -6,13 +6,13 @@ import validateRequestId from '@middlewares/validateRequestId.middleware';
 import tryCatchMiddleware from '@middlewares/tryCatchMiddleware.middleware';
 import validateRequestBody from '@middlewares/validateRequestBody.middleware';
 
-import * as CourseResultRequestShemas from '@request-schemas/course-result.request-shema';
+import { createCourseResultsScheme, updateCourseResultScheme } from '@request-schemas/course-result.request-shema';
 
 const router = Router();
 
 router.post(
     '/course-results',
-    validateRequestBody(CourseResultRequestShemas.createCourseResultScheme),
+    validateRequestBody(createCourseResultsScheme),
     tryCatchMiddleware(CourseResultController.createCourseResults)
 );
 
@@ -25,7 +25,7 @@ router.get(
 router.put(
     '/course-results/:id',
     validateRequestId,
-    validateRequestBody(CourseResultRequestShemas.updateCourseResultScheme),
+    validateRequestBody(updateCourseResultScheme),
     tryCatchMiddleware(CourseResultController.updateCourseResultById)
 );
 

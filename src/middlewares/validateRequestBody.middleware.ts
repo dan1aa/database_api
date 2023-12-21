@@ -8,8 +8,9 @@ const validateRequestBody = (sheme: Joi.Schema) => {
     return (req: Request, res: Response, next: NextFunction) => {
         const { error } = sheme.validate(req.body);
         if (error) {
+            throw error
             throw new BadRequestError('Invalid request body structure');
-        }
+        } 
 
         next();
     }

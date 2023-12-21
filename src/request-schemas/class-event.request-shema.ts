@@ -10,7 +10,7 @@ const updateClassEventObject = {
 
 export const createClassEventScheme = Joi.object({
     meetNumber : Joi.number().required(),
-    eventDate : Joi.date().required(),
+    eventDate : Joi.string().required(),
     googleMeetLink: Joi.string().required(),
     courseId: Joi.number().required(),
     classEventTypeId: Joi.number().required(),
