@@ -3,7 +3,7 @@ import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
 import { CourseResultCreateInput, CourseResultType, CourseResultUpdateInput } from 'types/types';
 
-export const createCourseResults = async (data: CourseResultCreateInput[]) => {
+export const createCourseResults = async (data: CourseResultCreateInput[] | any) => {
     const createdCourseResults = await db.courseResult.createMany({ data });
 
     return createdCourseResults;

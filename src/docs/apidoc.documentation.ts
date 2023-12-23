@@ -1,5 +1,4 @@
 import InternsRouterDocumentation from './routes/interns.documentation.route';
-import ContactsRouterDocumentation from './routes/contacts.documentation.route';
 import CoursesRouterDocumentation from './routes/courses.documentation.route';
 import CourseResultsDocumentation from './routes/course-results.documentation.route';
 import ClassEventsDocumentation from './routes/class-events.documentation.route';
@@ -14,7 +13,6 @@ const apiDocumentation = {
     },
     servers: [],
     tags: [
-        { name: 'Contacts'},
         { name: 'Interns',},
         { name: 'Courses'}, 
         { name: 'Course Results'}, 
@@ -25,7 +23,6 @@ const apiDocumentation = {
     paths: {
         ...InternsRouterDocumentation,
         ...CoursesRouterDocumentation,
-        ...ContactsRouterDocumentation,
         ...CourseResultsDocumentation,
         ...ClassEventsDocumentation,
         ...FacilitatorResultsDocumentation,

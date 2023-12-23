@@ -1,4 +1,4 @@
-import { ClassEvent, CohortSchedule, Contact, Course, CourseResult, FacilitatorResult, Intern, OversightResult } from "@prisma/client";
+import { ClassEvent, CohortSchedule, Course, CourseResult, FeedbackOnIntern, Intern, FeedbackOnFacilitator } from "@prisma/client";
 
 export interface FilteringParams {
     cohort?: string;
@@ -74,10 +74,9 @@ export interface LocationData {
 }
 
 export type CohortScheduleType = CohortSchedule | null
-export type ContactType = Contact | null
 export type ClassEventType = ClassEvent | null
 export type CourseType = Course | null
 export type CourseResultType = CourseResult | null
-export type FacilitatorResultType = FacilitatorResult | null
+export type FeedbackOnInternType = FeedbackOnIntern | null
 export type InternType = Intern | null
-export type OversightResultType = OversightResult | null
+export type FeedbackOnFacilitatorType = FeedbackOnFacilitator | null

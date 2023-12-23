@@ -38,7 +38,7 @@ export const getInternsList = async (filteringParams: FilteringParams): Promise<
     const internsList: Intern[] | null = await db.intern.findMany({
         where: {
             cohort: filteringParams.cohort,
-            internCourse: {
+            internCourseRole: {
                 some: {
                     course: {
                         courseCipher: filteringParams.courseCipher,
