@@ -85,13 +85,7 @@ export const enrollInternsInCourseById = async (courseId: number, participantsDa
     for (const participantData of participantsData) {
         const { internId, classRoleId } = participantData;
 
-        const internEnrollmentResult = await db.internCourse.create({ data: { internId, courseId } });
-        const internCourseRoleAssignmentResult = await db.internCourseRole.create({ 
-            data: { 
-                classRoleId,
-                internCourseId: internEnrollmentResult.id 
-            } 
-        });
+        const internEnrollmentResult = await db.internCourseRole.create({ data: { internId, courseId, classRoleId } });
     }
 }
 
@@ -133,31 +127,23 @@ const getCourseScheduleByCourseId = async (courseId: number) => {
 const getCourseParticipantsByCourseId = async (courseId: number) => {
     const courseParticipants = await db.internCourseRole.findMany({ 
         where: {
-            internCourse: {
-                courseId: courseId
-            }
+            courseId
         },
         include: {
-            internCourse: {
-                include: {
-                    intern: true
-                }
-            },
+            intern: true,
             classRole: true
         }
     });
 
     const groupedInternsByRole = courseParticipants.reduce((result: Record<string, Array<any>>, participant) => {
-        const { classRole, internCourse } = participant;
       
-        const role = classRole.name;
-        const intern = internCourse.intern;
+        const { intern, classRole } = participant;
       
-        if (!result[role]) {
-            result[role] = [];
+        if (!result[classRole.name]) {
+            result[classRole.name] = [];
         }
         
-        result[role].push(intern);
+        result[classRole.name].push(intern);
 
         return result;
     }, {});
