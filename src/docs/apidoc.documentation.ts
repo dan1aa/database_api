@@ -2,8 +2,8 @@ import InternsRouterDocumentation from './routes/interns.documentation.route';
 import CoursesRouterDocumentation from './routes/courses.documentation.route';
 import CourseResultsDocumentation from './routes/course-results.documentation.route';
 import ClassEventsDocumentation from './routes/class-events.documentation.route';
-import FacilitatorResultsDocumentation from './routes/facilitator-results.documentation.route';
-import OversightResultsDocumentation from './routes/oversight-results.documentation';
+import FeedbackOnInternDocumentation from './routes/feedback-on-intern.documentation.route';
+import FeedbackOnFacilitatorDocumentation from './routes/feedback-on-facilitator.documentation.route';
 
 const apiDocumentation = {
     openapi: '3.0.1',
@@ -17,16 +17,16 @@ const apiDocumentation = {
         { name: 'Courses'}, 
         { name: 'Course Results'}, 
         { name: 'Class Events' },
-        { name: 'Facilitator Results'},
-        { name: 'Oversight Results'},
+        { name: 'Feedback on Intern'},
+        { name: 'Feedback on Facilitator'},
     ],
     paths: {
         ...InternsRouterDocumentation,
         ...CoursesRouterDocumentation,
         ...CourseResultsDocumentation,
         ...ClassEventsDocumentation,
-        ...FacilitatorResultsDocumentation,
-        ...OversightResultsDocumentation
+        ...FeedbackOnInternDocumentation,
+        ...FeedbackOnFacilitatorDocumentation
     }
 };
 

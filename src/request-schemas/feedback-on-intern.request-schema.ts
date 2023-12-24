@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const createFacilitatorResultScheme = Joi.object({
+export const createFeedbackOnInternScheme = Joi.object({
     attendance: Joi.boolean().required(),
     techCheck:  Joi.string().required(),
     participationActivity: Joi.string().required(),
@@ -9,7 +9,7 @@ export const createFacilitatorResultScheme = Joi.object({
     classEventId: Joi.number().required()
 });
 
-export const updateFacilitatorResultScheme = Joi.object({
+export const updateFeedbackOnInternScheme = Joi.object({
     attendance: Joi.boolean(),
     techCheck:  Joi.string(),
     participationActivity: Joi.string(),

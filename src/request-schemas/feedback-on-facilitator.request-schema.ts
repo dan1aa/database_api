@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const createOversightResultScheme = Joi.object({
+export const createFeedbackOnFacilitatorScheme = Joi.object({
     attendance: Joi.bool().required(),
     techCheck:  Joi.string().required(),
     english: Joi.string().required(),
@@ -18,7 +18,7 @@ export const createOversightResultScheme = Joi.object({
     classEventId: Joi.number().required()
 });
 
-export const updateOversightResultScheme = Joi.object({
+export const updateFeedbackOnFacilitatorScheme = Joi.object({
     attendance: Joi.bool(),
     techCheck:  Joi.string(),
     english: Joi.string(),
