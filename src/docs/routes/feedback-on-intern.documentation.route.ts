@@ -1,21 +1,21 @@
-import { createFacilitatorResultScheme, updateFacilitatorResultScheme } from "@request-schemas/facilitator-results.request-schema";
+import { createFeedbackOnInternScheme, updateFeedbackOnInternScheme } from "@request-schemas/feedback-on-intern.request-schema";
 import j2s from 'joi-to-swagger';
 
 
-const createFacilitatorResults = {
-    tags: ['Facilitator Results'],
-    operationId: 'createFacilitatorResults',
+const createFeedbackOnIntern = {
+    tags: ['Feedback on Intern'],
+    operationId: 'createFeedbackOnIntern',
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createFacilitatorResultScheme).swagger,
+                schema: j2s(createFeedbackOnInternScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '201': {
-            description: 'Facilitator Results created successfully!',
+            description: 'Feedback on Intern created successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -51,12 +51,12 @@ const createFacilitatorResults = {
     },
 };
 
-const getListOfFacilitatorResults = {
-    tags: ['Facilitator Results'],
-    operationId: 'getListOfFacilitatorResults',
+const getListOfFeedbacksOnIntern = {
+    tags: ['Feedback on Intern'],
+    operationId: 'getListOfFeedbacksOnIntern',
     responses: {
         '200': {
-            description: 'Successful Retrieve list of facilitator results',
+            description: 'Successful Retrieve list of Feedbacks on Intern',
             content: {
                 'application/json': {
                     example: [
@@ -99,21 +99,21 @@ const getListOfFacilitatorResults = {
     },
 };
 
-const getFacilitatorResultById = {
-    tags: ['Facilitator Results'],
-    operationId: 'getFacilitatorResultById',
+const getFeedbackOnInternById = {
+    tags: ['Feedback on Intern'],
+    operationId: 'getFeedbackOnInternById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Facilitator Result id',
+            description: 'Feedback on Intern id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Facilitator Result retrived successfully!',
+            description: 'Feedback on Intern retrived successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -131,7 +131,7 @@ const getFacilitatorResultById = {
             },
         },
         '404': {
-            description: 'You try access facilitator result with not existing id',
+            description: 'You try access Feedback on Intern with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -139,7 +139,7 @@ const getFacilitatorResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Facilitator Result with id 34 doesn`t exist'
+                                example: 'Feedback on Intern with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -165,14 +165,14 @@ const getFacilitatorResultById = {
     },
 };
 
-const updateFacilitatorResultById = {
-    tags: ['Facilitator Results'],
-    operationId: 'updateFacilitatorResultById',
+const updateFeedbackOnInternById = {
+    tags: ['Feedback on Intern'],
+    operationId: 'updateFeedbackOnInternById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Facilitator Result id',
+            description: 'Feedback on Intern id',
             required: true,
             type: 'number',
         },
@@ -180,14 +180,14 @@ const updateFacilitatorResultById = {
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(updateFacilitatorResultScheme).swagger,
+                schema: j2s(updateFeedbackOnInternScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '200': {
-            description: 'Facilitator Result updated successfully!',
+            description: 'Feedback on Intern updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -213,7 +213,7 @@ const updateFacilitatorResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Facilitator Result with your id doesn`t exist'
+                                example: 'Feedback on Intern with your id doesn`t exist'
                             }
                         }
                     }
@@ -221,7 +221,7 @@ const updateFacilitatorResultById = {
             },
         },
         '404': {
-            description: 'You try access Facilitator Result with not existing id',
+            description: 'You try access Feedback on Intern with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -229,7 +229,7 @@ const updateFacilitatorResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Facilitator Result with id 34 doesn`t exist'
+                                example: 'Feedback on Intern with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -255,21 +255,21 @@ const updateFacilitatorResultById = {
     },
 };
 
-const deleteFacilitatorResultById = {
-    tags: ['Facilitator Results'],
-    operationId: 'deleteFacilitatorResultById',
+const deleteFeedbackOnInternById = {
+    tags: ['Feedback on Intern'],
+    operationId: 'deleteFeedbackOnInternById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Facilitator Result id',
+            description: 'Feedback on Intern id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Facilitator Result deleted successfully!',
+            description: 'Feedback on Intern deleted successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -287,7 +287,7 @@ const deleteFacilitatorResultById = {
             },
         },
         '404': {
-            description: 'You try to delete not existing Facilitator Result',
+            description: 'You try to delete not existing Feedback on Intern',
             content: {
                 'application/json': {
                     schema: {
@@ -295,7 +295,7 @@ const deleteFacilitatorResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Facilitator Result with id 34 doesn`t exist'
+                                example: 'Feedback on Intern with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -322,14 +322,14 @@ const deleteFacilitatorResultById = {
 };
 
 const routes = {
-    '/api/facilitator-results': {
-        post: createFacilitatorResults,
-        get: getListOfFacilitatorResults
+    '/api/feedbacks-on-intern': {
+        post: createFeedbackOnIntern,
+        get: getListOfFeedbacksOnIntern
     },
-    '/api/facilitator-results/:id': {
-        get: getFacilitatorResultById,
-        put: updateFacilitatorResultById,
-        delete: deleteFacilitatorResultById
+    '/api/feedbacks-on-intern/:id': {
+        get: getFeedbackOnInternById,
+        put: updateFeedbackOnInternById,
+        delete: deleteFeedbackOnInternById
     }
 };
 

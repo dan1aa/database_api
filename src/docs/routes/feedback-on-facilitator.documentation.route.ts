@@ -1,21 +1,20 @@
-import { createOversightResultScheme, updateOversightResultScheme } from "@request-schemas/oversight-results.schema";
+import { createFeedbackOnFacilitatorScheme, updateFeedbackOnFacilitatorScheme } from "@request-schemas/feedback-on-facilitator.request-schema";
 import j2s from 'joi-to-swagger';
 
-
-const createOversightResults = {
-    tags: ['Oversight Results'],
-    operationId: 'createOversightResults',
+const createFeedbackOnFacilitator = {
+    tags: ['Feedback on Facilitator'],
+    operationId: 'createFeedbackOnFacilitator',
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createOversightResultScheme).swagger,
+                schema: j2s(createFeedbackOnFacilitatorScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '201': {
-            description: 'Oversight Results created successfully!',
+            description: 'Feedback on Facilitator created successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -61,12 +60,12 @@ const createOversightResults = {
     },
 };
 
-const getListOfOversightResults = {
-    tags: ['Oversight Results'],
-    operationId: 'getListOfOversightResults',
+const getListOfFeedbacksOnFacilitator = {
+    tags: ['Feedback on Facilitator'],
+    operationId: 'getListOfFeedbacksOnFacilitator',
     responses: {
         '200': {
-            description: 'Successful Retrieve list of oversight results',
+            description: 'Successful Retrieve list of feedbacks on facilitator',
             content: {
                 'application/json': {
                     example: [
@@ -111,21 +110,21 @@ const getListOfOversightResults = {
     },
 };
 
-const getOversightResultById = {
-    tags: ['Oversight Results'],
-    operationId: 'getOversightResultById',
+const getFeedbackOnFacilitatorById = {
+    tags: ['Feedback on Facilitator'],
+    operationId: 'getFeedbackOnFacilitatorById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Oversight Result id',
+            description: 'Feedback on Facilitator id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Oversight Result retrived successfully!',
+            description: 'Feedback on Facilitator retrived successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -153,7 +152,7 @@ const getOversightResultById = {
             },
         },
         '404': {
-            description: 'You try access oversight result with not existing id',
+            description: 'You try access feedback on facilitator with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -161,7 +160,7 @@ const getOversightResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Oversight Result with id 34 doesn`t exist'
+                                example: 'Feedback on Facilitator with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -187,14 +186,14 @@ const getOversightResultById = {
     },
 };
 
-const updateOversightResultById = {
-    tags: ['Oversight Results'],
-    operationId: 'updateOversightResultById',
+const updateFeedbackOnFacilitatorById = {
+    tags: ['Feedback on Facilitator'],
+    operationId: 'updateFeedbackOnFacilitatorById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Oversight Result id',
+            description: 'Feedback on Facilitator id',
             required: true,
             type: 'number',
         },
@@ -202,14 +201,14 @@ const updateOversightResultById = {
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(updateOversightResultScheme).swagger,
+                schema: j2s(updateFeedbackOnFacilitatorScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '200': {
-            description: 'Facilitator Result updated successfully!',
+            description: 'Feedback on Facilitator updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -245,7 +244,7 @@ const updateOversightResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Oversight Result with your id doesn`t exist'
+                                example: 'Feedback on Facilitator with your id doesn`t exist'
                             }
                         }
                     }
@@ -253,7 +252,7 @@ const updateOversightResultById = {
             },
         },
         '404': {
-            description: 'You try access Oversight Result with not existing id',
+            description: 'You try access Feedback on Facilitator with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -261,7 +260,7 @@ const updateOversightResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Oversight Result with id 34 doesn`t exist'
+                                example: 'Feedback on Facilitator with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -287,21 +286,21 @@ const updateOversightResultById = {
     },
 };
 
-const deleteOversightResultById = {
-    tags: ['Oversight Results'],
-    operationId: 'deleteOversightResultById',
+const deleteFeedbackOnFacilitatorById = {
+    tags: ['Feedback on Facilitator'],
+    operationId: 'deleteFeedbackOnFacilitatorById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Oversight Result id',
+            description: 'Feedback on Facilitator Result id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Oversight Result deleted successfully!',
+            description: 'Feedback on Facilitator deleted successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -329,7 +328,7 @@ const deleteOversightResultById = {
             },
         },
         '404': {
-            description: 'You try to delete not existing Oversight Result',
+            description: 'You try to delete not existing Feedback on Facilitator',
             content: {
                 'application/json': {
                     schema: {
@@ -337,7 +336,7 @@ const deleteOversightResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Oversight Result with id 34 doesn`t exist'
+                                example: 'Feedback on Facilitator with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -364,14 +363,14 @@ const deleteOversightResultById = {
 };
 
 const routes = {
-    '/api/oversight-results': {
-        post: createOversightResults,
-        get: getListOfOversightResults
+    '/api/feedbacks-on-facilitator': {
+        post: createFeedbackOnFacilitator,
+        get: getListOfFeedbacksOnFacilitator
     },
-    '/api/oversight-results/:id': {
-        get: getOversightResultById,
-        put: updateOversightResultById,
-        delete: deleteOversightResultById
+    '/api/feedbacks-on-facilitator/:id': {
+        get: getFeedbackOnFacilitatorById,
+        put: updateFeedbackOnFacilitatorById,
+        delete: deleteFeedbackOnFacilitatorById
     }
 };
 

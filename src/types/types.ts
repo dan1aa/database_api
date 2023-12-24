@@ -1,37 +1,7 @@
-import { ClassEvent, CohortSchedule, Course, CourseResult, FeedbackOnIntern, Intern, FeedbackOnFacilitator } from "@prisma/client";
-
 export interface FilteringParams {
     cohort?: string;
     courseCipher?: string;
 }
-
-export interface ClassEventCreateInput {
-    meetNumber: number;
-    eventDate: Date;
-    googleMeetLink: string;
-    courseId: number;
-    classEventTypeId: number;
-}
-
-export interface ClassEventUpdateInput {
-    meetNumber?: number;
-    eventDate?: Date;
-    googleMeetLink?: string;
-    courseId?: number;
-    classEventTypeId?: number;
-};
-
-export interface CourseResultCreateInput {
-    internCourseId: number;
-    masteryResult: string;
-    englishLevel: string;
-};
-
-export interface CourseResultUpdateInput {
-    internCourseId?: number;
-    masteryResult?: string;
-    englishLevel?: string;
-};
 
 export interface LocationData {
     ip: string;
@@ -72,11 +42,3 @@ export interface LocationData {
         dst_savings: number;
     }
 }
-
-export type CohortScheduleType = CohortSchedule | null
-export type ClassEventType = ClassEvent | null
-export type CourseType = Course | null
-export type CourseResultType = CourseResult | null
-export type FeedbackOnInternType = FeedbackOnIntern | null
-export type InternType = Intern | null
-export type FeedbackOnFacilitatorType = FeedbackOnFacilitator | null

@@ -1,19 +1,19 @@
-import { Intern, Prisma } from '@prisma/client';
+import { Intern } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
-import { FilteringParams, InternType } from 'types/types';
+import { FilteringParams } from 'types/types';
 
 
-export const createInterns = async (interns: Prisma.InternCreateInput[]) => {
+export const createInterns = async (interns: Intern) => {
     const createdInterns = await db.intern.createMany({ data: interns});
 
     return createdInterns;
 };
 
 
-export const getInternById = async (id: number): Promise<InternType> => {
-    const intern: InternType = await db.intern.findUnique({ where: { id } });
+export const getInternById = async (id: number): Promise<Intern> => {
+    const intern: Intern | null = await db.intern.findUnique({ where: { id } });
     
     if (!intern) {
         throw new NotFoundError(`Intern with id ${id} doesn't exist`);
@@ -22,14 +22,14 @@ export const getInternById = async (id: number): Promise<InternType> => {
     return intern;
 };
 
-export const deleteInternById = async (id: number): Promise<InternType> => {
-    const deletedIntern: InternType = await db.intern.delete({ where: { id } });
+export const deleteInternById = async (id: number): Promise<Intern> => {
+    const deletedIntern: Intern = await db.intern.delete({ where: { id } });
 
     return deletedIntern;
 };
 
-export const updateInternById = async (id: number, intern: Prisma.InternUpdateInput): Promise<InternType> => {    
-    const updatedIntern: InternType = await db.intern.update({ where: { id }, data: intern });
+export const updateInternById = async (id: number, intern: Intern): Promise<Intern> => {    
+    const updatedIntern: Intern = await db.intern.update({ where: { id }, data: intern });
 
     return updatedIntern;
 };
@@ -52,7 +52,7 @@ export const getInternsList = async (filteringParams: FilteringParams): Promise<
 };
 
 export const getCohortScheduleByExplorerId = async (explorerId: string) => {
-    const targetIntern: InternType = await db.intern.findUnique({ where: { explorerId }});
+    const targetIntern: Intern | null = await db.intern.findUnique({ where: { explorerId }});
 
     if (!targetIntern) {
         throw new NotFoundError(`Intern with exporerId ${explorerId} doesn't exist`);

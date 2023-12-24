@@ -21,7 +21,8 @@ const createCourseResults = {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 14 },
+                            internId: { type: 'number', example: 14 },
                             masteryResult: { type: 'string', example: 'Try again' },
                             englishLevel: { type: 'string', example: 'Amazing' },
                         }
@@ -85,7 +86,8 @@ const getCourseResultById = {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 14 },
                             masteryResult: { type: 'string', example: 'Try again' },
                             englishLevel: { type: 'string', example: 'Amazing' },
                         }
@@ -157,7 +159,8 @@ const updateCourseResultById = {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 10 },
                             masteryResult: { type: 'string', example: 'Try again' },
                             englishLevel: { type: 'string', example: 'Amazing' },
                         }
@@ -237,7 +240,8 @@ const deleteCourseResultById = {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 11 },
                             masteryResult: { type: 'string', example: 'Try again' },
                             englishLevel: { type: 'string', example: 'Amazing' },
                         }
@@ -291,14 +295,71 @@ const getListOfCourseResults = {
                     example: [
                         {
                             id: { type: 'number', example: 42 },
-                            internCourseId: { type: 'number', example: 14 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 14 },
                             masteryResult: { type: 'string', example: 'Try again' },
                             englishLevel: { type: 'string', example: 'Amazing' },
                         },
                         {
-                            id: { type: 'number', example: 43 },
-                            internCourseId: { type: 'number', example: 18 },
-                            masteryResult: { type: 'string', example: 'Mastery' },
+                            id: { type: 'number', example: 42 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 12 },
+                            masteryResult: { type: 'string', example: 'Try again' },
+                            englishLevel: { type: 'string', example: 'Not bad' },
+                        }
+                    ]
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
+const getCourseResultByCourseId = {
+    tags: ['Course Results'],
+    operationId: 'getCourseResultByCourseId',
+    parameters: [
+        {
+            name: 'courseId',
+            in: 'path',
+            description: 'Course id',
+            required: true,
+            type: 'number',
+        },
+    ],
+    responses: {
+        '200': {
+            description: 'Successful Retrieve list of course-results',
+            content: {
+                'application/json': {
+                    example: [
+                        {
+                            id: { type: 'number', example: 42 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 14 },
+                            masteryResult: { type: 'string', example: 'Try again' },
+                            englishLevel: { type: 'string', example: 'Amazing' },
+                        },
+                        {
+                            id: { type: 'number', example: 42 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 12 },
+                            masteryResult: { type: 'string', example: 'Try again' },
                             englishLevel: { type: 'string', example: 'Not bad' },
                         }
                     ]
@@ -334,6 +395,9 @@ const routes = {
         put: updateCourseResultById,
         delete: deleteCourseResultById
     },
+    '/api/course-results/:courseId': {
+        get: getCourseResultByCourseId
+    }
 };
 
 export default routes;

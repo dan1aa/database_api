@@ -1,22 +1,21 @@
-import { CourseResult } from '@prisma/client';
+import { Course, CourseResult } from '@prisma/client';
 import { db } from '@utils/db.server';
 import { NotFoundError } from '@utils/exeptions/ApiErrors';
-import { CourseResultCreateInput, CourseResultType, CourseResultUpdateInput } from 'types/types';
 
-export const createCourseResults = async (data: CourseResultCreateInput[] | any) => {
+export const createCourseResults = async (data: CourseResult[] | any) => {
     const createdCourseResults = await db.courseResult.createMany({ data });
 
     return createdCourseResults;
 };
 
-export const updateCourseResultById = async (id: number, data: CourseResultUpdateInput): Promise<CourseResultType> => {
-    const updatedCourseResults: CourseResultType = await db.courseResult.update({ where: { id }, data: data });
+export const updateCourseResultById = async (id: number, data: CourseResult): Promise<CourseResult> => {
+    const updatedCourseResults: CourseResult = await db.courseResult.update({ where: { id }, data: data });
 
     return updatedCourseResults;
 };
 
-export const getCourseResultById = async (id: number): Promise<CourseResultType> => {
-    const courseResult: CourseResultType = await db.courseResult.findUnique({ where: { id } });
+export const getCourseResultById = async (id: number): Promise<CourseResult> => {
+    const courseResult: CourseResult | null = await db.courseResult.findUnique({ where: { id } });
     
     if (!courseResult) {
         throw new NotFoundError(`Course-result with id ${id} doesn't exist`);
@@ -25,14 +24,26 @@ export const getCourseResultById = async (id: number): Promise<CourseResultType>
     return courseResult;
 };
 
-export const deleteCourseResultById = async (id: number): Promise<CourseResultType> => {
-    const deletedCourseResult: CourseResultType = await db.courseResult.delete({ where: { id } });
+export const deleteCourseResultById = async (id: number): Promise<CourseResult> => {
+    const deletedCourseResult: CourseResult = await db.courseResult.delete({ where: { id } });
 
     return deletedCourseResult;
 };
 
-export const getListOfCourseResults = async (): Promise<CourseResult[] | null> => {
-    const courseResultsList: CourseResult[] | null = await db.courseResult.findMany();
+export const getListOfCourseResults = async (): Promise<CourseResult[]> => {
+    const courseResultsList: CourseResult[] = await db.courseResult.findMany();
 
     return courseResultsList;
 };
+
+export const getCourseResultsByCourseId = async (courseId: number): Promise<CourseResult[]> => {
+
+    const courseResults: CourseResult[] = await db.courseResult.findMany({
+        where: {
+            courseId,
+        }
+    })
+
+    return courseResults;
+
+}

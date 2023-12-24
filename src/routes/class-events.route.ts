@@ -50,4 +50,9 @@ router.get(
     tryCatchMiddleware(ClassEventController.getClassEventByGoogleMeetCode)
 )
 
+router.get(
+    '/class-events/:classEventId/event-results',
+    tryCatchMiddleware(ClassEventController.getResultsByClassEventId)
+)
+
 export default router;

@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as CourseResultService from '@services/course-result.service';
 import { CourseResult } from '@prisma/client';
-import { CourseResultType } from 'types/types';
 
 export const createCourseResults = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -17,7 +16,7 @@ export const updateCourseResultById = async (req: Request, res: Response) => {
     const courseResultData = req.body;
     const courseResultId = Number(req.params.id);
     
-    const updatedCourseResult: CourseResultType = await CourseResultService.updateCourseResultById(courseResultId, courseResultData);
+    const updatedCourseResult: CourseResult = await CourseResultService.updateCourseResultById(courseResultId, courseResultData);
 
     res.status(StatusCodes.OK).json(updatedCourseResult).end();
 };
@@ -25,7 +24,7 @@ export const updateCourseResultById = async (req: Request, res: Response) => {
 export const getCourseResultById = async (req: Request, res: Response) => {
     const courseResultId = Number(req.params.id);
 
-    const courseResult: CourseResultType = await CourseResultService.getCourseResultById(courseResultId);
+    const courseResult: CourseResult = await CourseResultService.getCourseResultById(courseResultId);
 
     res.status(StatusCodes.OK).json(courseResult).end();
 };
@@ -33,7 +32,7 @@ export const getCourseResultById = async (req: Request, res: Response) => {
 export const deleteCourseResultById = async (req: Request, res: Response) => {
     const courseResultId = Number(req.params.id);
 
-    const deletedCourseResult: CourseResultType = await CourseResultService.deleteCourseResultById(courseResultId);
+    const deletedCourseResult: CourseResult = await CourseResultService.deleteCourseResultById(courseResultId);
 
     res.status(StatusCodes.OK).json(deletedCourseResult).end();
 };
@@ -43,3 +42,12 @@ export const getListOfCourseResults = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json(courseResultsList).end();
 };
+
+export const getCourseResultsByCourseId = async(req: Request, res: Response) => {
+
+    const { courseId } = req.params;
+
+    const courseResults: CourseResult[] | null = await CourseResultService.getCourseResultsByCourseId(+courseId);
+
+    res.status(StatusCodes.OK).json(courseResults).end()
+}
