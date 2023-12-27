@@ -44,7 +44,6 @@ export const getListOfCourseResults = async (req: Request, res: Response) => {
 };
 
 export const getCourseResultsByCourseId = async(req: Request, res: Response) => {
-
     const { courseId } = req.params;
 
     const courseResults: CourseResult[] | null = await CourseResultService.getCourseResultsByCourseId(+courseId);

@@ -1,9 +1,8 @@
-import { StatusCodes } from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
 
 import { Unauthorized, Forbidden } from '@utils/exeptions/ApiErrors';
 
-const validateRequestApiToken = (req: Request, res: Response, next: NextFunction) => {
+const validateRequestApiToken = (req: Request, _: Response, next: NextFunction) => {
     const apiToken = req.headers['api-token'];
 
     if (!apiToken) {

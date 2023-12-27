@@ -39,4 +39,6 @@ router.post(
     tryCatchMiddleware(CourseController.enrollInternsInCourseById)
 );
 
+
+
 export default router;
