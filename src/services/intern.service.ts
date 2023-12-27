@@ -69,3 +69,27 @@ export const getCohortScheduleByExplorerId = async (explorerId: string) => {
 
     return cohortSchedule;
 };
+
+export const getInternBadgesListByCourseId = async (internId: number, courseId: number) => {
+    const internCoursesBadges = await db.eventInternBadge.findMany({
+        where: {
+            internId,
+            classEvent: {
+                courseId
+            }
+        },
+        include: {
+            badge: true
+        }
+    });
+
+    const badgesStatisticsByBadgeName = internCoursesBadges.reduce((accumulator: { [key: string]: number }, internBadge) => {
+        const badgeName = internBadge.badge.name;
+
+        accumulator[badgeName] = (accumulator[badgeName] || 0) + 1;
+
+        return accumulator;
+    }, {});
+
+    return badgesStatisticsByBadgeName;
+};

@@ -6,6 +6,7 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 model Intern {
   id      Int    @id @default(autoincrement())
   name    String @db.VarChar(100)
@@ -30,8 +31,8 @@ model Intern {
 
   internCourseRole InternCourseRole[] @relation(name: "InternCourseRole: intern")
 
-  feedbackOnIntern FeedbackOnIntern[] @relation(name: "FeedbackOnIntern: intern")
-  feedbackOnFacilitator   FeedbackOnFacilitator[]   @relation(name: "FeedbackOnFacilitator: intern")
+  feedbackOnIntern      FeedbackOnIntern[]      @relation(name: "FeedbackOnIntern: intern")
+  feedbackOnFacilitator FeedbackOnFacilitator[] @relation(name: "FeedbackOnFacilitator: intern")
 
   eventInternBadge EventInternBadge[] @relation(name: "EventInternBadge: intern")
 
@@ -64,10 +65,10 @@ model ClassEvent {
   classEventTypeId Int
   classEventType   ClassEventType @relation(fields: [classEventTypeId], references: [id], name: "ClassEventType: classEvent", onDelete: Cascade)
 
-  eventInternBadge  EventInternBadge[]  @relation(name: "EventInternBadge: classEvent")
-  eventFeedback     EventFeedback[]     @relation(name: "EventFeedback: classEvent")
-  feedbackOnIntern FeedbackOnIntern[] @relation(name: "FeedbackOnIntern: classEvent")
-  feedbackOnFacilitator   FeedbackOnFacilitator[]   @relation(name: "FeedbackOnFacilitator: classEvent")
+  eventInternBadge      EventInternBadge[]      @relation(name: "EventInternBadge: classEvent")
+  eventFeedback         EventFeedback[]         @relation(name: "EventFeedback: classEvent")
+  feedbackOnIntern      FeedbackOnIntern[]      @relation(name: "FeedbackOnIntern: classEvent")
+  feedbackOnFacilitator FeedbackOnFacilitator[] @relation(name: "FeedbackOnFacilitator: classEvent")
 }
 
 model EventFeedback {
@@ -81,7 +82,7 @@ model EventFeedback {
 
 model Badge {
   id               Int                @id @default(autoincrement())
-  badgeName        String             @db.VarChar(30)
+  name             String             @db.VarChar(30)
   eventInternBadge EventInternBadge[]
 }
 
@@ -92,10 +93,10 @@ model CourseResult {
   englishLevel  String @db.VarChar(50)
 
   internId Int
-  intern Intern @relation(fields: [internId], references: [id], name: "CourseResult: Intern", onDelete: Cascade)
+  intern   Intern @relation(fields: [internId], references: [id], name: "CourseResult: Intern", onDelete: Cascade)
 
   courseId Int
-  course Course @relation(fields: [courseId], references: [id], name: "CourseResult: Course", onDelete: Cascade)
+  course   Course @relation(fields: [courseId], references: [id], name: "CourseResult: Course", onDelete: Cascade)
 }
 
 model FeedbackOnIntern {

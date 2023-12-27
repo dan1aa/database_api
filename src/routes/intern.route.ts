@@ -45,5 +45,10 @@ router.get(
     tryCatchMiddleware(InternController.getCohortScheduleByExplorerId)
 );
 
+router.get(
+    '/interns/:internId/course-badges/:courseId',
+    tryCatchMiddleware(InternController.getInternBadgesListByCourseId)
+);
+
 
 export default router;
