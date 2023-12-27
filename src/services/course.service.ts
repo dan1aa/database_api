@@ -1,4 +1,4 @@
-import { Course, Prisma } from "@prisma/client";
+import { Course, CourseResult, Prisma } from "@prisma/client";
 
 import { db } from "@utils/db.server";
 import { NotFoundError } from "@utils/exeptions/ApiErrors";
@@ -150,3 +150,15 @@ const getCourseParticipantsByCourseId = async (courseId: number) => {
 
     return groupedInternsByRole;
 };
+
+export const getCourseResultsByCourseId = async (courseId: number): Promise<CourseResult[]> => {
+
+    const courseResults: CourseResult[] = await db.courseResult.findMany({
+        where: {
+            courseId,
+        }
+    })
+
+    return courseResults;
+
+}

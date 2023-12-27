@@ -42,11 +42,3 @@ export const getListOfCourseResults = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json(courseResultsList).end();
 };
-
-export const getCourseResultsByCourseId = async(req: Request, res: Response) => {
-    const { courseId } = req.params;
-
-    const courseResults: CourseResult[] | null = await CourseResultService.getCourseResultsByCourseId(+courseId);
-
-    res.status(StatusCodes.OK).json(courseResults).end()
-}
