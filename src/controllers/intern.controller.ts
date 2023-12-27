@@ -52,3 +52,12 @@ export const getCohortScheduleByExplorerId = async (req: Request, res: Response)
 
     res.status(StatusCodes.OK).json(cohortSchedule).end();
 };
+
+export const getInternBadgesListByCourseId = async (req: Request, res: Response) => {
+    const internId = Number(req.params.internId);
+    const courseId = Number(req.params.internId);
+
+    const cohortSchedule = await InternService.getInternBadgesListByCourseId(internId, courseId);
+
+    res.status(StatusCodes.OK).json(cohortSchedule).end();
+};
