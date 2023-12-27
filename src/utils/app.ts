@@ -14,8 +14,7 @@ import FeedbackOnInternRouter from '@routes/feedback-on-intern.route';
 import FeedbackOnFacilitatorRouter from '@routes/feedback-on-facilitator.route';
 
 import errorHandler from '@middlewares/errorHandler.middleware';
-import prismaErrorHandler from '@middlewares/prismaErrorsHandler.moddleware';
-import validateRequestApiToken from '@middlewares/validateRequestApiToken.middleware';
+// import validateRequestApiToken from '@middlewares/validateRequestApiToken.middleware';
 
 import { swaggerOptions } from '@utils/swagger';
 
@@ -45,7 +44,6 @@ app.use(
   swaggerUi.setup(specs)
 );
 
-app.use(prismaErrorHandler);
 app.use(errorHandler);
 
 export default app;
