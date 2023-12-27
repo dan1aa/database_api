@@ -35,15 +35,3 @@ export const getListOfCourseResults = async (): Promise<CourseResult[]> => {
 
     return courseResultsList;
 };
-
-export const getCourseResultsByCourseId = async (courseId: number): Promise<CourseResult[]> => {
-
-    const courseResults: CourseResult[] = await db.courseResult.findMany({
-        where: {
-            courseId,
-        }
-    })
-
-    return courseResults;
-
-}

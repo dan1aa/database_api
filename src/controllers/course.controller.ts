@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 
 import * as CourseService from '@services/course.service';
-import { Course } from '@prisma/client';
+import { Course, CourseResult } from '@prisma/client';
 
 export const createCourses = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -60,3 +60,11 @@ export const getCourseDetailsByCipher = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json(courseDetails).end();
 };
+
+export const getCourseResultsByCourseId = async(req: Request, res: Response) => {
+    const { courseId } = req.params;
+
+    const courseResults: CourseResult[] | null = await CourseService.getCourseResultsByCourseId(+courseId);
+
+    res.status(StatusCodes.OK).json(courseResults).end()
+}
