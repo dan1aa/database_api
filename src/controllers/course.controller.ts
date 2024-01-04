@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 
 import * as CourseService from '@services/course.service';
 import { Course, CourseResult } from '@prisma/client';
+import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCourses = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -20,7 +21,7 @@ export const getCourses = async (req: Request, res: Response) => {
 
 export const getCourseById = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const course: Course = await CourseService.getCourseById(+id)
+    const course: Course | null = await CourseService.getCourseById(+id)
 
     res.status(StatusCodes.OK).json(course).end()
 }

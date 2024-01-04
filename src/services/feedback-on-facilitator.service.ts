@@ -9,30 +9,29 @@ export const getListOfFeedbacksOnFacilitator = async (): Promise<FeedbackOnFacil
     return feedbacksOnFacilitatorList;
 }
 
-export const getFeedbackOnFacilitatorById = async (id: number): Promise<FeedbackOnFacilitator> => {
-    const feedbackOnFacilitator: FeedbackOnFacilitator | null = await db.feedbackOnFacilitator.findUnique({where: { id }})
-
-    if (!feedbackOnFacilitator) {
-        throw new NotFoundError(`Feedback on Facilitator with id ${id} doesn't exist`);
-    }
+export const getFeedbackOnFacilitatorById = async (id: number): Promise<FeedbackOnFacilitator | null> => {
+    const feedbackOnFacilitator: FeedbackOnFacilitator | null = await db.feedbackOnFacilitator.findUnique({ where: { id } })
 
     return feedbackOnFacilitator;
 }
 
-export const createFeedbacksOnFacilitator = async (feedbackOnFacilitator: FeedbackOnFacilitator[]): Promise<any> => {
-    const createdFeedbackOnFacilitator: any = await db.feedbackOnFacilitator.createMany({ data: feedbackOnFacilitator })
+export const createFeedbacksOnFacilitator = async (feedbacksOnFacilitator: FeedbackOnFacilitator[]): Promise<any> => {
 
-    return createdFeedbackOnFacilitator;
+    if (!feedbacksOnFacilitator) return;
+
+    const createdFeedbacksOnFacilitator: any = await db.feedbackOnFacilitator.createMany({ data: feedbacksOnFacilitator })
+
+    return createdFeedbacksOnFacilitator;
 }
 
 export const updateFeedbackOnFacilitatorById = async (id: number, feedbacksOnFacilitator: FeedbackOnFacilitator): Promise<FeedbackOnFacilitator> => {
-    const updatedFeedbackOnFacilitator: FeedbackOnFacilitator = await db.feedbackOnFacilitator.update({where: { id }, data: feedbacksOnFacilitator}) 
+    const updatedFeedbackOnFacilitator: FeedbackOnFacilitator = await db.feedbackOnFacilitator.update({ where: { id }, data: feedbacksOnFacilitator })
 
     return updatedFeedbackOnFacilitator;
 }
 
 export const deleteFeedbackOnFacilitatorById = async (id: number): Promise<FeedbackOnFacilitator> => {
-    const deletedFeedbackOnFacilitator: FeedbackOnFacilitator = await db.feedbackOnFacilitator.delete({where: { id }})
+    const deletedFeedbackOnFacilitator: FeedbackOnFacilitator = await db.feedbackOnFacilitator.delete({ where: { id } })
 
     return deletedFeedbackOnFacilitator;
 }

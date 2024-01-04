@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as FeedbackOnInternService from '@services/feedback-on-intern.service';
 import { StatusCodes } from "http-status-codes";
 import { FeedbackOnIntern } from "@prisma/client";
+import { NotFoundError } from "@utils/exeptions/ApiErrors";
 
 export const createFeedbacksOnIntern = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -20,7 +21,7 @@ export const getListOfFeedbacksOnIntern = async (req: Request, res: Response) =>
 export const getFeedbackOnInternById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const feedbackOnIntern: FeedbackOnIntern = await FeedbackOnInternService.getFeedbackOnInternById(+id);
+    const feedbackOnIntern: FeedbackOnIntern | null = await FeedbackOnInternService.getFeedbackOnInternById(+id);
 
     res.status(StatusCodes.OK).json(feedbackOnIntern).end();
 }

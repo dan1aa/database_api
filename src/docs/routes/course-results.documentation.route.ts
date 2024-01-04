@@ -330,61 +330,6 @@ const getListOfCourseResults = {
     },
 };
 
-const getCourseResultByCourseId = {
-    tags: ['Course Results'],
-    operationId: 'getCourseResultByCourseId',
-    parameters: [
-        {
-            name: 'courseId',
-            in: 'path',
-            description: 'Course id',
-            required: true,
-            type: 'number',
-        },
-    ],
-    responses: {
-        '200': {
-            description: 'Successful Retrieve list of course-results',
-            content: {
-                'application/json': {
-                    example: [
-                        {
-                            id: { type: 'number', example: 42 },
-                            internId: { type: 'number', example: 14 },
-                            courseId: { type: 'number', example: 14 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Amazing' },
-                        },
-                        {
-                            id: { type: 'number', example: 42 },
-                            internId: { type: 'number', example: 14 },
-                            courseId: { type: 'number', example: 12 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Not bad' },
-                        }
-                    ]
-                },
-            },
-        },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal server error',
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    },
-};
-
 const routes = {
     '/api/course-results': {
         get: getListOfCourseResults,
@@ -394,9 +339,6 @@ const routes = {
         get: getCourseResultById,
         put: updateCourseResultById,
         delete: deleteCourseResultById
-    },
-    '/api/course-results/:courseId': {
-        get: getCourseResultByCourseId
     }
 };
 

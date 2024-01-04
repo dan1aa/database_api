@@ -5,6 +5,7 @@ import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCohortSchedules = async (data: CohortSchedule[]) => {
 
+
     data.forEach(cohortSchedule => {
         if (cohortSchedule.eventDate) cohortSchedule.eventDate = new Date(cohortSchedule.eventDate);
     })
@@ -14,12 +15,8 @@ export const createCohortSchedules = async (data: CohortSchedule[]) => {
     return createdCohortSchedules;
 };
 
-export const getCohortScheduleById = async (id: number): Promise<CohortSchedule> => {
+export const getCohortScheduleById = async (id: number): Promise<CohortSchedule | null> => {
     const cohortSchedule: CohortSchedule | null = await db.cohortSchedule.findUnique({ where: { id } });
-
-    if (!cohortSchedule) {
-        throw new NotFoundError(`Cohort schedule with id ${id} doesn't exist`);
-    }
 
     return cohortSchedule;
 };
