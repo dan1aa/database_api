@@ -5,6 +5,8 @@ import { NotFoundError } from "@utils/exeptions/ApiErrors";
 
 export const createCourses = async (courses: Course[]) => {
 
+    if (!courses) return;
+
     courses.forEach((course: Course) => {
         course.startDate = new Date(course.startDate)
         course.endDate = new Date(course.endDate)
@@ -21,35 +23,21 @@ export const getCourses = async (): Promise<Course[] | null> => {
     return coursesList
 }
 
-export const getCourseById = async (id: number): Promise<Course> => {
+export const getCourseById = async (id: number): Promise<Course | null> => {
     const course: Course | null = await db.course.findUnique({
         where: {
             id
         }
     })
 
-    if(!course) {
-        throw new NotFoundError(`There is no course with id ${id}`);
-    }
-    
-
     return course
 }
 
-export const updateCourseById = async (id: number , course: any): Promise<Course> => {
-
+export const updateCourseById = async (id: number, course: any): Promise<Course> => {
     const { startDate, endDate } = course;
 
     course.startDate = new Date(startDate);
     course.endDate = new Date(endDate)
-
-    const courseExistance: Course | null = await db.course.findUnique({
-        where: {
-            id
-        }
-    })
-
-    if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
 
     const updatedCourse: Course = await db.course.update({
         where: {
@@ -62,15 +50,6 @@ export const updateCourseById = async (id: number , course: any): Promise<Course
 }
 
 export const deleteCourseById = async (id: number): Promise<Course> => {
-
-    const courseExistance: Course | null = await db.course.findUnique({
-        where: {
-            id
-        }
-    })
-
-    if(!courseExistance) throw new NotFoundError(`Course with id ${id} does not exist`)
-
     const deletedCourse: Course = await db.course.delete({
         where: {
             id
@@ -90,15 +69,15 @@ export const enrollInternsInCourseById = async (courseId: number, participantsDa
 
 
 export const getCourseDetailsByCipher = async (courseCipher: string) => {
-    const targetCourseData: Course | null = await db.course.findUnique({ where: { courseCipher }});
+    const targetCourseData: Course | null = await db.course.findUnique({ where: { courseCipher } });
 
     if (!targetCourseData) {
-        throw new NotFoundError(`${courseCipher} course doesn't exist`);
+        throw new NotFoundError;
     }
-    
+
     const courseSchedule = await getCourseScheduleByCourseId(targetCourseData.id);
     const courseParticipants = await getCourseParticipantsByCourseId(targetCourseData.id);
-    
+
     const result = {
         ...targetCourseData,
         participants: courseParticipants,
@@ -124,7 +103,7 @@ const getCourseScheduleByCourseId = async (courseId: number) => {
 };
 
 const getCourseParticipantsByCourseId = async (courseId: number) => {
-    const courseParticipants = await db.internCourseRole.findMany({ 
+    const courseParticipants = await db.internCourseRole.findMany({
         where: {
             courseId
         },
@@ -135,18 +114,18 @@ const getCourseParticipantsByCourseId = async (courseId: number) => {
     });
 
     const groupedInternsByRole = courseParticipants.reduce((result: Record<string, Array<any>>, participant) => {
-      
+
         const { intern, classRole } = participant;
-      
+
         if (!result[classRole.name]) {
             result[classRole.name] = [];
         }
-        
+
         result[classRole.name].push(intern);
 
         return result;
     }, {});
-      
+
 
     return groupedInternsByRole;
 };

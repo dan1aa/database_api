@@ -4,7 +4,8 @@ import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 
 export const createClassEvents = async (data: ClassEvent[]) => {
-    
+
+
     data.forEach((classEvent) => {
         classEvent.eventDate = new Date(classEvent.eventDate)
     })
@@ -14,12 +15,8 @@ export const createClassEvents = async (data: ClassEvent[]) => {
     return createdClassEvents;
 };
 
-export const getClassEventById = async (id: number): Promise<ClassEvent> => {
+export const getClassEventById = async (id: number): Promise<ClassEvent | null> => {
     const classEvent: ClassEvent | null = await db.classEvent.findUnique({ where: { id } });
-
-    if (!classEvent) {
-        throw new NotFoundError(`Class event with id ${id} doesn't exist`);
-    }
 
     return classEvent;
 };

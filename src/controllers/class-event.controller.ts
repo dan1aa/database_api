@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as ClassEventService from '@services/class-event.service';
 import { ClassEvent } from '@prisma/client';
+import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createClassEvents = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -15,7 +16,7 @@ export const createClassEvents = async (req: Request, res: Response) => {
 export const getClassEventById = async (req: Request, res: Response) => {
     const classEventId = Number(req.params.id);
 
-    const classEvent: ClassEvent = await ClassEventService.getClassEventById(classEventId);
+    const classEvent: ClassEvent | null = await ClassEventService.getClassEventById(classEventId);
 
     res.status(StatusCodes.OK).json(classEvent).end();
 };

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as FeedbackOnFacilitatorController from '@services/feedback-on-facilitator.service';
 import { StatusCodes } from "http-status-codes";
 import { FeedbackOnFacilitator } from "@prisma/client";
+import { NotFoundError } from "@utils/exeptions/ApiErrors";
 
 export const getListOfFeedbacksOnFacilitator = async (req: Request, res: Response) => {
     const feedbacksOnFacilitatorList: any = await FeedbackOnFacilitatorController.getListOfFeedbacksOnFacilitator();
@@ -21,7 +22,7 @@ export const updateFeedbackOnFacilitatorById = async(req: Request, res: Response
     const { id } = req.params;
     const data = req.body;
 
-    const updatedFeedbackOnFacilitator: FeedbackOnFacilitator | null = await FeedbackOnFacilitatorController.updateFeedbackOnFacilitatorById(+id, data);
+    const updatedFeedbackOnFacilitator: FeedbackOnFacilitator = await FeedbackOnFacilitatorController.updateFeedbackOnFacilitatorById(+id, data);
 
     res.status(StatusCodes.OK).json(updatedFeedbackOnFacilitator).end();
 }
@@ -29,7 +30,7 @@ export const updateFeedbackOnFacilitatorById = async(req: Request, res: Response
 export const deleteFeedbackOnFacilitatorById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const deletedFeedbackOnFacilitator: FeedbackOnFacilitator | null = await FeedbackOnFacilitatorController.deleteFeedbackOnFacilitatorById(+id);
+    const deletedFeedbackOnFacilitator: FeedbackOnFacilitator = await FeedbackOnFacilitatorController.deleteFeedbackOnFacilitatorById(+id);
 
     res.status(StatusCodes.OK).json(deletedFeedbackOnFacilitator).end();
 }

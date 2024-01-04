@@ -10,14 +10,14 @@ const errorHandler = (
     next: NextFunction
 ) => {
     const statusCode = error instanceof BaseApiError 
-        ? error.httpCode 
+        ? error.statusCode 
         : StatusCodes.INTERNAL_SERVER_ERROR;
 
     console.log(error);
     
     res.status(statusCode).json({
         msg: error instanceof BaseApiError 
-            ? error.message 
+            ? error.message
             : 'Internal server error',
     });
 };

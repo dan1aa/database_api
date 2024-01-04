@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as CourseResultService from '@services/course-result.service';
 import { CourseResult } from '@prisma/client';
+import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCourseResults = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -24,7 +25,7 @@ export const updateCourseResultById = async (req: Request, res: Response) => {
 export const getCourseResultById = async (req: Request, res: Response) => {
     const courseResultId = Number(req.params.id);
 
-    const courseResult: CourseResult = await CourseResultService.getCourseResultById(courseResultId);
+    const courseResult: CourseResult | null = await CourseResultService.getCourseResultById(courseResultId);
 
     res.status(StatusCodes.OK).json(courseResult).end();
 };
