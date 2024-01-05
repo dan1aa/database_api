@@ -36,8 +36,8 @@ export const getCourseById = async (id: number): Promise<Course | null> => {
 export const updateCourseById = async (id: number, course: any): Promise<Course> => {
     const { startDate, endDate } = course;
 
-    course.startDate = new Date(startDate);
-    course.endDate = new Date(endDate)
+    if (startDate) course.startDate = new Date(startDate);
+    if (endDate) course.endDate = new Date(endDate)
 
     const updatedCourse: Course = await db.course.update({
         where: {

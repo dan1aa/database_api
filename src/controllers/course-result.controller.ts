@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as CourseResultService from '@services/course-result.service';
 import { CourseResult } from '@prisma/client';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCourseResults = async (req: Request, res: Response) => {
     const { data } = req.body;

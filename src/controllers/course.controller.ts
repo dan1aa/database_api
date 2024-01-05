@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 
 import * as CourseService from '@services/course.service';
 import { Course, CourseResult } from '@prisma/client';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCourses = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -37,9 +36,9 @@ export const updateCourseById = async (req: Request, res: Response) => {
 
 
 export const deleteCourseById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
 
-    const deletedCourse: Course = await CourseService.deleteCourseById(+id);
+    const deletedCourse: Course = await CourseService.deleteCourseById(id);
 
     res.status(StatusCodes.OK).json(deletedCourse).end();
 }
@@ -63,9 +62,9 @@ export const getCourseDetailsByCipher = async (req: Request, res: Response) => {
 };
 
 export const getCourseResultsByCourseId = async(req: Request, res: Response) => {
-    const { courseId } = req.params;
+    const courseId = Number(req.params.courseId);
 
-    const courseResults: CourseResult[] | null = await CourseService.getCourseResultsByCourseId(+courseId);
+    const courseResults: CourseResult[] | null = await CourseService.getCourseResultsByCourseId(courseId);
 
     res.status(StatusCodes.OK).json(courseResults).end()
 }
