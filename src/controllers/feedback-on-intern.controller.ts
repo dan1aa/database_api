@@ -19,26 +19,26 @@ export const getListOfFeedbacksOnIntern = async (req: Request, res: Response) =>
 }
 
 export const getFeedbackOnInternById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
 
-    const feedbackOnIntern: FeedbackOnIntern | null = await FeedbackOnInternService.getFeedbackOnInternById(+id);
+    const feedbackOnIntern: FeedbackOnIntern | null = await FeedbackOnInternService.getFeedbackOnInternById(id);
 
     res.status(StatusCodes.OK).json(feedbackOnIntern).end();
 }
 
 export const updateFeedbackOnInternById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
     const data = req.body;
 
-    const updatedFeedbackOnIntern: FeedbackOnIntern = await FeedbackOnInternService.updateFeedbackOnInternById(+id, data);
+    const updatedFeedbackOnIntern: FeedbackOnIntern = await FeedbackOnInternService.updateFeedbackOnInternById(id, data);
 
     res.status(StatusCodes.OK).json(updatedFeedbackOnIntern).end();
 }
 
 export const deleteFeedbackOnInternById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
 
-    const deletedFeedbackOnIntern: FeedbackOnIntern = await FeedbackOnInternService.deleteFeedbackOnInternById(+id)
+    const deletedFeedbackOnIntern: FeedbackOnIntern = await FeedbackOnInternService.deleteFeedbackOnInternById(id)
 
     res.status(StatusCodes.OK).json(deletedFeedbackOnIntern).end()
 }

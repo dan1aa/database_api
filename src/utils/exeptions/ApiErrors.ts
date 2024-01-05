@@ -48,3 +48,9 @@ export class ConflictError extends BaseApiError {
         super('CONFLICT', StatusCodes.CONFLICT, description, 'CLIENT_ERR')
     }
 }
+
+export class GatewayTimeoutError extends BaseApiError {
+    constructor(description = "Database isn't responding, request timed out") {
+        super('GATEWAY_TIMEOUT', StatusCodes.GATEWAY_TIMEOUT, description, 'SERVER_ERR')
+    }
+}

@@ -1,6 +1,5 @@
 import { ClassEvent } from '@prisma/client';
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 
 export const createClassEvents = async (data: ClassEvent[]) => {
@@ -22,7 +21,10 @@ export const getClassEventById = async (id: number): Promise<ClassEvent | null> 
 };
 
 export const updateClassEventById = async (id: number, data: ClassEvent): Promise<ClassEvent> => {
-    const updatedClassEvent: ClassEvent = await db.classEvent.update({ where: { id }, data: data });
+
+    if (data.eventDate) data.eventDate = new Date(data.eventDate)
+
+    const updatedClassEvent: ClassEvent = await db.classEvent.update({ where: { id }, data });
 
     return updatedClassEvent;
 };

@@ -1,10 +1,8 @@
 import { CohortSchedule, Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCohortSchedules = async (data: CohortSchedule[]) => {
-
 
     data.forEach(cohortSchedule => {
         if (cohortSchedule.eventDate) cohortSchedule.eventDate = new Date(cohortSchedule.eventDate);

@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as ClassEventService from '@services/class-event.service';
 import { ClassEvent } from '@prisma/client';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createClassEvents = async (req: Request, res: Response) => {
     const { data } = req.body;
@@ -52,9 +51,9 @@ export const getClassEventByGoogleMeetCode = async (req: Request, res: Response)
 }
 
 export const getResultsByClassEventId = async (req: Request, res: Response) => {
-    const { classEventId } = req.params;
+    const classEventId = Number(req.params.classEventId);
 
-    const resultsByClassEventId = await ClassEventService.getResultsByClassEventId(+classEventId);
+    const resultsByClassEventId = await ClassEventService.getResultsByClassEventId(classEventId);
 
     res.status(StatusCodes.OK).json(resultsByClassEventId).end()
 }
