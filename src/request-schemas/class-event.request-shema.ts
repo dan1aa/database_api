@@ -1,12 +1,12 @@
 import Joi from 'joi';
 
-const updateClassEventObject = {
+export const updateClassEventScheme = Joi.object({
     meetNumber : Joi.number(),
     eventDate : Joi.date(),
     googleMeetLink: Joi.string(),
     courseId: Joi.number(),
     classEventTypeId: Joi.number(),
-}
+})
 
 export const createClassEventScheme = Joi.object({
     meetNumber : Joi.number().required(),
@@ -19,10 +19,3 @@ export const createClassEventScheme = Joi.object({
 export const createClassEventsScheme = Joi.object({
     data: Joi.array().items(createClassEventScheme)
 })
-
-export const updateClassEventScheme = Joi.object(updateClassEventObject);
-
-export const modifyClassEventSheetsScheme = Joi.object({
-    id: Joi.number().required(),
-    ...updateClassEventObject
-});
