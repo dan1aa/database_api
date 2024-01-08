@@ -1,4 +1,4 @@
-import { BadRequestError, ConflictError, GatewayTimeoutError, NotFoundError } from '@utils/exeptions/ApiErrors';
+import { ConflictError, GatewayTimeoutError, NotFoundError } from '@utils/exeptions/ApiErrors';
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
@@ -13,8 +13,6 @@ const tryCatchMiddleware = (handler: (req: Request, res: Response, next: NextFun
                 case 'P2002': return res.status(StatusCodes.CONFLICT).json(new ConflictError)
                 case 'P1008': return res.status(StatusCodes.GATEWAY_TIMEOUT).json(new GatewayTimeoutError)
             }
-            
-            if (error?.name === 'PrismaClientValidationError') return res.status(StatusCodes.BAD_REQUEST).json(new BadRequestError)
 
             next(error);
         }
