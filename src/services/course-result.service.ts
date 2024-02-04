@@ -1,13 +1,22 @@
-import { Course, CourseResult } from '@prisma/client';
+import { CourseResult } from '@prisma/client';
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
-export const createCourseResults = async (data: CourseResult[] | any) => {
+export const createCourseResults = async (courseResults: CourseResult[] | any) => {
 
+    for (const courseResult of courseResults) {
+        await db.courseResult.upsert({
+            where: {
+                internId_courseId: {
+                    internId: courseResult.internId,
+                    courseId: courseResult.courseId
+                }
+            },
+            create: courseResult,
+            update: courseResult
+        })
+    }
 
-    const createdCourseResults = await db.courseResult.createMany({ data });
-
-    return createdCourseResults;
+    return { message: "Course Results created and updated successfully!" };
 };
 
 export const updateCourseResultById = async (id: number, data: CourseResult): Promise<CourseResult> => {

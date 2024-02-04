@@ -1,4 +1,4 @@
-import { Course, CourseResult, Prisma } from "@prisma/client";
+import { Course, CourseResult } from "@prisma/client";
 
 import { db } from "@utils/db.server";
 import { NotFoundError } from "@utils/exeptions/ApiErrors";
@@ -7,13 +7,20 @@ export const createCourses = async (courses: Course[]) => {
 
     if (!courses) return;
 
-    courses.forEach((course: Course) => {
+    for (const course of courses) {
         course.startDate = new Date(course.startDate)
         course.endDate = new Date(course.endDate)
-    })
 
-    const createdCourses = await db.course.createMany({ data: courses });
-    return createdCourses;
+        await db.course.upsert({
+            where: {
+                courseCipher: course.courseCipher
+            },
+            create: course,
+            update: course
+        })
+    }
+
+    return { message: "Courses created and updated successfully!" };
 };
 
 
@@ -63,8 +70,10 @@ export const enrollInternsInCourseById = async (courseId: number, participantsDa
     for (const participantData of participantsData) {
         const { internId, classRoleId } = participantData;
 
-        const internEnrollmentResult = await db.internCourseRole.create({ data: { internId, courseId, classRoleId } });
+        await db.internCourseRole.create({ data: { internId, courseId, classRoleId } });
     }
+
+    return { message: "InternCourseRole created and updated successfully!" }
 }
 
 

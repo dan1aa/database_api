@@ -6,8 +6,14 @@ export const createFeedbackOnInternScheme = Joi.object({
     participationActivity: Joi.string().required(),
     comment: Joi.string(),
     internId: Joi.number().required(),
-    classEventId: Joi.number().required()
+    classEventId: Joi.number().required(),
+    senderId: Joi.number().required()
 });
+
+export const createFeedbacksOnInternScheme = Joi.object({
+    data: Joi.array().items(createFeedbackOnInternScheme)
+})
+
 
 export const updateFeedbackOnInternScheme = Joi.object({
     attendance: Joi.boolean(),
@@ -15,5 +21,6 @@ export const updateFeedbackOnInternScheme = Joi.object({
     participationActivity: Joi.string(),
     comment: Joi.string(),
     internId: Joi.number(),
-    classEventId: Joi.number()
+    classEventId: Joi.number(),
+    senderId: Joi.number()
 });

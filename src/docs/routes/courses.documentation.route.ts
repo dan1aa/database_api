@@ -7,9 +7,9 @@ import {
 import { createCoursesScheme, updateCourseScheme } from '@request-schemas/course.request-schema';
 
 
-const createCourse = {
+const createCourses = {
     tags: ['Courses'],
-    operationId: 'createCourse',
+    operationId: 'createCourses',
     requestBody: {
         content: {
             'application/json': {
@@ -20,7 +20,7 @@ const createCourse = {
     },
     responses: {
         '201': {
-            description: 'Course created successfully!',
+            description: 'Courses created and updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -526,7 +526,7 @@ const getCourseResultByCourseId = {
 const routes = {
     '/api/courses': {
         get: getListOfCourses,
-        post: createCourse,
+        post: createCourses,
     },
     '/api/courses/:id': {
         get: getCourseById,

@@ -8,9 +8,9 @@ export const createCohortSchedules = async (data: CohortSchedule[]) => {
         if (cohortSchedule.eventDate) cohortSchedule.eventDate = new Date(cohortSchedule.eventDate);
     })
 
-    const createdCohortSchedules = await db.cohortSchedule.createMany({ data });
+    await db.cohortSchedule.createMany({ data });
 
-    return createdCohortSchedules;
+    return { message: "Cohort schedules created successfully!" }
 };
 
 export const getCohortScheduleById = async (id: number): Promise<CohortSchedule | null> => {

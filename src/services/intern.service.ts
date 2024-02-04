@@ -5,13 +5,21 @@ import { NotFoundError } from '@utils/exeptions/ApiErrors';
 import { FilteringParams } from 'types/types';
 
 
-export const createInterns = async (interns: Intern) => {
+export const createInterns = async (interns: Intern[]) => {
 
     if (!interns) return;
 
-    const createdInterns = await db.intern.createMany({ data: interns });
+    for(const intern of interns) {
+        await db.intern.upsert({
+            where: {
+                explorerId: intern.explorerId
+            },
+            create: intern,
+            update: intern
+        })
+    }
 
-    return createdInterns;
+    return { message: "Interns created and updated successfully!" };
 };
 
 

@@ -1,12 +1,22 @@
 import { FeedbackOnIntern } from '@prisma/client';
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
-export const createFeedbacksOnIntern = async (data: FeedbackOnIntern[]) => {
+export const createFeedbacksOnIntern = async (feedbacksOnIntern: FeedbackOnIntern[]) => {
+    for (const feedbackOnIntern of feedbacksOnIntern) {
+        await db.feedbackOnIntern.upsert({
+            where: {
+                senderId_internId_classEventId: {
+                    senderId: feedbackOnIntern.senderId,
+                    internId: feedbackOnIntern.internId,
+                    classEventId: feedbackOnIntern.classEventId,
+                }
+            },
+            create: feedbackOnIntern,
+            update: feedbackOnIntern
+        })
+    }
 
-    const createdFeedbacksOnIntern: any = await db.feedbackOnIntern.createMany({ data })
-
-    return createdFeedbacksOnIntern;
+    return { message: 'Feedbacks on Intern created and updated successfully!' }
 }
 
 export const getListOfFeedbacksOnIntern = async (): Promise<FeedbackOnIntern[] | null> => {

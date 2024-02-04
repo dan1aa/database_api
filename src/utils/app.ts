@@ -12,6 +12,7 @@ import CohortScheduleRouter from '@routes/cohort-schedule.route';
 import GithubWebhooksRouter from '@routes/github-webhooks.route';
 import FeedbackOnInternRouter from '@routes/feedback-on-intern.route';
 import FeedbackOnFacilitatorRouter from '@routes/feedback-on-facilitator.route';
+import EventFeedbackRouter from '@routes/event-feedbacks.route';
 
 import errorHandler from '@middlewares/errorHandler.middleware';
 // import validateRequestApiToken from '@middlewares/validateRequestApiToken.middleware';
@@ -33,6 +34,7 @@ app.use('/api', CourseResultRouter);
 app.use('/api', CohortScheduleRouter);
 app.use('/api', FeedbackOnInternRouter);
 app.use('/api', FeedbackOnFacilitatorRouter);
+app.use('/api', EventFeedbackRouter);
 app.use('/', GithubWebhooksRouter);
 
 

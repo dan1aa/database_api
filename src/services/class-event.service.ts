@@ -1,17 +1,25 @@
-import { ClassEvent } from '@prisma/client';
+import { ClassEvent, EventInternBadge } from '@prisma/client';
 import { db } from '@utils/db.server';
 
 
-export const createClassEvents = async (data: ClassEvent[]) => {
+export const createClassEvents = async (classEvents: ClassEvent[]) => {
 
+    for (const classEvent of classEvents) {
+        classEvent.eventDate = new Date(classEvent.eventDate);
 
-    data.forEach((classEvent) => {
-        classEvent.eventDate = new Date(classEvent.eventDate)
-    })
+        await db.classEvent.upsert({
+            where: {
+                courseId_meetNumber: {
+                    courseId: classEvent.courseId,
+                    meetNumber: classEvent.meetNumber
+                }
+            },
+            create: classEvent,
+            update: classEvent
+        })
+    }
 
-    const createdClassEvents = await db.classEvent.createMany({ data });
-
-    return createdClassEvents;
+    return { message: "Class Events created and updated successfully!" };
 };
 
 export const getClassEventById = async (id: number): Promise<ClassEvent | null> => {
@@ -65,4 +73,12 @@ export const getResultsByClassEventId = async (classEventId: number) => {
     })
 
     return { feedbackOnFacilitator, feedbackOnIntern }
+}
+
+export const createEventInternBadges = async (eventInternBadges: EventInternBadge[]) => {
+    await db.eventInternBadge.createMany({
+        data: eventInternBadges
+    })
+
+    return { message: "EventInternBadges created successfully!" }
 }

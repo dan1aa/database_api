@@ -7,9 +7,9 @@ import { CourseResult } from '@prisma/client';
 export const createCourseResults = async (req: Request, res: Response) => {
     const { data } = req.body;
 
-    const createdCourseResult = await CourseResultService.createCourseResults(data);
+    const createdCourseResults = await CourseResultService.createCourseResults(data);
 
-    res.status(StatusCodes.CREATED).json(createdCourseResult).end();
+    res.status(StatusCodes.CREATED).json(createdCourseResults).end();
 };
 
 export const updateCourseResultById = async (req: Request, res: Response) => {

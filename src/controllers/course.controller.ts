@@ -12,7 +12,7 @@ export const createCourses = async (req: Request, res: Response) => {
     res.status(StatusCodes.CREATED).json(cratedCourses).end();
 };
 
-export const getCourses = async (req: Request, res: Response) => {
+export const getCourses = async (_: Request, res: Response) => {
     const coursesList: Course[] | null = await CourseService.getCourses();
         
     res.status(StatusCodes.OK).json(coursesList).end();
