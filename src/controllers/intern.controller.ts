@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as InternService from '@services/intern.service';
 import { Intern } from '@prisma/client';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 
 export const createInterns = async (req: Request, res: Response) => {

@@ -38,7 +38,7 @@ export const deleteFeedbackOnFacilitatorById = async (req: Request, res: Respons
 export const createFeedbacksOnFacilitator = async(req: Request, res: Response) => {
     const { data } = req.body;
 
-    const createdFeedbackOnFacilitator: any = await FeedbackOnFacilitatorController.createFeedbacksOnFacilitator(data);
+    const createdFeedbacksOnFacilitator: any = await FeedbackOnFacilitatorController.createFeedbacksOnFacilitator(data);
 
-    res.status(StatusCodes.OK).json(createdFeedbackOnFacilitator).end();
+    res.status(StatusCodes.CREATED).json(createdFeedbacksOnFacilitator).end();
 }

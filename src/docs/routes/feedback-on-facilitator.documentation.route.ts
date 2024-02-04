@@ -1,20 +1,20 @@
-import { createFeedbackOnFacilitatorScheme, updateFeedbackOnFacilitatorScheme } from "@request-schemas/feedback-on-facilitator.request-schema";
+import { createFeedbacksOnFacilitatorScheme, updateFeedbackOnFacilitatorScheme } from "@request-schemas/feedback-on-facilitator.request-schema";
 import j2s from 'joi-to-swagger';
 
-const createFeedbackOnFacilitator = {
+const createFeedbacksOnFacilitator = {
     tags: ['Feedback on Facilitator'],
-    operationId: 'createFeedbackOnFacilitator',
+    operationId: 'createFeedbacksOnFacilitator',
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createFeedbackOnFacilitatorScheme).swagger,
+                schema: j2s(createFeedbacksOnFacilitatorScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '201': {
-            description: 'Feedback on Facilitator created successfully!',
+            description: 'Feedbacks on Facilitator created and updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -364,7 +364,7 @@ const deleteFeedbackOnFacilitatorById = {
 
 const routes = {
     '/api/feedbacks-on-facilitator': {
-        post: createFeedbackOnFacilitator,
+        post: createFeedbacksOnFacilitator,
         get: getListOfFeedbacksOnFacilitator
     },
     '/api/feedbacks-on-facilitator/:id': {

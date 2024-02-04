@@ -7,7 +7,7 @@ import { NotFoundError } from "@utils/exeptions/ApiErrors";
 export const createFeedbacksOnIntern = async (req: Request, res: Response) => {
     const { data } = req.body;
 
-    const createdFeedbacksOnIntern: FeedbackOnIntern[] | null = await FeedbackOnInternService.createFeedbacksOnIntern(data)
+    const createdFeedbacksOnIntern = await FeedbackOnInternService.createFeedbacksOnIntern(data)
 
     res.status(StatusCodes.CREATED).json(createdFeedbacksOnIntern).end()
 }

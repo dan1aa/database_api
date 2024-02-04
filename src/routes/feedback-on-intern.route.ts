@@ -12,8 +12,8 @@ const router = Router();
 
 router.post(
     '/feedbacks-on-intern',
-    validateRequestBody(FeedbackOnInternModels.createFeedbackOnInternScheme),
-    tryCatchMiddleware(FeedbackOnInternController.getListOfFeedbacksOnIntern)
+    validateRequestBody(FeedbackOnInternModels.createFeedbacksOnInternScheme),
+    tryCatchMiddleware(FeedbackOnInternController.createFeedbacksOnIntern)
 );
 
 router.get(

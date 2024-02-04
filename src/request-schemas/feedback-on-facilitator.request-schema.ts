@@ -5,7 +5,7 @@ export const createFeedbackOnFacilitatorScheme = Joi.object({
     techCheck:  Joi.string().required(),
     english: Joi.string().required(),
     isEncouraging: Joi.boolean().required(),
-    isOpenAsking: Joi.boolean().required(),
+    isOpenAsked: Joi.boolean().required(),
     naturalCommunications: Joi.string().required(),
     isPrepared: Joi.boolean().required(),
     isCheckedUnderstanding: Joi.boolean().required(),
@@ -15,15 +15,21 @@ export const createFeedbackOnFacilitatorScheme = Joi.object({
     isOnTimeAttendanceFeedback: Joi.boolean().required(),
     isOptimalScreenPresentation: Joi.boolean().required(),
     internId: Joi.number().required(),
-    classEventId: Joi.number().required()
+    classEventId: Joi.number().required(),
+    senderId: Joi.number().required()
 });
+
+export const createFeedbacksOnFacilitatorScheme = Joi.object({
+    data: Joi.array().items(createFeedbackOnFacilitatorScheme)
+})
+
 
 export const updateFeedbackOnFacilitatorScheme = Joi.object({
     attendance: Joi.bool(),
     techCheck:  Joi.string(),
     english: Joi.string(),
     isEncouraging: Joi.boolean(),
-    isOpenAsking: Joi.boolean(),
+    isOpenAsked: Joi.boolean(),
     naturalCommunications: Joi.string(),
     isPrepared: Joi.boolean(),
     isCheckedUnderstanding: Joi.boolean(),
@@ -33,5 +39,6 @@ export const updateFeedbackOnFacilitatorScheme = Joi.object({
     isOnTimeAttendanceFeedback: Joi.boolean(),
     isOptimalScreenPresentation: Joi.boolean(),
     internId: Joi.number(),
-    classEventId: Joi.number()
+    classEventId: Joi.number(),
+    senderId: Joi.number()
 });

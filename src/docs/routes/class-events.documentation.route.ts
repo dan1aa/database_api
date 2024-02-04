@@ -1,7 +1,8 @@
 import j2s from 'joi-to-swagger';
 import { createClassEventsScheme, updateClassEventScheme } from '@request-schemas/class-event.request-shema';
+import { createEventInternBadgesSheme } from '@request-schemas/event-intern-badges.request-shema';
 
-const createClassEvent = {
+const createClassEvents = {
     tags: ['Class Events'],
     operationId: 'createClassEvent',
     requestBody: {
@@ -14,7 +15,7 @@ const createClassEvent = {
     },
     responses: {
         '201': {
-            description: 'Class Event created successfully!',
+            description: 'Class Events created and updatded successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -40,7 +41,7 @@ const createClassEvent = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course id with your courseId or your classEventTypeId already exists'
+                                example: 'Class Event with your unique field(s) already exists'
                             }
                         }
                     }
@@ -402,18 +403,68 @@ const getClassEventByLinkCode = {
     },
 };
 
+const createEventInternBadges = {
+    tags: ['Class Events'],
+    operationId: 'createEventInternBadges',
+    requestBody: {
+        content: {
+            'application/json': {
+                schema: j2s(createEventInternBadgesSheme).swagger,
+            },
+        },
+        required: true,
+    },
+    responses: {
+        '201': {
+            description: 'EventInternBadges created successfully!',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'number', example: 1 },
+                            classEventId: { type: 'number', example: 2 },
+                            internId: { type: 'number', example: 3 },
+                            badgeId: { type: 'number', example: 4 },
+                        }
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
 const routes = {
     '/api/class-events': {
         get: getListOfClassEvents,
-        post: createClassEvent
+        post: createClassEvents
     },
-    '/api/class-events/:id': {
+    '/api/class-events/{{id}}': {
         get: getClassEventById,
         put: updateClassEventById,
         delete: deleteClassEventById
     },
     '/api/class-events/link/:code': {
         get: getClassEventByLinkCode
+    },
+    '/api/event-intern-badges': {
+        post: createEventInternBadges
     }
 };
 

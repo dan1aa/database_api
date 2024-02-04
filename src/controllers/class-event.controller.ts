@@ -7,9 +7,9 @@ import { ClassEvent } from '@prisma/client';
 export const createClassEvents = async (req: Request, res: Response) => {
     const { data } = req.body;
 
-    const createdClassEvent = await ClassEventService.createClassEvents(data);
+    const createdClassEvents = await ClassEventService.createClassEvents(data);
 
-    res.status(StatusCodes.CREATED).json(createdClassEvent).end();
+    res.status(StatusCodes.CREATED).json(createdClassEvents).end();
 };
 
 export const getClassEventById = async (req: Request, res: Response) => {
@@ -56,4 +56,12 @@ export const getResultsByClassEventId = async (req: Request, res: Response) => {
     const resultsByClassEventId = await ClassEventService.getResultsByClassEventId(classEventId);
 
     res.status(StatusCodes.OK).json(resultsByClassEventId).end()
+}
+
+export const createEventInternBadges = async (req: Request, res: Response) => {
+    const { data } = req.body;
+
+    const createdEventInternBadges = await ClassEventService.createEventInternBadges(data)
+
+    res.status(StatusCodes.OK).json(createdEventInternBadges).end();
 }

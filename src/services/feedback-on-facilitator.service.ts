@@ -17,11 +17,21 @@ export const getFeedbackOnFacilitatorById = async (id: number): Promise<Feedback
 
 export const createFeedbacksOnFacilitator = async (feedbacksOnFacilitator: FeedbackOnFacilitator[]): Promise<any> => {
 
-    if (!feedbacksOnFacilitator) return;
+    for (const feedbackOnFacilitator of feedbacksOnFacilitator) {
+        await db.feedbackOnFacilitator.upsert({
+            where: {
+                senderId_internId_classEventId: {
+                    senderId: feedbackOnFacilitator.senderId,
+                    internId: feedbackOnFacilitator.internId,
+                    classEventId: feedbackOnFacilitator.classEventId
+                }
+            },
+            create: feedbackOnFacilitator,
+            update: feedbackOnFacilitator
+        })
+    }
 
-    const createdFeedbacksOnFacilitator: any = await db.feedbackOnFacilitator.createMany({ data: feedbacksOnFacilitator })
-
-    return createdFeedbacksOnFacilitator;
+    return { message: "Feedbacks on Facilitator created and updated successfully!" }
 }
 
 export const updateFeedbackOnFacilitatorById = async (id: number, feedbacksOnFacilitator: FeedbackOnFacilitator): Promise<FeedbackOnFacilitator> => {

@@ -13,7 +13,7 @@ const router = Router();
 
 router.post(
     '/feedbacks-on-facilitator',
-    validateRequestBody(FeedbackOnFacilitatorModels.createFeedbackOnFacilitatorScheme),
+    validateRequestBody(FeedbackOnFacilitatorModels.createFeedbacksOnFacilitatorScheme),
     tryCatchMiddleware(FeedbackOnFacilitatorController.createFeedbacksOnFacilitator)
 );
 

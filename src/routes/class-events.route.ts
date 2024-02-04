@@ -11,6 +11,8 @@ import {
     updateClassEventScheme
 } from '@request-schemas/class-event.request-shema';
 
+import { createEventInternBadgesSheme } from '@request-schemas/event-intern-badges.request-shema';
+
 const router = Router();
 
 router.get(
@@ -53,6 +55,12 @@ router.get(
 router.get(
     '/class-events/:classEventId/event-results',
     tryCatchMiddleware(ClassEventController.getResultsByClassEventId)
+)
+
+router.post(
+    '/event-intern-badges',
+    validateRequestBody(createEventInternBadgesSheme),
+    tryCatchMiddleware(ClassEventController.createEventInternBadges)
 )
 
 export default router;
