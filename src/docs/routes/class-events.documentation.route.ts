@@ -15,7 +15,7 @@ const createClassEvents = {
     },
     responses: {
         '201': {
-            description: 'Class Events created and updatded successfully! This message is a test for github webhooks!!!!',
+            description: 'Class Events created and updatded successfully! This message is a test for github webhooks 123!!!!',
             content: {
                 'application/json': {
                     schema: {
