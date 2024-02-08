@@ -7,32 +7,23 @@ export const restartAppOnGithubUpdate = async (res: Response) => {
           return JSON.stringify(err)
         }
 
-        exec('pm2 stop index', (err, stdout, stderr) => {
+        exec('pm2 stop index && pm2 delete index', (err, stdout, stderr) => {
             if (err) {
               return JSON.stringify(err)
             }
-        
-            exec('pm2 delete index', (err, stdout, stderr) => {
-              if (err) {
-                return JSON.stringify(err)
-              }
 
-              exec('cd database_middleware/ && git pull origin master', (err, stdout, stderr) => {
+              exec('cd database_api/ && git pull origin master', (err, stdout, stderr) => {
                 if (err) {
                   return JSON.stringify(err)
                 }
 
-                exec('npm run start:dev', (err, stdout, stderr) => {
-                  if (err) {
-                    return JSON.stringify(err)
-                  }
+                exec('tsc', (err, stdout, stderr) => {
 
                   exec('pm2 start ./dist/index.js --watch', (err, stdout, stderr) => {
                     if (err) {
                       return JSON.stringify(err)
                     }
   
-    
                   });
   
                 });
@@ -40,7 +31,6 @@ export const restartAppOnGithubUpdate = async (res: Response) => {
               });
         
 
-            });
           });
   
       });
