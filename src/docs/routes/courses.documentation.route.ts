@@ -20,7 +20,7 @@ const createCourses = {
     },
     responses: {
         '201': {
-            description: 'Courses created and updated successfully!',
+            description: 'Courses created and updated successfully! asdfasdfadfasdf',
             content: {
                 'application/json': {
                     schema: {
