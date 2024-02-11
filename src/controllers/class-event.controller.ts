@@ -7,15 +7,15 @@ import { ClassEvent } from '@prisma/client';
 export const createClassEvents = async (req: Request, res: Response) => {
     const { data } = req.body;
 
-    const createdClassEvent = await ClassEventService.createClassEvents(data);
+    const createdClassEvents = await ClassEventService.createClassEvents(data);
 
-    res.status(StatusCodes.CREATED).json(createdClassEvent).end();
+    res.status(StatusCodes.CREATED).json(createdClassEvents).end();
 };
 
 export const getClassEventById = async (req: Request, res: Response) => {
     const classEventId = Number(req.params.id);
 
-    const classEvent: ClassEvent = await ClassEventService.getClassEventById(classEventId);
+    const classEvent: ClassEvent | null = await ClassEventService.getClassEventById(classEventId);
 
     res.status(StatusCodes.OK).json(classEvent).end();
 };
@@ -51,9 +51,17 @@ export const getClassEventByGoogleMeetCode = async (req: Request, res: Response)
 }
 
 export const getResultsByClassEventId = async (req: Request, res: Response) => {
-    const { classEventId } = req.params;
+    const classEventId = Number(req.params.classEventId);
 
-    const resultsByClassEventId = await ClassEventService.getResultsByClassEventId(+classEventId);
+    const resultsByClassEventId = await ClassEventService.getResultsByClassEventId(classEventId);
 
     res.status(StatusCodes.OK).json(resultsByClassEventId).end()
+}
+
+export const createEventInternBadges = async (req: Request, res: Response) => {
+    const { data } = req.body;
+
+    const createdEventInternBadges = await ClassEventService.createEventInternBadges(data)
+
+    res.status(StatusCodes.OK).json(createdEventInternBadges).end();
 }

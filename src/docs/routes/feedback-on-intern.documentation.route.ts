@@ -1,21 +1,21 @@
-import { createFeedbackOnInternScheme, updateFeedbackOnInternScheme } from "@request-schemas/feedback-on-intern.request-schema";
+import { createFeedbacksOnInternScheme, updateFeedbackOnInternScheme } from "@request-schemas/feedback-on-intern.request-schema";
 import j2s from 'joi-to-swagger';
 
 
-const createFeedbackOnIntern = {
+const createFeedbacksOnIntern = {
     tags: ['Feedback on Intern'],
-    operationId: 'createFeedbackOnIntern',
+    operationId: 'createFeedbacksOnIntern',
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createFeedbackOnInternScheme).swagger,
+                schema: j2s(createFeedbacksOnInternScheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '201': {
-            description: 'Feedback on Intern created successfully!',
+            description: 'Feedbacks on Intern created and updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -323,7 +323,7 @@ const deleteFeedbackOnInternById = {
 
 const routes = {
     '/api/feedbacks-on-intern': {
-        post: createFeedbackOnIntern,
+        post: createFeedbacksOnIntern,
         get: getListOfFeedbacksOnIntern
     },
     '/api/feedbacks-on-intern/:id': {

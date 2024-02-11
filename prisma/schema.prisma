@@ -32,7 +32,9 @@ model Intern {
   internCourseRole InternCourseRole[] @relation(name: "InternCourseRole: intern")
 
   feedbackOnIntern      FeedbackOnIntern[]      @relation(name: "FeedbackOnIntern: intern")
+  feedbackOnInternGiven FeedbackOnIntern[] @relation(name: "FeedbackOnIntern: sender")
   feedbackOnFacilitator FeedbackOnFacilitator[] @relation(name: "FeedbackOnFacilitator: intern")
+  feedbackOnFacilitatorGiven FeedbackOnFacilitator[] @relation(name: "FeedbackOnFacilitator: sender")
 
   eventInternBadge EventInternBadge[] @relation(name: "EventInternBadge: intern")
 
@@ -69,12 +71,14 @@ model ClassEvent {
   eventFeedback         EventFeedback[]         @relation(name: "EventFeedback: classEvent")
   feedbackOnIntern      FeedbackOnIntern[]      @relation(name: "FeedbackOnIntern: classEvent")
   feedbackOnFacilitator FeedbackOnFacilitator[] @relation(name: "FeedbackOnFacilitator: classEvent")
+
+  @@unique([courseId, meetNumber])
 }
 
 model EventFeedback {
   id Int @id @default(autoincrement())
 
-  classEventId Int
+  classEventId Int @unique
   classEvent   ClassEvent? @relation(fields: [classEventId], references: [id], name: "EventFeedback: classEvent", onDelete: Cascade)
 
   feedback String @db.VarChar(500)
@@ -83,7 +87,7 @@ model EventFeedback {
 model Badge {
   id               Int                @id @default(autoincrement())
   name             String             @db.VarChar(30)
-  eventInternBadge EventInternBadge[]
+  eventInternBadge EventInternBadge[] @relation(name: "EventInternBadge: badge")
 }
 
 model CourseResult {
@@ -97,6 +101,8 @@ model CourseResult {
 
   courseId Int
   course   Course @relation(fields: [courseId], references: [id], name: "CourseResult: Course", onDelete: Cascade)
+
+  @@unique([internId, courseId])
 }
 
 model FeedbackOnIntern {
@@ -107,11 +113,16 @@ model FeedbackOnIntern {
   participationActivity String  @db.VarChar(500)
   comment               String? @db.VarChar(300)
 
+  senderId Int
+  sender Intern @relation(fields: [senderId], references: [id], name: "FeedbackOnIntern: sender", onDelete: Cascade)
+
   internId Int
   intern   Intern @relation(fields: [internId], references: [id], name: "FeedbackOnIntern: intern", onDelete: Cascade)
 
   classEventId Int
   classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "FeedbackOnIntern: classEvent", onDelete: Cascade)
+
+  @@unique([senderId, internId, classEventId])
 }
 
 model FeedbackOnFacilitator {
@@ -124,18 +135,24 @@ model FeedbackOnFacilitator {
   isOpenAsked                 Boolean @default(false)
   naturalCommunications       String
   isPrepared                  Boolean @default(false)
-  isCheckedUnderstading       Boolean @default(false)
+  isCheckedUnderstanding       Boolean @default(false)
   isFacilitatorBrief          Boolean @default(false)
   publicSpeakingSkills        String  @db.VarChar(130)
   isPunctual                  Boolean @default(false)
   isOnTimeAttendanceFeedback  Boolean @default(false)
   isOptimalScreenPresentation Boolean @default(false)
 
+  senderId Int
+  sender Intern @relation(fields: [senderId], references: [id], name: "FeedbackOnFacilitator: sender", onDelete: Cascade)
+
   internId Int
   intern   Intern @relation(fields: [internId], references: [id], name: "FeedbackOnFacilitator: intern", onDelete: Cascade)
 
   classEventId Int
   classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "FeedbackOnFacilitator: classEvent", onDelete: Cascade)
+
+  @@unique([senderId, internId, classEventId])
+
 }
 
 model EventInternBadge {
@@ -145,7 +162,7 @@ model EventInternBadge {
   classEvent   ClassEvent @relation(fields: [classEventId], references: [id], name: "EventInternBadge: classEvent", onDelete: Cascade)
 
   badgeId Int
-  badge   Badge @relation(fields: [badgeId], references: [id])
+  badge   Badge @relation(fields: [badgeId], references: [id], name: "EventInternBadge: badge", onDelete: Cascade)
 
   internId Int
   intern   Intern @relation(fields: [internId], references: [id], name: "EventInternBadge: intern", onDelete: Cascade)

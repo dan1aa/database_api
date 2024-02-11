@@ -12,7 +12,7 @@ export const createCourses = async (req: Request, res: Response) => {
     res.status(StatusCodes.CREATED).json(cratedCourses).end();
 };
 
-export const getCourses = async (req: Request, res: Response) => {
+export const getCourses = async (_: Request, res: Response) => {
     const coursesList: Course[] | null = await CourseService.getCourses();
         
     res.status(StatusCodes.OK).json(coursesList).end();
@@ -20,7 +20,7 @@ export const getCourses = async (req: Request, res: Response) => {
 
 export const getCourseById = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const course: Course = await CourseService.getCourseById(+id)
+    const course: Course | null = await CourseService.getCourseById(+id)
 
     res.status(StatusCodes.OK).json(course).end()
 }
@@ -36,9 +36,9 @@ export const updateCourseById = async (req: Request, res: Response) => {
 
 
 export const deleteCourseById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
 
-    const deletedCourse: Course = await CourseService.deleteCourseById(+id);
+    const deletedCourse: Course = await CourseService.deleteCourseById(id);
 
     res.status(StatusCodes.OK).json(deletedCourse).end();
 }
@@ -62,9 +62,9 @@ export const getCourseDetailsByCipher = async (req: Request, res: Response) => {
 };
 
 export const getCourseResultsByCourseId = async(req: Request, res: Response) => {
-    const { courseId } = req.params;
+    const courseId = Number(req.params.courseId);
 
-    const courseResults: CourseResult[] | null = await CourseService.getCourseResultsByCourseId(+courseId);
+    const courseResults: CourseResult[] | null = await CourseService.getCourseResultsByCourseId(courseId);
 
     res.status(StatusCodes.OK).json(courseResults).end()
 }

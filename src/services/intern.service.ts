@@ -5,21 +5,29 @@ import { NotFoundError } from '@utils/exeptions/ApiErrors';
 import { FilteringParams } from 'types/types';
 
 
-export const createInterns = async (interns: Intern) => {
-    const createdInterns = await db.intern.createMany({ data: interns});
+export const createInterns = async (interns: Intern[]) => {
 
-    return createdInterns;
+    if (!interns) return;
+
+    for(const intern of interns) {
+        await db.intern.upsert({
+            where: {
+                explorerId: intern.explorerId
+            },
+            create: intern,
+            update: intern
+        })
+    }
+
+    return { message: "Interns created and updated successfully!" };
 };
 
 
-export const getInternById = async (id: number): Promise<Intern> => {
+export const getInternById = async (id: number): Promise<Intern | null> => {
     const intern: Intern | null = await db.intern.findUnique({ where: { id } });
-    
-    if (!intern) {
-        throw new NotFoundError(`Intern with id ${id} doesn't exist`);
-    }
 
-    return intern;
+    return intern
+
 };
 
 export const deleteInternById = async (id: number): Promise<Intern> => {
@@ -28,7 +36,7 @@ export const deleteInternById = async (id: number): Promise<Intern> => {
     return deletedIntern;
 };
 
-export const updateInternById = async (id: number, intern: Intern): Promise<Intern> => {    
+export const updateInternById = async (id: number, intern: Intern): Promise<Intern> => {
     const updatedIntern: Intern = await db.intern.update({ where: { id }, data: intern });
 
     return updatedIntern;
@@ -52,16 +60,16 @@ export const getInternsList = async (filteringParams: FilteringParams): Promise<
 };
 
 export const getCohortScheduleByExplorerId = async (explorerId: string) => {
-    const targetIntern: Intern | null = await db.intern.findUnique({ where: { explorerId }});
+    const targetIntern: Intern | null = await db.intern.findUnique({ where: { explorerId } });
 
     if (!targetIntern) {
-        throw new NotFoundError(`Intern with exporerId ${explorerId} doesn't exist`);
+        throw new NotFoundError;
     }
 
     const cohortSchedule = db.cohortSchedule.findMany({
         where: {
             cohort: targetIntern.cohort!,
-        }, 
+        },
         orderBy: {
             eventDate: { sort: 'asc', nulls: 'last' },
         }

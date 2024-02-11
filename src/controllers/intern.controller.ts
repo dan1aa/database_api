@@ -17,13 +17,13 @@ export const updateInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
     const internData = req.body;
 
-    const updatedIntern: Intern | null = await InternService.updateInternById(internId, internData);
+    const updatedIntern: Intern = await InternService.updateInternById(internId, internData);
 
     res.status(StatusCodes.OK).json(updatedIntern).end();
 };
 
 export const getInternById = async (req: Request, res: Response) => {
-    const internId = Number(req.params.name);
+    const internId = Number(req.params.id);
 
     const intern: Intern | null = await InternService.getInternById(internId);
 
@@ -40,7 +40,7 @@ export const getFilteredInternsList = async (req: Request, res: Response) => {
 export const deleteInternById = async (req: Request, res: Response) => {
     const internId = Number(req.params.id);
 
-    const deletedIntern: Intern | null = await InternService.deleteInternById(internId);
+    const deletedIntern: Intern = await InternService.deleteInternById(internId);
 
     res.status(StatusCodes.OK).send(deletedIntern).end();
 };

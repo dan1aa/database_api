@@ -14,7 +14,7 @@ const createCourseResults = {
     },
     responses: {
         '201': {
-            description: 'Course-result created successfully!',
+            description: 'Course Results created and updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -79,7 +79,7 @@ const getCourseResultById = {
     ],
     responses: {
         '200': {
-            description: 'Course-result retrived successfully!',
+            description: 'Course Result retrived successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -96,7 +96,7 @@ const getCourseResultById = {
             },
         },
         '404': {
-            description: 'You try access to not existing course-result record',
+            description: 'You try access to not existing course Result record',
             content: {
                 'application/json': {
                     schema: {
@@ -104,7 +104,7 @@ const getCourseResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course-result with id {id} doesn`t exist'
+                                example: 'Course Result with id {id} doesn`t exist'
                             }
                         }
                     }
@@ -137,7 +137,7 @@ const updateCourseResultById = {
         {
             name: 'id',
             in: 'path',
-            description: 'Course-result id',
+            description: 'Course Result id',
             required: true,
             type: 'number',
         },
@@ -152,7 +152,7 @@ const updateCourseResultById = {
     },
     responses: {
         '200': {
-            description: 'Course-result updated successfully!',
+            description: 'Course Result updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -193,7 +193,7 @@ const updateCourseResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course-result with id {id} doesn`t exist'
+                                example: 'Course Result with id {id} doesn`t exist'
                             }
                         }
                     }
@@ -226,14 +226,14 @@ const deleteCourseResultById = {
         {
             name: 'id',
             in: 'path',
-            description: 'Course-result id',
+            description: 'Course Result id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Course-result deleted successfully!',
+            description: 'Course Result deleted successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -250,7 +250,7 @@ const deleteCourseResultById = {
             },
         },
         '404': {
-            description: 'You try to delete not existing course-result record',
+            description: 'You try to delete not existing Course Result record',
             content: {
                 'application/json': {
                     schema: {
@@ -258,7 +258,7 @@ const deleteCourseResultById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Course-result with id ${id} doesn`t exist'
+                                example: 'Course Result with id ${id} doesn`t exist'
                             }
                         }
                     }
@@ -289,62 +289,7 @@ const getListOfCourseResults = {
     operationId: 'getListOfCourseResults',
     responses: {
         '200': {
-            description: 'Successful Retrieve list of course-results',
-            content: {
-                'application/json': {
-                    example: [
-                        {
-                            id: { type: 'number', example: 42 },
-                            internId: { type: 'number', example: 14 },
-                            courseId: { type: 'number', example: 14 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Amazing' },
-                        },
-                        {
-                            id: { type: 'number', example: 42 },
-                            internId: { type: 'number', example: 14 },
-                            courseId: { type: 'number', example: 12 },
-                            masteryResult: { type: 'string', example: 'Try again' },
-                            englishLevel: { type: 'string', example: 'Not bad' },
-                        }
-                    ]
-                },
-            },
-        },
-        '500': {
-            description: 'Internal Server Error',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            message: {
-                                type: 'string',
-                                example: 'Internal server error',
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    },
-};
-
-const getCourseResultByCourseId = {
-    tags: ['Course Results'],
-    operationId: 'getCourseResultByCourseId',
-    parameters: [
-        {
-            name: 'courseId',
-            in: 'path',
-            description: 'Course id',
-            required: true,
-            type: 'number',
-        },
-    ],
-    responses: {
-        '200': {
-            description: 'Successful Retrieve list of course-results',
+            description: 'Successful Retrieve list of Course Results',
             content: {
                 'application/json': {
                     example: [
@@ -394,9 +339,6 @@ const routes = {
         get: getCourseResultById,
         put: updateCourseResultById,
         delete: deleteCourseResultById
-    },
-    '/api/course-results/:courseId': {
-        get: getCourseResultByCourseId
     }
 };
 

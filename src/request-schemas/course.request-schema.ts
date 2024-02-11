@@ -22,11 +22,6 @@ export const createCoursesScheme = Joi.object({
 
 export const updateCourseScheme = Joi.object(updateCourseObject);
 
-export const modifyCourseSheetsScheme = Joi.object({
-    id: Joi.number().required(),
-    ...updateCourseObject
-});
-
 export const enrollmentInternsScheme = Joi.object({
     data: Joi.array().items(
         Joi.object({

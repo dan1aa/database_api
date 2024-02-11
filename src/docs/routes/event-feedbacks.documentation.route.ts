@@ -1,43 +1,35 @@
 import j2s from 'joi-to-swagger';
-import { 
-    createInternsScheme, 
-    updateInternScheme, 
-} from '@request-schemas/intern.request-schema';
+import { createEventFeedbacksSheme, updateEventFeedbackSheme } from '@request-schemas/event-feedback.request-shema';
 
-const createInterns = {
-    tags: ['Interns'],
-    operationId: 'createInterns',
+const createEventFeedbacks = {
+    tags: ['Event Feedbacks'],
+    operationId: 'createEventFeedbacks',
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(createInternsScheme).swagger,
+                schema: j2s(createEventFeedbacksSheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '201': {
-            description: 'Interns created and updated successfully!',
+            description: 'Event Feedbacks created and updated successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            explorerId: { type: 'string', example: 'explorerId' },
-                            explorerMail: { type: 'string', example: 'explorerId@gmail.com' },
-                            explorerPassword: { type: 'string', example: 'password123' },
-                            discordNickname: { type: 'string', example: 'discordNickname' },
-                            discordId: { type: 'string', example: 'someDiscordId' },
-                            cohort: { type: 'string', example: 'SEP 2023' },
-                            contactId: { type: 'number', example: 34 }
+                            classEventId: { type: 'number', example: 2 },
+                            feedback: { type: 'string', example: "test feedback" }
                         }
                     }
                 },
             },
         },
         '400': {
-            description: 'You try to create existing intern with unique field',
+            description: 'You try to create existing Event Feedback with unique field',
             content: {
                 'application/json': {
                     schema: {
@@ -45,23 +37,7 @@ const createInterns = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with explorerId testId already exist'
-                            }
-                        }
-                    }
-                },
-            },
-        },
-        '404': {
-            description: 'You try to create intern with not contact existing contact id',
-            content: {
-                'application/json': {
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            msg: {
-                                type: 'string',
-                                example: 'Contact with id 34 doesn`t exist'
+                                example: 'Event Feedback with your classEventId already exists'
                             }
                         }
                     }
@@ -87,41 +63,36 @@ const createInterns = {
     },
 };
 
-const getInternById = {
-    tags: ['Interns'],
-    operationId: 'getInternById',
+const getEventFeedbackById = {
+    tags: ['Event Feedbacks'],
+    operationId: 'getEventFeedbackById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Intern id',
+            description: 'Event Feedback id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Intern retrived successfully!',
+            description: 'Event Feedback retrived successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            explorerId: { type: 'string', example: 'explorerId' },
-                            explorerMail: { type: 'string', example: 'explorerId@gmail.com' },
-                            explorerPassword: { type: 'string', example: 'password123' },
-                            discordNickname: { type: 'string', example: 'discordNickname' },
-                            discordId: { type: 'string', example: 'someDiscordId' },
-                            cohort: { type: 'string', example: 'SEP 2023' },
-                            contactId: { type: 'number', example: 34 }
+                            classEventId: { type: 'number', example: 2 },
+                            feedback: { type: 'string', example: "test feedback" }
                         }
                     }
                 },
             },
         },
         '404': {
-            description: 'You try access intern with not existing id',
+            description: 'You try access Event Feedback with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -129,7 +100,7 @@ const getInternById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with id 34 doesn`t exist'
+                                example: 'Event Feedback with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -155,14 +126,14 @@ const getInternById = {
     },
 };
 
-const updateInternById = {
-    tags: ['Interns'],
-    operationId: 'updateInternById',
+const updateEventFeedbackById = {
+    tags: ['Event Feedbacks'],
+    operationId: 'updateEventFeedbackById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Intern id',
+            description: 'Event Feedback id',
             required: true,
             type: 'number',
         },
@@ -170,34 +141,29 @@ const updateInternById = {
     requestBody: {
         content: {
             'application/json': {
-                schema: j2s(updateInternScheme).swagger,
+                schema: j2s(updateEventFeedbackSheme).swagger,
             },
         },
         required: true,
     },
     responses: {
         '200': {
-            description: 'Intern updated successfully!',
+            description: 'Event Feedback updated successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            explorerId: { type: 'string', example: 'explorerId' },
-                            explorerMail: { type: 'string', example: 'explorerId@gmail.com' },
-                            explorerPassword: { type: 'string', example: 'password123' },
-                            discordNickname: { type: 'string', example: 'discordNickname' },
-                            discordId: { type: 'string', example: 'someDiscordId' },
-                            cohort: { type: 'string', example: 'SEP 2023' },
-                            contactId: { type: 'number', example: 34 }
+                            classEventId: { type: 'number', example: 2 },
+                            feedback: { type: 'string', example: "test feedback" }
                         }
                     }
                 },
             },
         },
         '400': {
-            description: 'You try to update unique field that already exist',
+            description: 'You try to update unique field that does not exist',
             content: {
                 'application/json': {
                     schema: {
@@ -205,7 +171,7 @@ const updateInternById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with explorerId testId already exist'
+                                example: 'Event Feedback with your id doesn`t exist'
                             }
                         }
                     }
@@ -213,7 +179,7 @@ const updateInternById = {
             },
         },
         '404': {
-            description: 'You try access intern with not existing id',
+            description: 'You try access Event Feedback with not existing id',
             content: {
                 'application/json': {
                     schema: {
@@ -221,7 +187,7 @@ const updateInternById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with id 34 doesn`t exist'
+                                example: 'Event Feedback with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -247,41 +213,36 @@ const updateInternById = {
     },
 };
 
-const deleteInternById = {
-    tags: ['Interns'],
-    operationId: 'deleteInternById',
+const deleteEventFeedbackById = {
+    tags: ['Event Feedbacks'],
+    operationId: 'deleteEventFeedbackById',
     parameters: [
         {
             name: 'id',
             in: 'path',
-            description: 'Intern id',
+            description: 'Event Feedback id',
             required: true,
             type: 'number',
         },
     ],
     responses: {
         '200': {
-            description: 'Intern deleted successfully!',
+            description: 'Event Feedback deleted successfully!',
             content: {
                 'application/json': {
                     schema: {
                         type: 'object',
                         properties: {
                             id: { type: 'number', example: 42 },
-                            explorerId: { type: 'string', example: 'explorerId' },
-                            explorerMail: { type: 'string', example: 'explorerId@gmail.com' },
-                            explorerPassword: { type: 'string', example: 'password123' },
-                            discordNickname: { type: 'string', example: 'discordNickname' },
-                            discordId: { type: 'string', example: 'someDiscordId' },
-                            cohort: { type: 'string', example: 'SEP 2023' },
-                            contactId: { type: 'number', example: 34 }
+                            classEventId: { type: 'number', example: 2 },
+                            feedback: { type: 'string', example: "test feedback" }
                         }
                     }
                 },
             },
         },
         '404': {
-            description: 'You try to delete not existing intern',
+            description: 'You try to delete not existing Event Feedback',
             content: {
                 'application/json': {
                     schema: {
@@ -289,7 +250,7 @@ const deleteInternById = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Intern with id 34 doesn`t exist'
+                                example: 'Event Feedback with id 34 does not exist'
                             }
                         }
                     }
@@ -315,51 +276,25 @@ const deleteInternById = {
     },
 };
 
-const getListOfInterns = {
-    tags: ['Interns'],
-    operationId: 'getListOfInterns',
-    parameters: [
-        {
-            name: 'cohort',
-            in: 'path',
-            description: 'To filter interns by the cohort in which they began their internship',
-            required: false,
-            type: 'string',
-        },
-        {
-            name: 'courseCipher',
-            in: 'path',
-            description: 'To filter interns by courses they are taking part in',
-            required: false,
-            type: 'string',
-        },
-    ],
+const getListOfEventFeedbacks = {
+    tags: ['Event Feedbacks'],
+    operationId: 'getListOfEventFeedbacks',
     responses: {
         '200': {
-            description: 'Successful Retrieve list of interns',
+            description: 'Successful Retrieve list of Event Feedbacks',
             content: {
                 'application/json': {
                     example: [
                         {
-                            id: 12345,
-                            explorerId: 'johndoe123',
-                            explorerMail: 'johndoe@gmail.com',
-                            explorerPassword: 'securePassword123',
-                            discordNickname: 'JohnDoe#1234',
-                            discordId: '123456789012345678',
-                            cohort: 'SEP 2023',
-                            contactId: 5678
+                            id: 1,
+                            classEventId: 1,
+                            feedback: "my feedback 1"
                         },
                         {
-                            id: 67890,
-                            explorerId: 'janedoe456',
-                            explorerMail: 'janedoe@gmail.com',
-                            explorerPassword: 'strongPassword456',
-                            discordNickname: 'JaneDoe#5678',
-                            discordId: '987654321098765432',
-                            cohort: 'SEP 2023',
-                            contactId: 9876
-                        },
+                            id: 2,
+                            classEventId: 2,
+                            feedback: "my feedback 2"
+                        }
                     ]
                 },
             },
@@ -383,16 +318,17 @@ const getListOfInterns = {
     },
 };
 
+
 const routes = {
-    '/api/interns': {
-        get: getListOfInterns,
-        post: createInterns
+    '/api/event-feedbacks': {
+        get: getListOfEventFeedbacks,
+        post: createEventFeedbacks
     },
-    '/api/interns/:id': {
-        get: getInternById,
-        put: updateInternById,
-        delete: deleteInternById
-    },
+    '/api/class-events/:id': {
+        get: getEventFeedbackById,
+        put: updateEventFeedbackById,
+        delete: deleteEventFeedbackById
+    }
 };
 
 export default routes;

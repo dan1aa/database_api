@@ -1,11 +1,22 @@
 import { FeedbackOnIntern } from '@prisma/client';
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
-export const createFeedbacksOnIntern = async (data: FeedbackOnIntern[]): Promise<FeedbackOnIntern[] | null> => {
-    const createdFeedbacksOnIntern: any = await db.feedbackOnIntern.createMany({ data })
+export const createFeedbacksOnIntern = async (feedbacksOnIntern: FeedbackOnIntern[]) => {
+    for (const feedbackOnIntern of feedbacksOnIntern) {
+        await db.feedbackOnIntern.upsert({
+            where: {
+                senderId_internId_classEventId: {
+                    senderId: feedbackOnIntern.senderId,
+                    internId: feedbackOnIntern.internId,
+                    classEventId: feedbackOnIntern.classEventId,
+                }
+            },
+            create: feedbackOnIntern,
+            update: feedbackOnIntern
+        })
+    }
 
-    return createdFeedbacksOnIntern;
+    return { message: 'Feedbacks on Intern created and updated successfully!' }
 }
 
 export const getListOfFeedbacksOnIntern = async (): Promise<FeedbackOnIntern[] | null> => {
@@ -14,12 +25,8 @@ export const getListOfFeedbacksOnIntern = async (): Promise<FeedbackOnIntern[] |
     return feedbacksOnInternList
 }
 
-export const getFeedbackOnInternById = async (id: number): Promise<FeedbackOnIntern> => {
+export const getFeedbackOnInternById = async (id: number): Promise<FeedbackOnIntern | null> => {
     const feedbackOnIntern: FeedbackOnIntern | null = await db.feedbackOnIntern.findUnique({ where: { id } })
-
-    if (!feedbackOnIntern) {
-        throw new NotFoundError(`Facilitator result with id ${id} doesn't exist`);
-    }
 
     return feedbackOnIntern;
 
@@ -27,9 +34,9 @@ export const getFeedbackOnInternById = async (id: number): Promise<FeedbackOnInt
 
 export const updateFeedbackOnInternById = async (id: number, data: FeedbackOnIntern): Promise<FeedbackOnIntern> => {
     const updatedFeedbackOnIntern: FeedbackOnIntern = await db.feedbackOnIntern.update({ where: { id }, data });
-    
+
     return updatedFeedbackOnIntern;
-} 
+}
 
 export const deleteFeedbackOnInternById = async (id: number): Promise<FeedbackOnIntern> => {
     const deletedFeedbackOnIntern: FeedbackOnIntern = await db.feedbackOnIntern.delete({ where: { id } })

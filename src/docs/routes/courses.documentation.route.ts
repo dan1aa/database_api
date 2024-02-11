@@ -7,9 +7,9 @@ import {
 import { createCoursesScheme, updateCourseScheme } from '@request-schemas/course.request-schema';
 
 
-const createCourse = {
+const createCourses = {
     tags: ['Courses'],
-    operationId: 'createCourse',
+    operationId: 'createCourses',
     requestBody: {
         content: {
             'application/json': {
@@ -20,7 +20,7 @@ const createCourse = {
     },
     responses: {
         '201': {
-            description: 'Course created successfully!',
+            description: 'Courses created and updated successfully! FINAL WEBHOOK TEST',
             content: {
                 'application/json': {
                     schema: {
@@ -467,21 +467,80 @@ const enrollInternsInCourseById = {
     },
 };
 
+const getCourseResultByCourseId = {
+    tags: ['Courses'],
+    operationId: 'getCourseResultByCourseId',
+    parameters: [
+        {
+            name: 'courseId',
+            in: 'path',
+            description: 'Course id',
+            required: true,
+            type: 'number',
+        },
+    ],
+    responses: {
+        '200': {
+            description: 'Successful Retrieve list of course-results',
+            content: {
+                'application/json': {
+                    example: [
+                        {
+                            id: { type: 'number', example: 42 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 14 },
+                            masteryResult: { type: 'string', example: 'Try again' },
+                            englishLevel: { type: 'string', example: 'Amazing' },
+                        },
+                        {
+                            id: { type: 'number', example: 42 },
+                            internId: { type: 'number', example: 14 },
+                            courseId: { type: 'number', example: 12 },
+                            masteryResult: { type: 'string', example: 'Try again' },
+                            englishLevel: { type: 'string', example: 'Not bad' },
+                        }
+                    ]
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
+
 const routes = {
     '/api/courses': {
         get: getListOfCourses,
-        post: createCourse,
+        post: createCourses,
     },
     '/api/courses/:id': {
         get: getCourseById,
         put: updateCourseById,
         delete: deleteCourseById
     },
-    '/courses/:courseCipher/details': {
+    '/api/courses/:courseCipher/details': {
         get: getCourseDetails
     },
-    '/courses/:id/enroll-interns': {
+    '/api/courses/:id/enroll-interns': {
         post: enrollInternsInCourseById
+    },
+    '/api/courses/course-results/:courseId': {
+        get: getCourseResultByCourseId
     }
 };
 

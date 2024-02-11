@@ -1,7 +1,6 @@
 import { CohortSchedule, Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCohortSchedules = async (data: CohortSchedule[]) => {
 
@@ -9,17 +8,13 @@ export const createCohortSchedules = async (data: CohortSchedule[]) => {
         if (cohortSchedule.eventDate) cohortSchedule.eventDate = new Date(cohortSchedule.eventDate);
     })
 
-    const createdCohortSchedules = await db.cohortSchedule.createMany({ data });
+    await db.cohortSchedule.createMany({ data });
 
-    return createdCohortSchedules;
+    return { message: "Cohort schedules created successfully!" }
 };
 
-export const getCohortScheduleById = async (id: number): Promise<CohortSchedule> => {
+export const getCohortScheduleById = async (id: number): Promise<CohortSchedule | null> => {
     const cohortSchedule: CohortSchedule | null = await db.cohortSchedule.findUnique({ where: { id } });
-
-    if (!cohortSchedule) {
-        throw new NotFoundError(`Cohort schedule with id ${id} doesn't exist`);
-    }
 
     return cohortSchedule;
 };
