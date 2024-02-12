@@ -179,6 +179,8 @@ model InternCourseRole {
 
   classRoleId Int
   classRole   ClassRole @relation(fields: [classRoleId], references: [id], name: "InternCourseRole: classRole", onDelete: Cascade)
+
+  @@unique([courseId, internId, classRoleId])
 }
 
 model ClassRole {

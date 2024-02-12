@@ -1,4 +1,5 @@
 import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -14,6 +15,8 @@ import FeedbackOnInternRouter from '@routes/feedback-on-intern.route';
 import FeedbackOnFacilitatorRouter from '@routes/feedback-on-facilitator.route';
 import EventFeedbackRouter from '@routes/event-feedbacks.route';
 
+import GoogleSheetsSynchronizationRouter from '../infrustucture/google-sheets-data-synchronization/api';
+
 import errorHandler from '@middlewares/errorHandler.middleware';
 // import validateRequestApiToken from '@middlewares/validateRequestApiToken.middleware';
 
@@ -21,6 +24,7 @@ import { swaggerOptions } from '@utils/swagger';
 
 export const app = express();
 
+dotenv.config();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({ origin: '*' }));
@@ -36,6 +40,8 @@ app.use('/api', FeedbackOnInternRouter);
 app.use('/api', FeedbackOnFacilitatorRouter);
 app.use('/api', EventFeedbackRouter);
 app.use('/', GithubWebhooksRouter);
+
+app.use('/google-sheets-data-synchronization', GoogleSheetsSynchronizationRouter);
 
 
 const specs = swaggerJsdoc(swaggerOptions);
