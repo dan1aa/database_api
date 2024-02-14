@@ -98,14 +98,7 @@ export const getCourseDetailsByCipher = async (courseCipher: string) => {
 
 const getCourseScheduleByCourseId = async (courseId: number) => {
     const courseSchedule = await db.classEvent.findMany({
-        where: { courseId },
-        include: {
-            classEventType: {
-                select: {
-                    name: true
-                }
-            }
-        }
+        where: { courseId }
     });
 
     return courseSchedule;

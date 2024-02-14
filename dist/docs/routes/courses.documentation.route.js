@@ -19,7 +19,7 @@ const createCourses = {
     },
     responses: {
         '201': {
-            description: 'Courses created and updated successfully! FINAL WEBHOOK TEST',
+            description: 'Courses created and updated successfully!',
             content: {
                 'application/json': {
                     schema: {

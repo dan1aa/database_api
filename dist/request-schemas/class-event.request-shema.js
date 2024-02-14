@@ -9,15 +9,13 @@ exports.updateClassEventScheme = joi_1.default.object({
     meetNumber: joi_1.default.number(),
     eventDate: joi_1.default.date(),
     googleMeetLink: joi_1.default.string(),
-    courseId: joi_1.default.number(),
-    classEventTypeId: joi_1.default.number(),
+    courseId: joi_1.default.string(),
 });
 exports.createClassEventScheme = joi_1.default.object({
     meetNumber: joi_1.default.number().required(),
     eventDate: joi_1.default.string().required(),
     googleMeetLink: joi_1.default.string().required(),
-    courseId: joi_1.default.number().required(),
-    classEventTypeId: joi_1.default.number().required(),
+    courseId: joi_1.default.string().required(),
 });
 exports.createClassEventsScheme = joi_1.default.object({
     data: joi_1.default.array().items(exports.createClassEventScheme)

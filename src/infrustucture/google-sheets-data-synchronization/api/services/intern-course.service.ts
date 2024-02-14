@@ -41,7 +41,6 @@ const mergeCourseData = async (data: Prisma.CourseCreateInput[]) => {
 };
 
 const mergeInternCourseData = async (data: InternCourseData[]) => {
-    console.log(data)
     const promises = data.map(internCourseData => enrollInternsToCourse(internCourseData));
 
     const mergingResult = await Promise.all(promises);

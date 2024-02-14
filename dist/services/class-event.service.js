@@ -12,20 +12,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createEventInternBadges = exports.getResultsByClassEventId = exports.getClassEventByGoogleMeetCode = exports.getListOfClassEvents = exports.deleteClassEventById = exports.updateClassEventById = exports.getClassEventById = exports.createClassEvents = void 0;
 const db_server_1 = require("@utils/db.server");
 const createClassEvents = (classEvents) => __awaiter(void 0, void 0, void 0, function* () {
-    for (const classEvent of classEvents) {
+    let invalidCourseIds = [];
+    for (let classEvent of classEvents) {
         classEvent.eventDate = new Date(classEvent.eventDate);
-        yield db_server_1.db.classEvent.upsert({
-            where: {
-                courseId_meetNumber: {
-                    courseId: classEvent.courseId,
-                    meetNumber: classEvent.meetNumber
-                }
-            },
-            create: classEvent,
-            update: classEvent
-        });
+        const { courseId, meetNumber, googleMeetLink, eventDate } = classEvent;
+        const courseCipher = courseId;
+        const course = yield db_server_1.db.course.findUnique({ where: { courseCipher } });
+        if (course) {
+            const sqlCourseId = course === null || course === void 0 ? void 0 : course.id;
+            yield db_server_1.db.classEvent.upsert({
+                where: {
+                    courseId_meetNumber: {
+                        courseId: sqlCourseId,
+                        meetNumber: meetNumber
+                    }
+                },
+                create: { courseId: sqlCourseId, meetNumber, googleMeetLink, eventDate },
+                update: { courseId: sqlCourseId, meetNumber, googleMeetLink, eventDate }
+            });
+        }
+        else {
+            invalidCourseIds.push(courseId);
+        }
     }
-    return { message: "Class Events created and updated successfully!" };
+    const message = !invalidCourseIds.length
+        ? `Class Events created and updated successfully!`
+        : `Class Events created and updated successfully! Course with course ciphers ${invalidCourseIds.join(', ')} were not added, we can't find courses with these course ciphers.`;
+    return { message };
 });
 exports.createClassEvents = createClassEvents;
 const getClassEventById = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -60,6 +73,9 @@ const getClassEventByGoogleMeetCode = (code) => __awaiter(void 0, void 0, void 0
 });
 exports.getClassEventByGoogleMeetCode = getClassEventByGoogleMeetCode;
 const getResultsByClassEventId = (classEventId) => __awaiter(void 0, void 0, void 0, function* () {
+    const classEvent = yield db_server_1.db.classEvent.findUnique({ where: { id: classEventId } });
+    if (!classEvent)
+        return { message: `Class event with id ${classEventId} not found` };
     const feedbackOnIntern = yield db_server_1.db.feedbackOnIntern.findMany({
         where: {
             classEventId
