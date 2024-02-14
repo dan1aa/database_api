@@ -4,22 +4,41 @@ import { db } from '@utils/db.server';
 
 export const createClassEvents = async (classEvents: ClassEvent[]) => {
 
-    for (const classEvent of classEvents) {
+    let invalidCourseIds = []
+
+    for (let classEvent of classEvents) {
         classEvent.eventDate = new Date(classEvent.eventDate);
 
-        await db.classEvent.upsert({
-            where: {
-                courseId_meetNumber: {
-                    courseId: classEvent.courseId,
-                    meetNumber: classEvent.meetNumber
-                }
-            },
-            create: classEvent,
-            update: classEvent
-        })
+        const { courseId, meetNumber, googleMeetLink, eventDate } = classEvent;
+
+        const courseCipher: any = courseId;
+
+        const course = await db.course.findUnique({ where: { courseCipher } });
+        
+        if (course) {
+            const sqlCourseId = course?.id;
+
+            await db.classEvent.upsert({
+                where: {
+                    courseId_meetNumber: {
+                        courseId: sqlCourseId,
+                        meetNumber: meetNumber
+                    }
+                },
+                create: { courseId: sqlCourseId, meetNumber, googleMeetLink, eventDate },
+                update: { courseId: sqlCourseId, meetNumber, googleMeetLink, eventDate }
+            })
+        } else {
+            invalidCourseIds.push(courseId)
+        }
     }
 
-    return { message: "Class Events created and updated successfully!" };
+    const message = !invalidCourseIds.length
+    ? `Class Events created and updated successfully!` 
+    : `Class Events created and updated successfully! Course with course ciphers ${invalidCourseIds.join(', ')} were not added, we can't find courses with these course ciphers.`;
+
+
+    return { message };
 };
 
 export const getClassEventById = async (id: number): Promise<ClassEvent | null> => {
@@ -60,6 +79,11 @@ export const getClassEventByGoogleMeetCode = async (code: string): Promise<Class
 }
 
 export const getResultsByClassEventId = async (classEventId: number) => {
+
+    const classEvent = await db.classEvent.findUnique({ where: { id: classEventId } })
+
+    if (!classEvent) return { message: `Class event with id ${classEventId} not found` }
+
     const feedbackOnIntern = await db.feedbackOnIntern.findMany({
         where: {
             classEventId

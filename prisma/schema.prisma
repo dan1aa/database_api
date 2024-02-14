@@ -64,9 +64,6 @@ model ClassEvent {
   courseId Int
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  classEventTypeId Int
-  classEventType   ClassEventType @relation(fields: [classEventTypeId], references: [id], name: "ClassEventType: classEvent", onDelete: Cascade)
-
   eventInternBadge      EventInternBadge[]      @relation(name: "EventInternBadge: classEvent")
   eventFeedback         EventFeedback[]         @relation(name: "EventFeedback: classEvent")
   feedbackOnIntern      FeedbackOnIntern[]      @relation(name: "FeedbackOnIntern: classEvent")
@@ -188,13 +185,6 @@ model ClassRole {
   name String @db.VarChar(30)
 
   internCourseRole InternCourseRole[] @relation(name: "InternCourseRole: classRole")
-}
-
-model ClassEventType {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(30)
-
-  classEvent ClassEvent[] @relation(name: "ClassEventType: classEvent")
 }
 
 model CohortSchedule {

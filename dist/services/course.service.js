@@ -88,14 +88,7 @@ const getCourseDetailsByCipher = (courseCipher) => __awaiter(void 0, void 0, voi
 exports.getCourseDetailsByCipher = getCourseDetailsByCipher;
 const getCourseScheduleByCourseId = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
     const courseSchedule = yield db_server_1.db.classEvent.findMany({
-        where: { courseId },
-        include: {
-            classEventType: {
-                select: {
-                    name: true
-                }
-            }
-        }
+        where: { courseId }
     });
     return courseSchedule;
 });

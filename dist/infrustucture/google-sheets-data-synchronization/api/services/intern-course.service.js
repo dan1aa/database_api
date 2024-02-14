@@ -34,7 +34,6 @@ const mergeCourseData = (data) => __awaiter(void 0, void 0, void 0, function* ()
     return mergingResult;
 });
 const mergeInternCourseData = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(data);
     const promises = data.map(internCourseData => enrollInternsToCourse(internCourseData));
     const mergingResult = yield Promise.all(promises);
     return mergingResult;

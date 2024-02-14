@@ -19,7 +19,7 @@ const createClassEvents = {
     },
     responses: {
         '201': {
-            description: 'Class Events created and updatded successfully! This message is a test for github webhooks 123!!!!',
+            description: 'Class Events created and updated successfully!',
             content: {
                 'application/json': {
                     schema: {
@@ -30,7 +30,6 @@ const createClassEvents = {
                             eventDate: { type: 'string', example: "2023-11-12" },
                             googleMeetLink: { type: 'string', example: "https://meet.google.com/xxx-xxxx-xxx" },
                             courseId: { type: 'number', example: 1 },
-                            classEventTypeId: { type: 'number', example: 1 }
                         }
                     }
                 },
@@ -46,6 +45,106 @@ const createClassEvents = {
                             msg: {
                                 type: 'string',
                                 example: 'Class Event with your unique field(s) already exists'
+                            }
+                        }
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+const getResultsByClassEventId = {
+    tags: ['Class Events'],
+    operationId: 'getResultsByClassEventId',
+    parameters: [
+        {
+            name: 'id',
+            in: 'path',
+            description: 'Class Event id',
+            required: true,
+            type: 'number',
+        },
+    ],
+    responses: {
+        '200': {
+            description: 'Class Event Results retrived successfully!',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            feedbackOnFacilitator: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        "id": { type: "number", example: 1 },
+                                        attendance: { type: "boolean", example: true },
+                                        techCheck: { type: "string", example: "good" },
+                                        english: { type: "string", example: "good" },
+                                        isEncouraging: { type: "boolean", example: true },
+                                        isOpenAsked: { type: "boolean", example: false },
+                                        naturalCommunications: { type: "string", example: "excelent" },
+                                        isPrepared: { type: "boolean", example: true },
+                                        isCheckedUnderstanding: { type: "boolean", example: false },
+                                        isFacilitatorBrief: { type: "boolean", example: true },
+                                        publicSpeakingSkills: { type: "string", example: "impressive" },
+                                        isPunctual: { type: "boolean", example: true },
+                                        isOnTimeAttendanceFeedback: { type: "boolean", example: true },
+                                        isOptimalScreenPresentation: { type: "boolean", example: false },
+                                        senderId: { type: "number", example: 1 },
+                                        internId: { type: "number", example: 2 },
+                                        classEventId: { type: "number", example: 3 }
+                                    }
+                                }
+                            },
+                            feedbackOnIntern: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: "number", example: 2 },
+                                        attendance: { type: 'boolean', example: true },
+                                        techCheck: { type: 'string', example: "good tech check" },
+                                        participationActivity: { type: 'string', example: "Activity was good" },
+                                        comment: { type: 'string', example: "my comment" },
+                                        senderId: { type: 'number', example: 1 },
+                                        internId: { type: 'number', example: 2 },
+                                        classEventId: { type: 'number', example: 3 }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            },
+        },
+        '404': {
+            description: 'You try access class event results with not existing class-event id',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            msg: {
+                                type: 'string',
+                                example: 'Class event with id 34 doesn`t exist'
                             }
                         }
                     }
@@ -95,7 +194,6 @@ const getClassEventById = {
                             eventDate: { type: 'string', example: "2023-11-12" },
                             googleMeetLink: { type: 'string', example: "https://meet.google.com/xxx-xxxx-xxx" },
                             courseId: { type: 'number', example: 1 },
-                            classEventTypeId: { type: 'number', example: 1 }
                         }
                     }
                 },
@@ -168,7 +266,6 @@ const updateClassEventById = {
                             eventDate: { type: 'string', example: "2023-11-12" },
                             googleMeetLink: { type: 'string', example: "https://meet.google.com/xxx-xxxx-xxx" },
                             courseId: { type: 'number', example: 1 },
-                            classEventTypeId: { type: 'number', example: 1 }
                         }
                     }
                 },
@@ -249,7 +346,6 @@ const deleteClassEventById = {
                             eventDate: { type: 'string', example: "2023-11-12" },
                             googleMeetLink: { type: 'string', example: "https://meet.google.com/xxx-xxxx-xxx" },
                             courseId: { type: 'number', example: 1 },
-                            classEventTypeId: { type: 'number', example: 1 }
                         }
                     }
                 },
@@ -304,7 +400,6 @@ const getListOfClassEvents = {
                             eventDate: "2023-11-12",
                             googleMeetLink: "https://meet.google.com/xxx-xxxx-xxx",
                             courseId: 1,
-                            classEventTypeId: 1
                         },
                         {
                             id: 2,
@@ -312,7 +407,6 @@ const getListOfClassEvents = {
                             eventDate: "2023-10-12",
                             googleMeetLink: "https://meet.google.com/xxx-xxxx-xxx",
                             courseId: 2,
-                            classEventTypeId: 2
                         }
                     ]
                 },
@@ -361,7 +455,6 @@ const getClassEventByLinkCode = {
                             eventDate: { type: 'string', example: "2023-11-12" },
                             googleMeetLink: { type: 'string', example: "https://meet.google.com/xxx-xxxx-xxx" },
                             courseId: { type: 'number', example: 1 },
-                            classEventTypeId: { type: 'number', example: 1 }
                         }
                     }
                 },
@@ -462,6 +555,9 @@ const routes = {
     },
     '/api/event-intern-badges': {
         post: createEventInternBadges
+    },
+    '/api/class-events/:classEventId/event-results': {
+        get: getResultsByClassEventId
     }
 };
 exports.default = routes;

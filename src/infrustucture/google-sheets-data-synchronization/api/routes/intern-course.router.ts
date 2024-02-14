@@ -14,7 +14,7 @@ router.post(
 );
 
 router.post(
-    '/mege-courses',
+    '/merge-courses',
     tryCatchMiddleware(InternCourseController.mergeCourseData)
 );
 
