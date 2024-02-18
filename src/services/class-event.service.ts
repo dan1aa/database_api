@@ -1,45 +1,43 @@
-import { ClassEvent, EventInternBadge } from '@prisma/client';
+import { ClassEvent, Course, EventInternBadge } from '@prisma/client';
 import { db } from '@utils/db.server';
+import { SheetClassEvent } from 'types/types';
 
 
-export const createClassEvents = async (classEvents: ClassEvent[]) => {
+export const createClassEvents = async (classEvents: SheetClassEvent[]) => {
+    let invalidCourseIds: string[] = [];
 
-    let invalidCourseIds = []
-
-    for (let classEvent of classEvents) {
+    const promises = classEvents.map(async (classEvent: SheetClassEvent) => {
         classEvent.eventDate = new Date(classEvent.eventDate);
 
-        const { courseId, meetNumber, googleMeetLink, eventDate } = classEvent;
+        const { courseId, meetNumber, ...rest} = classEvent;
 
-        const courseCipher: any = courseId;
-
-        const course = await db.course.findUnique({ where: { courseCipher } });
+        const course: Course | null = await db.course.findUnique({ where: { courseCipher: courseId } });
         
         if (course) {
-            const sqlCourseId = course?.id;
+            const courseSQLId: number = course.id;
 
             await db.classEvent.upsert({
                 where: {
                     courseId_meetNumber: {
-                        courseId: sqlCourseId,
+                        courseId: courseSQLId,
                         meetNumber: meetNumber
                     }
                 },
-                create: { courseId: sqlCourseId, meetNumber, googleMeetLink, eventDate },
-                update: { courseId: sqlCourseId, meetNumber, googleMeetLink, eventDate }
-            })
+                create: { courseId: courseSQLId, meetNumber, ...rest },
+                update: { courseId: courseSQLId, meetNumber, ...rest}
+            });
         } else {
-            invalidCourseIds.push(courseId)
+            invalidCourseIds.push(courseId);
         }
-    }
+    });
 
-    const message = !invalidCourseIds.length
-    ? `Class Events created and updated successfully!` 
-    : `Class Events created and updated successfully! Course with course ciphers ${invalidCourseIds.join(', ')} were not added, we can't find courses with these course ciphers.`;
+    await Promise.all(promises);
 
+    const classEventsNotAdded: string = invalidCourseIds.length ? `Class events with course ciphers ${invalidCourseIds.join(', ')} were not added, we can't find courses with these course ciphers.` : "All good";
 
-    return { message };
+    return { message: "Class events created and updated successfully!", classEventsNotAdded };
 };
+
 
 export const getClassEventById = async (id: number): Promise<ClassEvent | null> => {
     const classEvent: ClassEvent | null = await db.classEvent.findUnique({ where: { id } });

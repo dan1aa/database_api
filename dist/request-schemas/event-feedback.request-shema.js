@@ -10,7 +10,8 @@ const updateEventFeedbackObject = {
     feedback: joi_1.default.string()
 };
 exports.createEventFeedbackSheme = joi_1.default.object({
-    classEventId: joi_1.default.number().required(),
+    meetNumber: joi_1.default.number().required(),
+    courseId: joi_1.default.string().required(),
     feedback: joi_1.default.string().required()
 });
 exports.createEventFeedbacksSheme = joi_1.default.object({

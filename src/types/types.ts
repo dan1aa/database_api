@@ -42,3 +42,54 @@ export interface LocationData {
         dst_savings: number;
     }
 }
+
+export interface SheetClassEvent {
+    courseId: string;
+    meetNumber: number;
+    eventDate: Date;
+    googleMeetLink: string;
+}
+
+export interface SheetCourseResult {
+    courseId: string;
+    internId: string;
+    englishLevel: string;
+    masteryResult: string;
+}
+
+export interface SheetEventFeedback {
+    courseId: string;
+    meetNumber: number;
+    feedback: string;
+}
+
+export interface SheetFeedbackOnFacilitator {
+    attendance: boolean;
+    techCheck: string;
+    english: string;
+    isEncouraging: boolean;
+    isOpenAsked: boolean;
+    naturalCommunications: string;
+    isPrepared: boolean;
+    isFacilitatorBrief: boolean;
+    publicSpeakingSkills: string;
+    isPunctual: boolean;
+    isOnTimeAttendanceFeedback: boolean;
+    isOptimalScreenPresentation: boolean;
+    internId: string;
+    courseId: string;
+    meetNumber: number;
+    isCheckedUnderstanding: boolean;
+    senderId: string;
+}
+
+export interface SheetFeedbackOnIntern {
+    attendance: boolean;
+    techCheck: string;
+    participationActivity: string;
+    comment: string;
+    internId: string;
+    courseId: string;
+    meetNumber: number;
+    senderId: string;
+}

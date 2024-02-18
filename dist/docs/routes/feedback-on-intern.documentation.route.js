@@ -35,6 +35,22 @@ const createFeedbacksOnIntern = {
                 },
             },
         },
+        '400': {
+            description: 'You`re trying to create feedback on intern with not existing ids (senderId, internId, courseId & meetNumber)',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Feedback on intern with these ids were not added: (senderId: wrongSenderId, internId: wrongInternId, courseId: wrongCourseId, meetNumber: wrongMeetNuber)',
+                            },
+                        },
+                    },
+                },
+            },
+        },
         '500': {
             description: 'Internal Server Error',
             content: {

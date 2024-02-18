@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCourseResultScheme = exports.createCourseResultsScheme = exports.createCourseResultScheme = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.createCourseResultScheme = joi_1.default.object({
-    internId: joi_1.default.number().required(),
-    courseId: joi_1.default.number().required(),
+    internId: joi_1.default.string().required(),
+    courseId: joi_1.default.string().required(),
     masteryResult: joi_1.default.string().required(),
     englishLevel: joi_1.default.string().required()
 });

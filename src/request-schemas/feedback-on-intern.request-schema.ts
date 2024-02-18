@@ -5,9 +5,10 @@ export const createFeedbackOnInternScheme = Joi.object({
     techCheck:  Joi.string().required(),
     participationActivity: Joi.string().required(),
     comment: Joi.string(),
-    internId: Joi.number().required(),
-    classEventId: Joi.number().required(),
-    senderId: Joi.number().required()
+    internId: Joi.string().required(),
+    courseId: Joi.string().required(),
+    meetNumber: Joi.number().required(),
+    senderId: Joi.string().required()
 });
 
 export const createFeedbacksOnInternScheme = Joi.object({

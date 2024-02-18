@@ -41,6 +41,22 @@ const createFeedbacksOnFacilitator = {
                 },
             },
         },
+        '400': {
+            description: 'You`re trying to create feedback on facilitator with not existing ids (senderId, internId, courseId & meetNumber)',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Feedback on facilitator with these ids were not added: (senderId: wrongSenderId, internId: wrongInternId, courseId: wrongCourseId, meetNumber: wrongMeetNuber)',
+                            },
+                        },
+                    },
+                },
+            },
+        },
         '500': {
             description: 'Internal Server Error',
             content: {

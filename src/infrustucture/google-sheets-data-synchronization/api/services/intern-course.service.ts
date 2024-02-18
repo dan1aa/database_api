@@ -2,7 +2,6 @@ import { Prisma } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 
-
 type explorerId = string;
 
 interface InternCourseData {
@@ -10,20 +9,6 @@ interface InternCourseData {
     participants: {
         [key: string]: Array<explorerId>;
     }
-};
-
-const mergeInternData = async (data: Prisma.InternCreateInput[]) => {
-    const promises = data.map(internData => {
-        return db.intern.upsert({
-            where: { explorerId: internData.explorerId },
-            update: { ...internData },
-            create: { ...internData }
-        });
-    }); 
-
-    const mergingResult = await Promise.all(promises);
-
-    return mergingResult;
 };
 
 const mergeCourseData = async (data: Prisma.CourseCreateInput[]) => {
@@ -55,7 +40,7 @@ const enrollInternsToCourse = async (data: InternCourseData) => {
     const targetCourseData = await db.course.findUnique({ where: { courseCipher } });
 
     if (!targetCourseData) {
-        return;
+        return { message: `Course ${courseCipher} not found`};
     }
 
     for (const internRole in participants) {
@@ -92,7 +77,6 @@ const getClassRoleDatabaseIdByNameFromSheets = (roleName: string) => {
 };
 
 export default {
-    mergeInternData,
     mergeCourseData,
     mergeInternCourseData
 };

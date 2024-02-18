@@ -5,20 +5,19 @@ import { NotFoundError } from "@utils/exeptions/ApiErrors";
 
 export const createCourses = async (courses: Course[]) => {
 
-    if (!courses) return;
+    const promises = courses.map(course => {
 
-    for (const course of courses) {
         course.startDate = new Date(course.startDate)
         course.endDate = new Date(course.endDate)
 
-        await db.course.upsert({
-            where: {
-                courseCipher: course.courseCipher
-            },
-            create: course,
-            update: course
-        })
-    }
+        return db.course.upsert({
+            where: { courseCipher: course.courseCipher },
+            update: { ...course },
+            create: { ...course }
+        });
+    }); 
+
+    await Promise.all(promises);
 
     return { message: "Courses created and updated successfully!" };
 };

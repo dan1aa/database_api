@@ -10,9 +10,10 @@ exports.createFeedbackOnInternScheme = joi_1.default.object({
     techCheck: joi_1.default.string().required(),
     participationActivity: joi_1.default.string().required(),
     comment: joi_1.default.string(),
-    internId: joi_1.default.number().required(),
-    classEventId: joi_1.default.number().required(),
-    senderId: joi_1.default.number().required()
+    internId: joi_1.default.string().required(),
+    courseId: joi_1.default.string().required(),
+    meetNumber: joi_1.default.number().required(),
+    senderId: joi_1.default.string().required()
 });
 exports.createFeedbacksOnInternScheme = joi_1.default.object({
     data: joi_1.default.array().items(exports.createFeedbackOnInternScheme)
