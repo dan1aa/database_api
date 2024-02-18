@@ -94,7 +94,7 @@ const getResultsByClassEventId = {
                                 items: {
                                     type: 'object',
                                     properties: {
-                                        "id": { type: "number", example: 1 },
+                                        id: { type: "number", example: 1 },
                                         attendance: { type: "boolean", example: true },
                                         techCheck: { type: "string", example: "good" },
                                         english: { type: "string", example: "good" },

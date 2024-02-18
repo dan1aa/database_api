@@ -33,7 +33,7 @@ const createEventFeedbacks = {
             },
         },
         '400': {
-            description: 'You try to create existing Event Feedback with unique field',
+            description: 'Course with your course id not found',
             content: {
                 'application/json': {
                     schema: {
@@ -41,7 +41,7 @@ const createEventFeedbacks = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Event Feedback with your classEventId already exists'
+                                example: 'Event Feedback cannot be created with invalid course id'
                             }
                         }
                     }

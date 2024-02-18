@@ -6,7 +6,8 @@ const updateEventFeedbackObject = {
 }
 
 export const createEventFeedbackSheme = Joi.object({
-    classEventId: Joi.number().required(),
+    meetNumber: Joi.number().required(), // data to find meeting
+    courseId: Joi.string().required(), // data to find meeting
     feedback: Joi.string().required()
 });
 

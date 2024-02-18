@@ -14,9 +14,10 @@ export const createFeedbackOnFacilitatorScheme = Joi.object({
     isPunctual: Joi.boolean().required(),
     isOnTimeAttendanceFeedback: Joi.boolean().required(),
     isOptimalScreenPresentation: Joi.boolean().required(),
-    internId: Joi.number().required(),
-    classEventId: Joi.number().required(),
-    senderId: Joi.number().required()
+    internId: Joi.string().required(),
+    meetNumber: Joi.number().required(),
+    courseId: Joi.string().required(),
+    senderId: Joi.string().required()
 });
 
 export const createFeedbacksOnFacilitatorScheme = Joi.object({

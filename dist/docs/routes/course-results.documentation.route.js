@@ -35,7 +35,7 @@ const createCourseResults = {
             },
         },
         '400': {
-            description: 'You try to create record with not exising id in Intern-Course table',
+            description: 'You try to create course result with invalid internId or courseId',
             content: {
                 'application/json': {
                     schema: {
@@ -43,7 +43,7 @@ const createCourseResults = {
                         properties: {
                             msg: {
                                 type: 'string',
-                                example: 'Record in table Intern-Course with id ${internCourseId} doesn`t exist'
+                                example: 'Record with your internId doesn`t exist in Intern table or record with your courseId doesn`t exist in Course table'
                             }
                         }
                     }

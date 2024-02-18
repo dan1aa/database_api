@@ -8,23 +8,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getListOfCourseResults = exports.deleteCourseResultById = exports.getCourseResultById = exports.updateCourseResultById = exports.createCourseResults = void 0;
 const db_server_1 = require("@utils/db.server");
 const createCourseResults = (courseResults) => __awaiter(void 0, void 0, void 0, function* () {
-    for (const courseResult of courseResults) {
-        yield db_server_1.db.courseResult.upsert({
-            where: {
-                internId_courseId: {
-                    internId: courseResult.internId,
-                    courseId: courseResult.courseId
-                }
-            },
-            create: courseResult,
-            update: courseResult
-        });
-    }
-    return { message: "Course Results created and updated successfully!" };
+    let invalidCourseResults = [];
+    const promises = courseResults.map((courseResult) => __awaiter(void 0, void 0, void 0, function* () {
+        const { courseId, internId } = courseResult, rest = __rest(courseResult, ["courseId", "internId"]);
+        const course = yield db_server_1.db.course.findUnique({ where: { courseCipher: courseId } });
+        const intern = yield db_server_1.db.intern.findUnique({ where: { explorerId: internId } });
+        if (course && intern) {
+            const courseSQLId = course.id;
+            const internSQLId = intern.id;
+            yield db_server_1.db.courseResult.upsert({
+                where: {
+                    internId_courseId: {
+                        internId: internSQLId,
+                        courseId: courseSQLId
+                    }
+                },
+                create: Object.assign({ internId: internSQLId, courseId: courseSQLId }, rest),
+                update: Object.assign({ internId: internSQLId, courseId: courseSQLId }, rest)
+            });
+        }
+        else {
+            invalidCourseResults.push(`(courseId: ${courseId}, internId: ${internId})`);
+        }
+    }));
+    yield Promise.all(promises);
+    const courseResultsNotAdded = invalidCourseResults.length ? `Course results with these ids were not added: ${invalidCourseResults.join(',')}` : 'All good';
+    return { message: "Course Results created and updated successfully!", courseResultsNotAdded };
 });
 exports.createCourseResults = createCourseResults;
 const updateCourseResultById = (id, data) => __awaiter(void 0, void 0, void 0, function* () {

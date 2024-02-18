@@ -13,19 +13,16 @@ exports.getCourseResultsByCourseId = exports.getCourseDetailsByCipher = exports.
 const db_server_1 = require("@utils/db.server");
 const ApiErrors_1 = require("@utils/exeptions/ApiErrors");
 const createCourses = (courses) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!courses)
-        return;
-    for (const course of courses) {
+    const promises = courses.map(course => {
         course.startDate = new Date(course.startDate);
         course.endDate = new Date(course.endDate);
-        yield db_server_1.db.course.upsert({
-            where: {
-                courseCipher: course.courseCipher
-            },
-            create: course,
-            update: course
+        return db_server_1.db.course.upsert({
+            where: { courseCipher: course.courseCipher },
+            update: Object.assign({}, course),
+            create: Object.assign({}, course)
         });
-    }
+    });
+    yield Promise.all(promises);
     return { message: "Courses created and updated successfully!" };
 });
 exports.createCourses = createCourses;

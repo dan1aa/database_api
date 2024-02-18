@@ -14,23 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const http_status_codes_1 = require("http-status-codes");
 const intern_course_service_1 = __importDefault(require("../services/intern-course.service"));
-const mergeInternData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    const mergingResult = yield intern_course_service_1.default.mergeInternData(data);
-    res.status(http_status_codes_1.StatusCodes.OK).json(mergingResult);
-});
-const mergeCourseData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    const mergingResult = yield intern_course_service_1.default.mergeCourseData(data);
-    res.status(http_status_codes_1.StatusCodes.OK).json(mergingResult);
-});
 const mergeInternCourseData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const mergingResult = yield intern_course_service_1.default.mergeInternCourseData(data);
     res.status(http_status_codes_1.StatusCodes.OK).json(mergingResult);
 });
 exports.default = {
-    mergeInternData,
-    mergeCourseData,
     mergeInternCourseData
 };

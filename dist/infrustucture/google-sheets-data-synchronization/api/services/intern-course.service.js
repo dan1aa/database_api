@@ -11,17 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_server_1 = require("@utils/db.server");
 ;
-const mergeInternData = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const promises = data.map(internData => {
-        return db_server_1.db.intern.upsert({
-            where: { explorerId: internData.explorerId },
-            update: Object.assign({}, internData),
-            create: Object.assign({}, internData)
-        });
-    });
-    const mergingResult = yield Promise.all(promises);
-    return mergingResult;
-});
 const mergeCourseData = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const promises = data.map(courseData => {
         return db_server_1.db.course.upsert({
@@ -43,7 +32,7 @@ const enrollInternsToCourse = (data) => __awaiter(void 0, void 0, void 0, functi
     const recordsToCreate = [];
     const targetCourseData = yield db_server_1.db.course.findUnique({ where: { courseCipher } });
     if (!targetCourseData) {
-        return;
+        return { message: `Course ${courseCipher} not found` };
     }
     for (const internRole in participants) {
         const processedInternsExplorerIds = participants[internRole];
@@ -70,7 +59,6 @@ const getClassRoleDatabaseIdByNameFromSheets = (roleName) => {
     return roleName === 'f' ? 1 : 2;
 };
 exports.default = {
-    mergeInternData,
     mergeCourseData,
     mergeInternCourseData
 };

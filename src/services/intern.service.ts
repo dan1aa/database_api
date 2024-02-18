@@ -6,18 +6,15 @@ import { FilteringParams } from 'types/types';
 
 
 export const createInterns = async (interns: Intern[]) => {
+    const promises = interns.map(intern => {
+        return db.intern.upsert({
+            where: { explorerId: intern.explorerId },
+            update: { ...intern },
+            create: { ...intern }
+        });
+    }); 
 
-    if (!interns) return;
-
-    for(const intern of interns) {
-        await db.intern.upsert({
-            where: {
-                explorerId: intern.explorerId
-            },
-            create: intern,
-            update: intern
-        })
-    }
+    await Promise.all(promises);
 
     return { message: "Interns created and updated successfully!" };
 };

@@ -13,17 +13,14 @@ exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = 
 const db_server_1 = require("@utils/db.server");
 const ApiErrors_1 = require("@utils/exeptions/ApiErrors");
 const createInterns = (interns) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!interns)
-        return;
-    for (const intern of interns) {
-        yield db_server_1.db.intern.upsert({
-            where: {
-                explorerId: intern.explorerId
-            },
-            create: intern,
-            update: intern
+    const promises = interns.map(intern => {
+        return db_server_1.db.intern.upsert({
+            where: { explorerId: intern.explorerId },
+            update: Object.assign({}, intern),
+            create: Object.assign({}, intern)
         });
-    }
+    });
+    yield Promise.all(promises);
     return { message: "Interns created and updated successfully!" };
 });
 exports.createInterns = createInterns;

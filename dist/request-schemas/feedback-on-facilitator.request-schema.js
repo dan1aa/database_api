@@ -19,9 +19,10 @@ exports.createFeedbackOnFacilitatorScheme = joi_1.default.object({
     isPunctual: joi_1.default.boolean().required(),
     isOnTimeAttendanceFeedback: joi_1.default.boolean().required(),
     isOptimalScreenPresentation: joi_1.default.boolean().required(),
-    internId: joi_1.default.number().required(),
-    classEventId: joi_1.default.number().required(),
-    senderId: joi_1.default.number().required()
+    internId: joi_1.default.string().required(),
+    meetNumber: joi_1.default.number().required(),
+    courseId: joi_1.default.string().required(),
+    senderId: joi_1.default.string().required()
 });
 exports.createFeedbacksOnFacilitatorScheme = joi_1.default.object({
     data: joi_1.default.array().items(exports.createFeedbackOnFacilitatorScheme)
