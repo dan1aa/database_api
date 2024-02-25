@@ -98,3 +98,36 @@ export const getInternBadgesListByCourseId = async (internId: number, courseId: 
 
     return badgesStatisticsByBadgeName;
 };
+
+export const getAllInternBadges = async (explorerId: string) => {
+
+    const badges: {[key: string]: number} = {}
+
+    const intern: Intern | null = await db.intern.findUnique({
+        where: {
+            explorerId
+        }
+    })
+
+    if (intern) {
+        const { id } = intern;
+
+        const internBadges = await db.eventInternBadge.findMany({
+            where: { internId: id },
+            include: {
+                badge: true
+            }
+        })
+
+        internBadges.forEach(internBadge => {
+            const { name } = internBadge.badge;
+
+            if (badges[name]) badges[name] += 1
+            else badges[name] = 1
+        })
+
+        return badges
+    }
+
+    return { message: `Intern with explorer id ${explorerId} not found!` }
+}

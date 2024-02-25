@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.getInternsList = exports.updateInternById = exports.deleteInternById = exports.getInternById = exports.createInterns = void 0;
+exports.getAllInternBadges = exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.getInternsList = exports.updateInternById = exports.deleteInternById = exports.getInternById = exports.createInterns = void 0;
 const db_server_1 = require("@utils/db.server");
 const ApiErrors_1 = require("@utils/exeptions/ApiErrors");
 const createInterns = (interns) => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,3 +91,30 @@ const getInternBadgesListByCourseId = (internId, courseId) => __awaiter(void 0, 
     return badgesStatisticsByBadgeName;
 });
 exports.getInternBadgesListByCourseId = getInternBadgesListByCourseId;
+const getAllInternBadges = (explorerId) => __awaiter(void 0, void 0, void 0, function* () {
+    const badges = {};
+    const intern = yield db_server_1.db.intern.findUnique({
+        where: {
+            explorerId
+        }
+    });
+    if (intern) {
+        const { id } = intern;
+        const internBadges = yield db_server_1.db.eventInternBadge.findMany({
+            where: { internId: id },
+            include: {
+                badge: true
+            }
+        });
+        internBadges.forEach(internBadge => {
+            const { name } = internBadge.badge;
+            if (badges[name])
+                badges[name] += 1;
+            else
+                badges[name] = 1;
+        });
+        return badges;
+    }
+    return { message: `Intern with explorer id ${explorerId} not found!` };
+});
+exports.getAllInternBadges = getAllInternBadges;

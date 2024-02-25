@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.deleteInternById = exports.getFilteredInternsList = exports.getInternById = exports.updateInternById = exports.createInterns = void 0;
+exports.getAllInternBadges = exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.deleteInternById = exports.getFilteredInternsList = exports.getInternById = exports.updateInternById = exports.createInterns = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const InternService = __importStar(require("@services/intern.service"));
 const createInterns = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -74,8 +74,14 @@ const getCohortScheduleByExplorerId = (req, res) => __awaiter(void 0, void 0, vo
 exports.getCohortScheduleByExplorerId = getCohortScheduleByExplorerId;
 const getInternBadgesListByCourseId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const internId = Number(req.params.internId);
-    const courseId = Number(req.params.internId);
+    const courseId = Number(req.params.courseId);
     const cohortSchedule = yield InternService.getInternBadgesListByCourseId(internId, courseId);
     res.status(http_status_codes_1.StatusCodes.OK).json(cohortSchedule).end();
 });
 exports.getInternBadgesListByCourseId = getInternBadgesListByCourseId;
+const getAllInternBadges = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { explorerId } = req.params;
+    const internBadges = yield InternService.getAllInternBadges(explorerId);
+    res.status(http_status_codes_1.StatusCodes.OK).json(internBadges).end();
+});
+exports.getAllInternBadges = getAllInternBadges;

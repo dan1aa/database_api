@@ -40,5 +40,10 @@ router.get(
     tryCatchMiddleware(CourseResultController.getListOfCourseResults)
 );
 
+router.get(
+    '/course-results/all-course-results/:explorerId',
+    tryCatchMiddleware(CourseResultController.getAllCourseResultsByExplorerId)
+)
+
 
 export default router;
