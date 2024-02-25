@@ -20,7 +20,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getListOfCourseResults = exports.deleteCourseResultById = exports.getCourseResultById = exports.updateCourseResultById = exports.createCourseResults = void 0;
+exports.getAllCourseResultsByExplorerId = exports.getListOfCourseResults = exports.deleteCourseResultById = exports.getCourseResultById = exports.updateCourseResultById = exports.createCourseResults = void 0;
 const db_server_1 = require("@utils/db.server");
 const createCourseResults = (courseResults) => __awaiter(void 0, void 0, void 0, function* () {
     let invalidCourseResults = [];
@@ -71,3 +71,20 @@ const getListOfCourseResults = () => __awaiter(void 0, void 0, void 0, function*
     return courseResultsList;
 });
 exports.getListOfCourseResults = getListOfCourseResults;
+const getAllCourseResultsByExplorerId = (explorerId) => __awaiter(void 0, void 0, void 0, function* () {
+    const intern = yield db_server_1.db.intern.findUnique({
+        where: { explorerId }
+    });
+    if (intern) {
+        const { id } = intern;
+        const courseResults = yield db_server_1.db.courseResult.findMany({
+            where: { internId: id },
+            include: {
+                course: true
+            }
+        });
+        return courseResults;
+    }
+    return { message: `Intern with explorer id ${explorerId} not found!` };
+});
+exports.getAllCourseResultsByExplorerId = getAllCourseResultsByExplorerId;

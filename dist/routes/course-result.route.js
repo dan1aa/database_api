@@ -38,4 +38,5 @@ router.get('/course-results/:id', validateRequestId_middleware_1.default, (0, tr
 router.put('/course-results/:id', validateRequestId_middleware_1.default, (0, validateRequestBody_middleware_1.default)(course_result_request_shema_1.updateCourseResultScheme), (0, tryCatchMiddleware_middleware_1.default)(CourseResultController.updateCourseResultById));
 router.delete('/course-results/:id', validateRequestId_middleware_1.default, (0, tryCatchMiddleware_middleware_1.default)(CourseResultController.deleteCourseResultById));
 router.get('/course-results', (0, tryCatchMiddleware_middleware_1.default)(CourseResultController.getListOfCourseResults));
+router.get('/course-results/all-course-results/:explorerId', (0, tryCatchMiddleware_middleware_1.default)(CourseResultController.getAllCourseResultsByExplorerId));
 exports.default = router;

@@ -42,3 +42,11 @@ export const getListOfCourseResults = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json(courseResultsList).end();
 };
+
+export const getAllCourseResultsByExplorerId = async (req: Request, res: Response) => {
+    const { explorerId } = req.params;
+
+    const courseResults = await CourseResultService.getAllCourseResultsByExplorerId(explorerId);
+
+    res.status(StatusCodes.OK).json(courseResults).end();
+}

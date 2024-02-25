@@ -50,5 +50,10 @@ router.get(
     tryCatchMiddleware(InternController.getInternBadgesListByCourseId)
 );
 
+router.get(
+    '/interns/all-badges/:explorerId',
+    tryCatchMiddleware(InternController.getAllInternBadges)
+)
+
 
 export default router;

@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getListOfCourseResults = exports.deleteCourseResultById = exports.getCourseResultById = exports.updateCourseResultById = exports.createCourseResults = void 0;
+exports.getAllCourseResultsByExplorerId = exports.getListOfCourseResults = exports.deleteCourseResultById = exports.getCourseResultById = exports.updateCourseResultById = exports.createCourseResults = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const CourseResultService = __importStar(require("@services/course-result.service"));
 const createCourseResults = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,3 +65,9 @@ const getListOfCourseResults = (req, res) => __awaiter(void 0, void 0, void 0, f
     res.status(http_status_codes_1.StatusCodes.OK).json(courseResultsList).end();
 });
 exports.getListOfCourseResults = getListOfCourseResults;
+const getAllCourseResultsByExplorerId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { explorerId } = req.params;
+    const courseResults = yield CourseResultService.getAllCourseResultsByExplorerId(explorerId);
+    res.status(http_status_codes_1.StatusCodes.OK).json(courseResults).end();
+});
+exports.getAllCourseResultsByExplorerId = getAllCourseResultsByExplorerId;

@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 
 import * as CohortScheduleService from '@services/cohort-schedule.service';
 import { CohortSchedule } from '@prisma/client';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
 
 export const createCohorSchedules = async (req: Request, res: Response) => {
     const { data } = req.body;
