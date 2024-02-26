@@ -59,9 +59,7 @@ export const getInternsList = async (filteringParams: FilteringParams): Promise<
 export const getCohortScheduleByExplorerId = async (explorerId: string) => {
     const targetIntern: Intern | null = await db.intern.findUnique({ where: { explorerId } });
 
-    if (!targetIntern) {
-        throw new NotFoundError;
-    }
+    if (!targetIntern) return null;
 
     const cohortSchedule = db.cohortSchedule.findMany({
         where: {
@@ -87,6 +85,8 @@ export const getInternBadgesListByCourseId = async (internId: number, courseId: 
             badge: true
         }
     });
+
+    if (!internCoursesBadges) return null;
 
     const badgesStatisticsByBadgeName = internCoursesBadges.reduce((accumulator: { [key: string]: number }, internBadge) => {
         const badgeName = internBadge.badge.name;
@@ -129,5 +129,5 @@ export const getAllInternBadges = async (explorerId: string) => {
         return badges
     }
 
-    return { message: `Intern with explorer id ${explorerId} not found!` }
+    return null;
 }
