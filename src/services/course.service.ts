@@ -79,9 +79,7 @@ export const enrollInternsInCourseById = async (courseId: number, participantsDa
 export const getCourseDetailsByCipher = async (courseCipher: string) => {
     const targetCourseData: Course | null = await db.course.findUnique({ where: { courseCipher } });
 
-    if (!targetCourseData) {
-        throw new NotFoundError;
-    }
+    if (!targetCourseData) return null;
 
     const courseSchedule = await getCourseScheduleByCourseId(targetCourseData.id);
     const courseParticipants = await getCourseParticipantsByCourseId(targetCourseData.id);
@@ -114,6 +112,8 @@ const getCourseParticipantsByCourseId = async (courseId: number) => {
         }
     });
 
+    if (!courseParticipants) return null;
+
     const groupedInternsByRole = courseParticipants.reduce((result: Record<string, Array<any>>, participant) => {
 
         const { intern, classRole } = participant;
@@ -133,7 +133,7 @@ const getCourseParticipantsByCourseId = async (courseId: number) => {
 
 export const getCourseResultsByCourseId = async (courseId: number): Promise<CourseResult[]> => {
 
-    const courseResults: CourseResult[] = await db.courseResult.findMany({
+    const courseResults: CourseResult[] | null = await db.courseResult.findMany({
         where: {
             courseId,
         }

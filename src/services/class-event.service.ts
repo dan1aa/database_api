@@ -80,7 +80,7 @@ export const getResultsByClassEventId = async (classEventId: number) => {
 
     const classEvent = await db.classEvent.findUnique({ where: { id: classEventId } })
 
-    if (!classEvent) return { message: `Class event with id ${classEventId} not found` }
+    if (!classEvent) return null;
 
     const feedbackOnIntern = await db.feedbackOnIntern.findMany({
         where: {

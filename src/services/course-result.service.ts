@@ -61,7 +61,7 @@ export const getListOfCourseResults = async (): Promise<CourseResult[]> => {
     return courseResultsList;
 };
 
-export const getAllCourseResultsByExplorerId = async (explorerId: string): Promise<CourseResult[] | { [key: string]: string }> => {
+export const getAllCourseResultsByExplorerId = async (explorerId: string): Promise<CourseResult[] | null> => {
     const intern: Intern | null = await db.intern.findUnique({
         where: { explorerId }
     })
@@ -79,5 +79,5 @@ export const getAllCourseResultsByExplorerId = async (explorerId: string): Promi
         return courseResults
     }
 
-    return { message: `Intern with explorer id ${explorerId} not found!` }
+    return null;
 }
