@@ -69,3 +69,11 @@ export const getAllInternBadges = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json(internBadges).end()
 }
+
+export const insertDiscordData = async (req: Request, res: Response) => {
+    const { data } = req.body;
+
+    const insertedDiscords = await InternService.insertDiscordData(data);
+
+    res.status(StatusCodes.OK).json(insertedDiscords).end();
+}

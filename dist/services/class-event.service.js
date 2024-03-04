@@ -84,7 +84,7 @@ exports.getClassEventByGoogleMeetCode = getClassEventByGoogleMeetCode;
 const getResultsByClassEventId = (classEventId) => __awaiter(void 0, void 0, void 0, function* () {
     const classEvent = yield db_server_1.db.classEvent.findUnique({ where: { id: classEventId } });
     if (!classEvent)
-        return { message: `Class event with id ${classEventId} not found` };
+        return null;
     const feedbackOnIntern = yield db_server_1.db.feedbackOnIntern.findMany({
         where: {
             classEventId

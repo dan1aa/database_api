@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllInternBadges = exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.deleteInternById = exports.getFilteredInternsList = exports.getInternById = exports.updateInternById = exports.createInterns = void 0;
+exports.insertDiscordData = exports.getAllInternBadges = exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.deleteInternById = exports.getFilteredInternsList = exports.getInternById = exports.updateInternById = exports.createInterns = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const InternService = __importStar(require("@services/intern.service"));
 const createInterns = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -85,3 +85,9 @@ const getAllInternBadges = (req, res) => __awaiter(void 0, void 0, void 0, funct
     res.status(http_status_codes_1.StatusCodes.OK).json(internBadges).end();
 });
 exports.getAllInternBadges = getAllInternBadges;
+const insertDiscordData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { data } = req.body;
+    const insertedDiscords = yield InternService.insertDiscordData(data);
+    res.status(http_status_codes_1.StatusCodes.OK).json(insertedDiscords).end();
+});
+exports.insertDiscordData = insertDiscordData;

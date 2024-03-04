@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateInternScheme = exports.createInternsScheme = void 0;
+exports.insertDiscordDataScheme = exports.updateInternScheme = exports.createInternsScheme = void 0;
 const joi_1 = __importDefault(require("joi"));
 const createInternSchemeItem = joi_1.default.object({
     name: joi_1.default.string().max(100),
@@ -39,4 +39,12 @@ exports.updateInternScheme = joi_1.default.object({
     city: joi_1.default.string().max(50).allow(null),
     country: joi_1.default.string().max(50).allow(null),
     timezone: joi_1.default.string().max(50).allow(null),
+});
+const insertDiscordData = joi_1.default.object({
+    explorerId: joi_1.default.string().required(),
+    discordNickname: joi_1.default.string().required(),
+    discordId: joi_1.default.string().allow(null)
+});
+exports.insertDiscordDataScheme = joi_1.default.object({
+    data: joi_1.default.array().items(insertDiscordData)
 });

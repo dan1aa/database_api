@@ -85,6 +85,6 @@ const getAllCourseResultsByExplorerId = (explorerId) => __awaiter(void 0, void 0
         });
         return courseResults;
     }
-    return { message: `Intern with explorer id ${explorerId} not found!` };
+    return null;
 });
 exports.getAllCourseResultsByExplorerId = getAllCourseResultsByExplorerId;

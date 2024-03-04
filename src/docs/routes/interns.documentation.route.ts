@@ -1,6 +1,7 @@
 import j2s from 'joi-to-swagger';
 import { 
-    createInternsScheme, 
+    createInternsScheme,  
+    insertDiscordDataScheme, 
     updateInternScheme, 
 } from '@request-schemas/intern.request-schema';
 
@@ -383,6 +384,68 @@ const getListOfInterns = {
     },
 };
 
+const insertDiscordData = {
+    tags: ['Interns'],
+    operationId: 'insertDiscordData',
+    requestBody: {
+        content: {
+            'application/json': {
+                schema: j2s(insertDiscordDataScheme).swagger,
+            },
+        },
+        required: true,
+    },
+    responses: {
+        '200': {
+            description: 'Intern updated successfully!',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            explorerId: { type: 'string', example: 'explorerId' },
+                            discordNickname: { type: 'string', example: 'discordNickname' },
+                            discordId: { type: 'string', example: 'someDiscordId' },
+                        }
+                    }
+                },
+            },
+        },
+        '404': {
+            description: 'Intern with your explorer id is not found',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            msg: {
+                                type: 'string',
+                                example: 'Intern with explorer id explorer123 not found'
+                            }
+                        }
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
 const routes = {
     '/api/interns': {
         get: getListOfInterns,
@@ -393,6 +456,9 @@ const routes = {
         put: updateInternById,
         delete: deleteInternById
     },
+    '/api/interns/discord/update': {
+        put: insertDiscordData
+    }
 };
 
 export default routes;
