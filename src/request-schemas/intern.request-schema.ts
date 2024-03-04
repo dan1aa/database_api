@@ -45,3 +45,13 @@ export const updateInternScheme = Joi.object({
     country: Joi.string().max(50).allow(null),
     timezone: Joi.string().max(50).allow(null),
 });
+
+const insertDiscordData = Joi.object({
+    explorerId: Joi.string().required(),
+    discordNickname: Joi.string().required(),
+    discordId: Joi.string().allow(null)
+})
+
+export const insertDiscordDataScheme = Joi.object({
+    data: Joi.array().items(insertDiscordData)
+})

@@ -55,5 +55,10 @@ router.get(
     tryCatchMiddleware(InternController.getAllInternBadges)
 )
 
+router.put(
+    '/interns/discord/update',
+    tryCatchMiddleware(InternController.insertDiscordData)
+)
+
 
 export default router;

@@ -9,9 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllInternBadges = exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.getInternsList = exports.updateInternById = exports.deleteInternById = exports.getInternById = exports.createInterns = void 0;
+exports.insertDiscordData = exports.getAllInternBadges = exports.getInternBadgesListByCourseId = exports.getCohortScheduleByExplorerId = exports.getInternsList = exports.updateInternById = exports.deleteInternById = exports.getInternById = exports.createInterns = void 0;
 const db_server_1 = require("@utils/db.server");
-const ApiErrors_1 = require("@utils/exeptions/ApiErrors");
 const createInterns = (interns) => __awaiter(void 0, void 0, void 0, function* () {
     const promises = interns.map(intern => {
         return db_server_1.db.intern.upsert({
@@ -57,9 +56,8 @@ const getInternsList = (filteringParams) => __awaiter(void 0, void 0, void 0, fu
 exports.getInternsList = getInternsList;
 const getCohortScheduleByExplorerId = (explorerId) => __awaiter(void 0, void 0, void 0, function* () {
     const targetIntern = yield db_server_1.db.intern.findUnique({ where: { explorerId } });
-    if (!targetIntern) {
-        throw new ApiErrors_1.NotFoundError;
-    }
+    if (!targetIntern)
+        return null;
     const cohortSchedule = db_server_1.db.cohortSchedule.findMany({
         where: {
             cohort: targetIntern.cohort,
@@ -83,6 +81,8 @@ const getInternBadgesListByCourseId = (internId, courseId) => __awaiter(void 0, 
             badge: true
         }
     });
+    if (!internCoursesBadges)
+        return null;
     const badgesStatisticsByBadgeName = internCoursesBadges.reduce((accumulator, internBadge) => {
         const badgeName = internBadge.badge.name;
         accumulator[badgeName] = (accumulator[badgeName] || 0) + 1;
@@ -115,6 +115,25 @@ const getAllInternBadges = (explorerId) => __awaiter(void 0, void 0, void 0, fun
         });
         return badges;
     }
-    return { message: `Intern with explorer id ${explorerId} not found!` };
+    return null;
 });
 exports.getAllInternBadges = getAllInternBadges;
+const insertDiscordData = (discordData) => __awaiter(void 0, void 0, void 0, function* () {
+    for (let element of discordData) {
+        const { explorerId, discordId, discordNickname } = element;
+        const intern = yield db_server_1.db.intern.findUnique({ where: { explorerId } });
+        if (intern) {
+            yield db_server_1.db.intern.update({
+                where: {
+                    explorerId
+                },
+                data: { discordId, discordNickname }
+            });
+        }
+        else {
+            continue;
+        }
+    }
+    return { message: "Discord data updated successfully!" };
+});
+exports.insertDiscordData = insertDiscordData;

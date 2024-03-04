@@ -1,8 +1,7 @@
 import { Intern } from '@prisma/client';
 
 import { db } from '@utils/db.server';
-import { NotFoundError } from '@utils/exeptions/ApiErrors';
-import { FilteringParams } from 'types/types';
+import { DiscordData, FilteringParams } from 'types/types';
 
 
 export const createInterns = async (interns: Intern[]) => {
@@ -130,4 +129,25 @@ export const getAllInternBadges = async (explorerId: string) => {
     }
 
     return null;
+}
+
+export const insertDiscordData = async (discordData: DiscordData[]) => {
+    for (let element of discordData) {
+        const { explorerId, discordId, discordNickname } = element;
+
+        const intern: Intern | null = await db.intern.findUnique({ where: { explorerId } })
+
+        if (intern) {
+            await db.intern.update({
+                where: {
+                    explorerId
+                },
+                data: { discordId, discordNickname }
+            })
+        } else {
+            continue;
+        }
+    }
+
+    return { message: "Discord data updated successfully!" };
 }

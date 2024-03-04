@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCourseResultsByCourseId = exports.getCourseDetailsByCipher = exports.enrollInternsInCourseById = exports.deleteCourseById = exports.updateCourseById = exports.getCourseById = exports.getCourses = exports.createCourses = void 0;
 const db_server_1 = require("@utils/db.server");
-const ApiErrors_1 = require("@utils/exeptions/ApiErrors");
 const createCourses = (courses) => __awaiter(void 0, void 0, void 0, function* () {
     const promises = courses.map(course => {
         course.startDate = new Date(course.startDate);
@@ -74,9 +73,8 @@ const enrollInternsInCourseById = (courseId, participantsData) => __awaiter(void
 exports.enrollInternsInCourseById = enrollInternsInCourseById;
 const getCourseDetailsByCipher = (courseCipher) => __awaiter(void 0, void 0, void 0, function* () {
     const targetCourseData = yield db_server_1.db.course.findUnique({ where: { courseCipher } });
-    if (!targetCourseData) {
-        throw new ApiErrors_1.NotFoundError;
-    }
+    if (!targetCourseData)
+        return null;
     const courseSchedule = yield getCourseScheduleByCourseId(targetCourseData.id);
     const courseParticipants = yield getCourseParticipantsByCourseId(targetCourseData.id);
     const result = Object.assign(Object.assign({}, targetCourseData), { participants: courseParticipants, schedule: courseSchedule });
@@ -99,6 +97,8 @@ const getCourseParticipantsByCourseId = (courseId) => __awaiter(void 0, void 0, 
             classRole: true
         }
     });
+    if (!courseParticipants)
+        return null;
     const groupedInternsByRole = courseParticipants.reduce((result, participant) => {
         const { intern, classRole } = participant;
         if (!result[classRole.name]) {

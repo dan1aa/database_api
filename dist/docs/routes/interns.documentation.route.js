@@ -379,6 +379,67 @@ const getListOfInterns = {
         }
     },
 };
+const insertDiscordData = {
+    tags: ['Interns'],
+    operationId: 'insertDiscordData',
+    requestBody: {
+        content: {
+            'application/json': {
+                schema: (0, joi_to_swagger_1.default)(intern_request_schema_1.insertDiscordDataScheme).swagger,
+            },
+        },
+        required: true,
+    },
+    responses: {
+        '200': {
+            description: 'Intern updated successfully!',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            explorerId: { type: 'string', example: 'explorerId' },
+                            discordNickname: { type: 'string', example: 'discordNickname' },
+                            discordId: { type: 'string', example: 'someDiscordId' },
+                        }
+                    }
+                },
+            },
+        },
+        '404': {
+            description: 'Intern with your explorer id is not found',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            msg: {
+                                type: 'string',
+                                example: 'Intern with explorer id explorer123 not found'
+                            }
+                        }
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
 const routes = {
     '/api/interns': {
         get: getListOfInterns,
@@ -389,5 +450,8 @@ const routes = {
         put: updateInternById,
         delete: deleteInternById
     },
+    '/api/interns/discord/update': {
+        put: insertDiscordData
+    }
 };
 exports.default = routes;
