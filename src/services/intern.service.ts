@@ -11,7 +11,7 @@ export const createInterns = async (interns: Intern[]) => {
             update: { ...intern },
             create: { ...intern }
         });
-    }); 
+    });
 
     await Promise.all(promises);
 
@@ -100,7 +100,7 @@ export const getInternBadgesListByCourseId = async (internId: number, courseId: 
 
 export const getAllInternBadges = async (explorerId: string) => {
 
-    const badges: {[key: string]: number} = {}
+    const badges: { [key: string]: number } = {}
 
     const intern: Intern | null = await db.intern.findUnique({
         where: {
@@ -133,21 +133,58 @@ export const getAllInternBadges = async (explorerId: string) => {
 
 export const insertDiscordData = async (discordData: DiscordData[]) => {
     for (let element of discordData) {
-        const { explorerId, discordId, discordNickname } = element;
+        try {
+            const { explorerId, discordId, discordNickname } = element;
 
-        const intern: Intern | null = await db.intern.findUnique({ where: { explorerId } })
+            const intern: Intern | null = await db.intern.findUnique({ where: { explorerId } })
 
-        if (intern) {
-            await db.intern.update({
-                where: {
-                    explorerId
-                },
-                data: { discordId, discordNickname }
-            })
-        } else {
+            if (intern) {
+                await db.intern.update({
+                    where: {
+                        explorerId
+                    },
+                    data: { discordId, discordNickname }
+                })
+            } else {
+                continue;
+            }
+        } catch(e) {
             continue;
         }
     }
 
     return { message: "Discord data updated successfully!" };
 }
+
+// function transferDiscordNicknames () {
+//     let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Internship");
+  
+//     let range = sheet.getRange("F:G");
+  
+//     let values = range.getValues().slice(2);
+  
+//     for (let i = 0; i < values.length; i += 100) {
+//       let data = values.slice(i, i + 100);
+  
+//       let object = [];
+  
+//       data.forEach(intern => {
+//         if (intern[1].length < 50) {
+//           object.push({ explorerId: intern[0], discordNickname: intern[1], discordId: null })
+//         }
+//       })
+  
+  
+//       let options = {
+//         'method': "put",
+//         'contentType': "application/json",
+//         'payload': JSON.stringify({
+//           data: object
+//         })
+//       }
+  
+//       UrlFetchApp.fetch(`http://52.57.170.54:5000/api/interns/discord/update`, options);
+//     }
+  
+//   }
+  
