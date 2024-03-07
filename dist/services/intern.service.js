@@ -39,6 +39,7 @@ const updateInternById = (id, intern) => __awaiter(void 0, void 0, void 0, funct
 });
 exports.updateInternById = updateInternById;
 const getInternsList = (filteringParams) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(filteringParams.cohort);
     const internsList = yield db_server_1.db.intern.findMany({
         where: {
             cohort: filteringParams.cohort,
@@ -120,20 +121,61 @@ const getAllInternBadges = (explorerId) => __awaiter(void 0, void 0, void 0, fun
 exports.getAllInternBadges = getAllInternBadges;
 const insertDiscordData = (discordData) => __awaiter(void 0, void 0, void 0, function* () {
     for (let element of discordData) {
-        const { explorerId, discordId, discordNickname } = element;
-        const intern = yield db_server_1.db.intern.findUnique({ where: { explorerId } });
-        if (intern) {
-            yield db_server_1.db.intern.update({
-                where: {
-                    explorerId
-                },
-                data: { discordId, discordNickname }
-            });
+        try {
+            const { explorerId, discordId, discordNickname } = element;
+            if (explorerId) {
+                const intern = yield db_server_1.db.intern.findUnique({ where: { explorerId } });
+                if (intern) {
+                    yield db_server_1.db.intern.update({
+                        where: {
+                            explorerId
+                        },
+                        data: { discordId, discordNickname }
+                    });
+                }
+                else {
+                    continue;
+                }
+            }
+            else if (!explorerId && discordNickname) {
+                const intern = yield db_server_1.db.intern.findUnique({ where: { discordNickname } });
+                if (intern) {
+                    return yield db_server_1.db.intern.update({
+                        where: {
+                            discordNickname
+                        },
+                        data: { discordId }
+                    });
+                }
+                return null;
+            }
         }
-        else {
+        catch (e) {
             continue;
         }
     }
     return { message: "Discord data updated successfully!" };
 });
 exports.insertDiscordData = insertDiscordData;
+// function transferDiscordNicknames () {
+//     let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Internship");
+//     let range = sheet.getRange("F:G");
+//     let values = range.getValues().slice(2);
+//     for (let i = 0; i < values.length; i += 100) {
+//       let data = values.slice(i, i + 100);
+//       let object = [];
+//       data.forEach(intern => {
+//         if (intern[1].length < 50) {
+//           object.push({ explorerId: intern[0], discordNickname: intern[1], discordId: null })
+//         }
+//       })
+//       let options = {
+//         'method': "put",
+//         'contentType': "application/json",
+//         'payload': JSON.stringify({
+//           data: object
+//         })
+//       }
+//       UrlFetchApp.fetch(`http://52.57.170.54:5000/api/interns/discord/update`, options);
+//     }
+//   }

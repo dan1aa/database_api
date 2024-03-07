@@ -95,7 +95,7 @@ export interface SheetFeedbackOnIntern {
 }
 
 export interface DiscordData {
-    explorerId: string;
+    explorerId?: string | null;
     discordNickname: string;
     discordId?: string | null;
 }

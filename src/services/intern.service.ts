@@ -39,6 +39,7 @@ export const updateInternById = async (id: number, intern: Intern): Promise<Inte
 };
 
 export const getInternsList = async (filteringParams: FilteringParams): Promise<Intern[] | null> => {
+    console.log(filteringParams.cohort)
     const internsList: Intern[] | null = await db.intern.findMany({
         where: {
             cohort: filteringParams.cohort,
@@ -136,18 +137,34 @@ export const insertDiscordData = async (discordData: DiscordData[]) => {
         try {
             const { explorerId, discordId, discordNickname } = element;
 
-            const intern: Intern | null = await db.intern.findUnique({ where: { explorerId } })
+            if (explorerId) {
+                const intern: Intern | null = await db.intern.findUnique({ where: { explorerId } })
 
-            if (intern) {
-                await db.intern.update({
-                    where: {
-                        explorerId
-                    },
-                    data: { discordId, discordNickname }
-                })
-            } else {
-                continue;
+                if (intern) {
+                    await db.intern.update({
+                        where: {
+                            explorerId
+                        },
+                        data: { discordId, discordNickname }
+                    })
+                } else {
+                    continue;
+                }
+            } else if (!explorerId && discordNickname) {
+                const intern: Intern | null = await db.intern.findUnique({ where: { discordNickname } })
+
+                if (intern) {
+                    return await db.intern.update({
+                        where: {
+                            discordNickname
+                        },
+                        data: { discordId }
+                    })
+                }
+
+                return null;
             }
+            
         } catch(e) {
             continue;
         }
