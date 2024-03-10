@@ -330,6 +330,61 @@ const getListOfCourseResults = {
     },
 };
 
+const getAllCourseResultsByExplorerId = {
+    tags: ['Course Results'],
+    operationId: 'getAllCourseResultsByExplorerId',
+    parameters: [
+        {
+            name: 'explorerId',
+            in: 'path',
+            description: 'Intern explorer id',
+            required: true,
+            type: 'number',
+        },
+    ],
+    responses: {
+        '200': {
+            description: 'Course Results by explorer id retrived successfully!',
+            content: {
+                'application/json': {
+                    example: [
+                        {
+                            id: 1,
+                            internId: 3,
+                            courseId: 2,
+                            masteryResult: 'Retry-Attendance',
+                            englishLevel: 'Good',
+                        },
+                        {
+                            id: 2,
+                            internId: 3,
+                            courseId: 1,
+                            masteryResult: 'Mastery',
+                            englishLevel: 'Amazing',
+                        }
+                    ]
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
 const routes = {
     '/api/course-results': {
         get: getListOfCourseResults,
@@ -339,6 +394,9 @@ const routes = {
         get: getCourseResultById,
         put: updateCourseResultById,
         delete: deleteCourseResultById
+    },
+    '/api/course-results/all-course-results/:explorerId': {
+        get: getAllCourseResultsByExplorerId
     }
 };
 

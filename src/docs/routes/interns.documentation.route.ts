@@ -446,6 +446,158 @@ const insertDiscordData = {
     },
 };
 
+const getCohortScheduleByExplorerId = {
+    tags: ['Interns'],
+    operationId: 'getCohortScheduleByExplorerId',
+    parameters: [
+        {
+            name: "explorerId",
+            in: 'path',
+            description: 'To find intern by unique value of explorer id',
+            required: true,
+            type: 'string',
+
+        }
+    ],
+    responses: {
+        '200': {
+            description: 'Successful Retrieve of cohort schedule of intern',
+            content: {
+                'application/json': {
+                    example: [
+                        {
+                            id: 1,
+                            eventDate: "2024-03-10T00:00:00.000Z",
+                            eventName: "event1",
+                            cohort: "TESTCOHORT"
+                        },
+                        {
+                            id: 2,
+                            eventDate: "2024-03-12T00:00:00.000Z",
+                            eventName: "event2",
+                            cohort: "TESTCOHORT"
+                        },
+                    ]
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
+const getAllInternBadges = {
+    tags: ['Interns'],
+    operationId: 'getAllInternBadges',
+    parameters: [
+        {
+            name: "explorerId",
+            in: 'path',
+            description: 'To find intern by unique value of explorer id',
+            required: true,
+            type: 'string',
+
+        }
+    ],
+    responses: {
+        '200': {
+            description: 'Successful Retrieve of interns badges',
+            content: {
+                'application/json': {
+                    example: {
+                        Fun: 2,
+                        BePresent: 3,
+                        Encourage: 1
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
+const getInternBadgesListByCourseId = {
+    tags: ['Interns'],
+    operationId: 'getInternBadgesListByCourseId',
+    parameters: [
+        {
+            name: "explorerId",
+            in: 'path',
+            description: 'To find intern by unique value of explorer id',
+            required: true,
+            type: 'string',
+
+        },
+        {
+            name: "courseCipher",
+            in: 'path',
+            description: 'To find course by unique value of course cipher',
+            required: true,
+            type: 'string',
+
+        }
+    ],
+    responses: {
+        '200': {
+            description: 'Successful Retrieve of interns badges on certain course',
+            content: {
+                'application/json': {
+                    example: {
+                        Fun: 2,
+                        BePresent: 3,
+                        Encourage: 1
+                    }
+                },
+            },
+        },
+        '500': {
+            description: 'Internal Server Error',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                example: 'Internal server error',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+};
+
 const routes = {
     '/api/interns': {
         get: getListOfInterns,
@@ -458,6 +610,15 @@ const routes = {
     },
     '/api/interns/discord/update': {
         put: insertDiscordData
+    },
+    '/api/interns/:explorerId/cohort-schedule': {
+        get: getCohortScheduleByExplorerId
+    },
+    '/api/interns/all-badges/:explorerId': {
+        get: getAllInternBadges
+    },
+    '/api/interns/:explorerId/course-badges/:courseCipher': {
+        get: getInternBadgesListByCourseId
     }
 };
 

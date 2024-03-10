@@ -46,7 +46,7 @@ router.get(
 );
 
 router.get(
-    '/interns/:internId/course-badges/:courseId',
+    '/interns/:explorerId/course-badges/:courseCipher',
     tryCatchMiddleware(InternController.getInternBadgesListByCourseId)
 );
 

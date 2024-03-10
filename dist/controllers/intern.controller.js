@@ -73,9 +73,9 @@ const getCohortScheduleByExplorerId = (req, res) => __awaiter(void 0, void 0, vo
 });
 exports.getCohortScheduleByExplorerId = getCohortScheduleByExplorerId;
 const getInternBadgesListByCourseId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const internId = Number(req.params.internId);
-    const courseId = Number(req.params.courseId);
-    const cohortSchedule = yield InternService.getInternBadgesListByCourseId(internId, courseId);
+    const { explorerId } = req.params;
+    const { courseCipher } = req.params;
+    const cohortSchedule = yield InternService.getInternBadgesListByCourseId(explorerId, courseCipher);
     res.status(http_status_codes_1.StatusCodes.OK).json(cohortSchedule).end();
 });
 exports.getInternBadgesListByCourseId = getInternBadgesListByCourseId;

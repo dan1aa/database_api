@@ -1,7 +1,7 @@
 import { Course, CourseResult } from "@prisma/client";
 
 import { db } from "@utils/db.server";
-import { NotFoundError } from "@utils/exeptions/ApiErrors";
+
 
 export const createCourses = async (courses: Course[]) => {
 
