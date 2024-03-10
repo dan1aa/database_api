@@ -1,4 +1,4 @@
-import { CohortSchedule, Prisma } from '@prisma/client';
+import { CohortSchedule } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 

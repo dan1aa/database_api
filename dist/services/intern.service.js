@@ -70,26 +70,34 @@ const getCohortScheduleByExplorerId = (explorerId) => __awaiter(void 0, void 0, 
     return cohortSchedule;
 });
 exports.getCohortScheduleByExplorerId = getCohortScheduleByExplorerId;
-const getInternBadgesListByCourseId = (internId, courseId) => __awaiter(void 0, void 0, void 0, function* () {
-    const internCoursesBadges = yield db_server_1.db.eventInternBadge.findMany({
-        where: {
-            internId,
-            classEvent: {
-                courseId
-            }
-        },
-        include: {
-            badge: true
+const getInternBadgesListByCourseId = (explorerId, courseCipher) => __awaiter(void 0, void 0, void 0, function* () {
+    if (explorerId && courseCipher) {
+        const intern = yield db_server_1.db.intern.findUnique({ where: { explorerId } });
+        const course = yield db_server_1.db.course.findUnique({ where: { courseCipher } });
+        if (intern && course) {
+            const internCoursesBadges = yield db_server_1.db.eventInternBadge.findMany({
+                where: {
+                    internId: intern.id,
+                    classEvent: {
+                        courseId: course.id
+                    }
+                },
+                include: {
+                    badge: true
+                }
+            });
+            if (!internCoursesBadges)
+                return null;
+            const badgesStatisticsByBadgeName = internCoursesBadges.reduce((accumulator, internBadge) => {
+                const badgeName = internBadge.badge.name;
+                accumulator[badgeName] = (accumulator[badgeName] || 0) + 1;
+                return accumulator;
+            }, {});
+            return badgesStatisticsByBadgeName;
         }
-    });
-    if (!internCoursesBadges)
         return null;
-    const badgesStatisticsByBadgeName = internCoursesBadges.reduce((accumulator, internBadge) => {
-        const badgeName = internBadge.badge.name;
-        accumulator[badgeName] = (accumulator[badgeName] || 0) + 1;
-        return accumulator;
-    }, {});
-    return badgesStatisticsByBadgeName;
+    }
+    return null;
 });
 exports.getInternBadgesListByCourseId = getInternBadgesListByCourseId;
 const getAllInternBadges = (explorerId) => __awaiter(void 0, void 0, void 0, function* () {

@@ -39,7 +39,7 @@ router.get('/interns', (0, tryCatchMiddleware_middleware_1.default)(InternContro
 router.get('/interns/:id', validateRequestId_middleware_1.default, (0, tryCatchMiddleware_middleware_1.default)(InternController.getInternById));
 router.delete('/interns/:id', validateRequestId_middleware_1.default, (0, tryCatchMiddleware_middleware_1.default)(InternController.deleteInternById));
 router.get('/interns/:explorerId/cohort-schedule', (0, tryCatchMiddleware_middleware_1.default)(InternController.getCohortScheduleByExplorerId));
-router.get('/interns/:internId/course-badges/:courseId', (0, tryCatchMiddleware_middleware_1.default)(InternController.getInternBadgesListByCourseId));
+router.get('/interns/:explorerId/course-badges/:courseCipher', (0, tryCatchMiddleware_middleware_1.default)(InternController.getInternBadgesListByCourseId));
 router.get('/interns/all-badges/:explorerId', (0, tryCatchMiddleware_middleware_1.default)(InternController.getAllInternBadges));
 router.put('/interns/discord/update', (0, tryCatchMiddleware_middleware_1.default)(InternController.insertDiscordData));
 exports.default = router;

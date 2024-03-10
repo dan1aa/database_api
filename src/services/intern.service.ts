@@ -1,4 +1,4 @@
-import { Intern } from '@prisma/client';
+import { Course, Intern } from '@prisma/client';
 
 import { db } from '@utils/db.server';
 import { DiscordData, FilteringParams } from 'types/types';
@@ -73,30 +73,42 @@ export const getCohortScheduleByExplorerId = async (explorerId: string) => {
     return cohortSchedule;
 };
 
-export const getInternBadgesListByCourseId = async (internId: number, courseId: number) => {
-    const internCoursesBadges = await db.eventInternBadge.findMany({
-        where: {
-            internId,
-            classEvent: {
-                courseId
-            }
-        },
-        include: {
-            badge: true
+export const getInternBadgesListByCourseId = async (explorerId: string, courseCipher: string) => {
+
+    if (explorerId && courseCipher) {
+        const intern: Intern | null = await db.intern.findUnique({ where: { explorerId } })
+        const course: Course | null = await db.course.findUnique({ where: { courseCipher } })
+
+        if (intern && course) {
+            const internCoursesBadges = await db.eventInternBadge.findMany({
+                where: {
+                    internId: intern.id,
+                    classEvent: {
+                        courseId: course.id
+                    }
+                },
+                include: {
+                    badge: true
+                }
+            });
+
+            if (!internCoursesBadges) return null;
+
+            const badgesStatisticsByBadgeName = internCoursesBadges.reduce((accumulator: { [key: string]: number }, internBadge) => {
+                const badgeName = internBadge.badge.name;
+        
+                accumulator[badgeName] = (accumulator[badgeName] || 0) + 1;
+        
+                return accumulator;
+            }, {});
+        
+            return badgesStatisticsByBadgeName;
         }
-    });
 
-    if (!internCoursesBadges) return null;
+        return null;
+    }
 
-    const badgesStatisticsByBadgeName = internCoursesBadges.reduce((accumulator: { [key: string]: number }, internBadge) => {
-        const badgeName = internBadge.badge.name;
-
-        accumulator[badgeName] = (accumulator[badgeName] || 0) + 1;
-
-        return accumulator;
-    }, {});
-
-    return badgesStatisticsByBadgeName;
+    return null;
 };
 
 export const getAllInternBadges = async (explorerId: string) => {
