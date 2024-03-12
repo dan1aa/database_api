@@ -91,7 +91,7 @@ model CourseResult {
   id Int @id @default(autoincrement())
 
   masteryResult String @db.VarChar(50)
-  englishLevel  String @db.VarChar(50)
+  englishLevel  String? @db.VarChar(50)
 
   internId Int
   intern   Intern @relation(fields: [internId], references: [id], name: "CourseResult: Intern", onDelete: Cascade)
